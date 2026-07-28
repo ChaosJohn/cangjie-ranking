@@ -1,0 +1,93 @@
+name: daily-refresh
+
+# 每日 02:00 UTC（北京时间 10:00）刷新 352 项已知项目的指标
+# 也支持手动触发 / 修改 curated 文件后自动触发
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 每天 02:00 UTC
+  workflow_dispatch:       # 手动触发
+  push:
+    branches: [main]
+    paths:
+      - 'gitcode-cangjie-projects.json'   # curated 清单变化时跑一次
+
+permissions:
+  contents: write           # 让 GITHUB_TOKEN 能 push commit
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          # 用 GITHUB_TOKEN 拉取，后续 push 时不需要额外配置
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+      
+      - name: Run refresh
+        # GITCODE_TOKEN 若配置则带上，否则匿名访问
+        env:
+          GITCODE_TOKEN: ${{ secrets.GITCODE_TOKEN }}
+        run: |
+          python scripts/scraper.py --mode refresh \
+            --input gitcode-cangjie-projects.json \
+            --output data.json \
+            --verbose
+      
+      - name: Detect changes
+        id: diff
+        run: |
+          git add data.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "no changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            # 统计变更摘要（新增项目数、stars 变化等）
+            echo "summary=$(python -c "
+            import json
+            d = json.load(open('data.json'))
+            print(f\"records={d['counts']['total_records']} new={d['counts'].get('new_since_last_run', 0)}\")
+            " | tr -d '\n')" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          COMMIT_DATE=$(date -u +"%Y-%m-%d")
+          COMMIT_TIME=$(date -u +"%H:%M:%S")
+          git commit -m "chore(data): daily refresh ${COMMIT_DATE} ${COMMIT_TIME}
+
+          ${{ steps.diff.outputs.summary }}"
+          git push
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Daily Refresh" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+            echo "✅ Refreshed and pushed: ${{ steps.diff.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ No changes since last refresh" >> $GITHUB_STEP_SUMMARY
+          fi

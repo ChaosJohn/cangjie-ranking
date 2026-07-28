@@ -1,0 +1,130 @@
+name: weekly-recrawl
+
+# 每周一 03:00 UTC（北京时间 11:00）全量重爬
+# - 重新拉取所有 org 的全部仓库
+# - 对本周新发现的项目抓 HTML 详情页补 license/language/topics/PRs
+# - 月初（每月第 1-7 天的周一）自动归档到 archive/YYYY-MM.json
+on:
+  schedule:
+    - cron: '0 3 * * 1'   # 周一 03:00 UTC
+  workflow_dispatch:       # 手动触发
+    inputs:
+      enrich_limit:
+        description: 'HTML 补全项目数上限（留空则全补）'
+        required: false
+        default: ''
+      force_archive:
+        description: '强制归档（忽略月初判断）'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write           # push commit + 归档文件
+
+concurrency:
+  group: weekly-recrawl
+  cancel-in-progress: false
+
+jobs:
+  recrawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30     # 21 个 org ~1.5min + 新项目 HTML ~10min
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+      
+      - name: Prepare enrich limit
+        id: enrich
+        run: |
+          # workflow_dispatch 时用输入值；schedule 时无限制
+          LIMIT="${{ github.event.inputs.enrich_limit }}"
+          if [ -z "$LIMIT" ] || [ "$LIMIT" = "" ]; then
+            echo "flag=" >> $GITHUB_OUTPUT
+            echo "Using no enrich limit (full enrichment)"
+          else
+            echo "flag=--enrich-limit $LIMIT" >> $GITHUB_OUTPUT
+            echo "Using enrich limit: $LIMIT"
+          fi
+      
+      - name: Run weekly recrawl
+        env:
+          GITCODE_TOKEN: ${{ secrets.GITCODE_TOKEN }}
+        run: |
+          python scripts/scraper.py --mode full \
+            --curated gitcode-cangjie-projects.json \
+            --merge-into data.json \
+            --output gitcode-cangjie-all-projects.json \
+            --archive-dir archive \
+            ${{ steps.enrich.outputs.flag }} \
+            ${{ github.event.inputs.force_archive == 'true' && '--force-archive' || '' }} \
+            --verbose
+      
+      - name: Detect changes
+        id: diff
+        run: |
+          git add data.json gitcode-cangjie-all-projects.json archive/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "no changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            # 统计变更摘要
+            echo "summary=$(python -c "
+            import json
+            d = json.load(open('data.json'))
+            print(f\"records={d['counts']['total_records']} new={d['counts'].get('new_since_last_run', 0)}\")
+            " | tr -d '\n')" >> $GITHUB_OUTPUT
+            # 检测是否有归档文件
+            if git diff --cached --name-only | grep -q '^archive/'; then
+              echo "archived=true" >> $GITHUB_OUTPUT
+            else
+              echo "archived=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+      
+      - name: Commit and push
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          COMMIT_DATE=$(date -u +"%Y-%m-%d")
+          
+          ARCHIVE_NOTE=""
+          if [ "${{ steps.diff.outputs.archived }}" = "true" ]; then
+            ARCHIVE_NOTE=" (with monthly archive)"
+          fi
+          
+          git commit -m "chore(data): weekly recrawl ${COMMIT_DATE}${ARCHIVE_NOTE}
+
+          ${{ steps.diff.outputs.summary }}"
+          git push
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Weekly Recrawl" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.diff.outputs.changed }}" = "true" ]; then
+            echo "✅ Recrawl completed: ${{ steps.diff.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ steps.diff.outputs.archived }}" = "true" ]; then
+              echo "📦 Monthly archive created in \`archive/\`" >> $GITHUB_STEP_SUMMARY
+            fi
+          else
+            echo "ℹ️ No changes since last recrawl" >> $GITHUB_STEP_SUMMARY
+          fi

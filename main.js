@@ -5,15 +5,17 @@ const state = {
   data: null,             // { snapshot_date, counts, projects: [...] }
   projects: [],           // 排好序的工作集
   view: 'top',            // 当前视图：top / category / source / activity / search
-  sort: 'stars',          // top 视图排序键
-  sortDir: 'desc',
+  sort: 'stars',          // top/activity 视图排序键
+  sortDir: 'desc',       // 仅在 sort=name 时启用升序/降序切换
   topN: 100,
+  showNew: false,        // 是否显示 is_new=true 的项目（默认隐藏）
   filters: {
     q: '',
     sources: new Set(),
     classifications: new Set(),
     activities: new Set(),
     licenses: new Set(),
+    newOnly: false,      // 搜索视图专用：仅看新项目
     minStars: null,
     minForks: null,
   },
@@ -73,8 +75,40 @@ async function init() {
   $('#total-records').textContent = fmtNum(state.projects.length);
 
   bindTabs();
+  bindGlobalToggle();
   bindKeyboard();
+  updateNewCount();
   renderView();
+}
+
+// =================== 新项目过滤（全局开关）===================
+
+function isHiddenNew(p) {
+  // 默认隐藏 is_new=true 的项目；勾选 showNew 后全部显示
+  return !state.showNew && p.is_new === true;
+}
+
+function updateNewCount() {
+  const n = state.projects.filter(p => p.is_new === true).length;
+  const el = $('#new-count');
+  if (!el) return;
+  if (n > 0) {
+    el.textContent = `+${n}`;
+    el.hidden = false;
+  } else {
+    el.hidden = true;
+  }
+}
+
+function bindGlobalToggle() {
+  const cb = $('#show-new');
+  const lbl = cb?.closest('.global-toggle');
+  if (!cb) return;
+  cb.addEventListener('change', () => {
+    state.showNew = cb.checked;
+    lbl.classList.toggle('active', cb.checked);
+    renderView();
+  });
 }
 
 // =================== Tab 切换 ===================
@@ -119,8 +153,10 @@ function renderView() {
 
 // =================== 视图 1：Top 排行 ===================
 function renderTop(root, ctrl) {
-  // 控件：排序键、方向、Top N
+  // 清空旧内容，避免排序/方向/Top N 变化时叠加渲染
+  ctrl.innerHTML = '';
   ctrl.hidden = false;
+  root.innerHTML = '';
   ctrl.append(
     group('排序', selectInput('sort', state.sort, [
       ['stars', '★ Star'],
@@ -129,11 +165,15 @@ function renderTop(root, ctrl) {
       ['pull_requests', 'PR'],
       ['name', '名称'],
       ['updated_at', '更新时间'],
-    ], e => { state.sort = e.target.value; renderTop(root, ctrl); })),
-    selectInput('dir', state.sortDir, [
+    ], e => {
+      state.sort = e.target.value;
+      if (state.sort !== 'name') state.sortDir = 'desc';
+      renderTop(root, ctrl);
+    })),
+    ...(state.sort === 'name' ? [selectInput('dir', state.sortDir, [
       ['desc', '降序'],
       ['asc', '升序'],
-    ], e => { state.sortDir = e.target.value; renderTop(root, ctrl); }),
+    ], e => { state.sortDir = e.target.value; renderTop(root, ctrl); })] : []),
     label('展示', numberInput('topN', state.topN, 5, 500, e => {
       const v = Math.max(5, Math.min(500, +e.target.value || 100));
       state.topN = v; renderTop(root, ctrl);
@@ -141,7 +181,8 @@ function renderTop(root, ctrl) {
     span(`共 ${state.projects.length} 条`),
   );
 
-  const sorted = state.projects.slice().sort(sortCmp(state.sort, state.sortDir));
+  const visible = state.projects.filter(p => !isHiddenNew(p));
+  const sorted = visible.slice().sort(sortCmp(state.sort, state.sortDir));
   const list = sorted.slice(0, state.topN);
   const list2 = el('ol', { class: 'rank-list' });
   list.forEach((p, i) => list2.append(rankItem(p, i + 1)));
@@ -162,6 +203,7 @@ function rankItem(p, rank) {
         class: 'rank-name',
         href: p.url, target: '_blank', rel: 'noopener',
       }, p.display_name || p.name),
+      p.is_new === true ? el('span', { class: 'badge is-new' }, '新') : null,
       sourceBadge(p.source),
       el('div', { class: 'rank-desc' }, p.description || '—'),
       el('div', { class: 'rank-meta' },
@@ -182,9 +224,14 @@ function rankItem(p, rank) {
 
 // =================== 视图 2/3：分组 ===================
 function renderGrouped(root, ctrl, key, title) {
+  ctrl.innerHTML = '';
   ctrl.hidden = false;
+  root.innerHTML = '';
   const groups = new Map();
+  let visibleCount = 0;
   for (const p of state.projects) {
+    if (isHiddenNew(p)) continue;
+    visibleCount++;
     const g = p[key] || '未分类';
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(p);
@@ -201,7 +248,7 @@ function renderGrouped(root, ctrl, key, title) {
       state._perGroup = v;
       renderGrouped(root, ctrl, key, title);
     })),
-    span(`· ${sortedGroups.length} 个分组 · ${state.projects.length} 条记录`),
+    span(`· ${sortedGroups.length} 个分组 · ${visibleCount} 条记录`),
   );
 
   const perGroup = state._perGroup ?? 8;
@@ -232,10 +279,13 @@ function sumStars(arr) { return arr.reduce((s, p) => s + (p.stars || 0), 0); }
 
 // =================== 视图 4：活跃度 ===================
 function renderActivity(root, ctrl) {
+  ctrl.innerHTML = '';
   ctrl.hidden = false;
+  root.innerHTML = '';
   const order = ['活跃', '维护中', '低活跃', '沉寂'];
   const buckets = new Map(order.map(a => [a, []]));
   for (const p of state.projects) {
+    if (isHiddenNew(p)) continue;
     const a = p.activity || '未知';
     if (!buckets.has(a)) buckets.set(a, []);
     buckets.get(a).push(p);
@@ -247,14 +297,22 @@ function renderActivity(root, ctrl) {
       ['forks', '⑂ Fork'],
       ['name', '名称'],
       ['updated_at', '更新时间'],
-    ], e => { state.sort = e.target.value; renderActivity(root, ctrl); })),
+    ], e => {
+      state.sort = e.target.value;
+      if (state.sort !== 'name') state.sortDir = 'desc';
+      renderActivity(root, ctrl);
+    })),
+    ...(state.sort === 'name' ? [selectInput('dir', state.sortDir, [
+      ['desc', '降序'],
+      ['asc', '升序'],
+    ], e => { state.sortDir = e.target.value; renderActivity(root, ctrl); })] : []),
     span(`· ${order.length} 个活跃度级别`),
   );
 
   for (const a of order) {
     const items = buckets.get(a) || [];
     if (!items.length) continue;
-    const sorted = items.slice().sort(sortCmp(state.sort, 'desc'));
+    const sorted = items.slice().sort(sortCmp(state.sort, state.sortDir));
     const section = el('section', { class: 'group-section' });
     section.append(el('h2', { class: 'group-title' },
       a,
@@ -269,7 +327,9 @@ function renderActivity(root, ctrl) {
 
 // =================== 视图 5：搜索过滤 ===================
 function renderSearch(root, ctrl) {
+  ctrl.innerHTML = '';
   ctrl.hidden = false;
+  root.innerHTML = '';
   const f = state.filters;
 
   // 唯一值列表
@@ -287,6 +347,7 @@ function renderSearch(root, ctrl) {
     checkboxGroup('类型', classes, f.classifications, () => renderSearchResults(root)),
     checkboxGroup('活跃度', acts, f.activities, () => renderSearchResults(root)),
     checkboxGroup('许可证', lics, f.licenses, () => renderSearchResults(root)),
+    newOnlyGroup(f, () => renderSearchResults(root)),
     group('最小', numberInput('minStars', f.minStars ?? '', 0, 10000, e => {
       f.minStars = e.target.value === '' ? null : +e.target.value;
       renderSearchResults(root);
@@ -301,6 +362,7 @@ function renderSearch(root, ctrl) {
         f.q = '';
         f.sources.clear(); f.classifications.clear();
         f.activities.clear(); f.licenses.clear();
+        f.newOnly = false;
         f.minStars = null; f.minForks = null;
         renderSearch(root, ctrl);
       },
@@ -313,6 +375,13 @@ function renderSearch(root, ctrl) {
 function renderSearchResults(root) {
   const f = state.filters;
   const filtered = state.projects.filter(p => {
+    // 新项目：仅当 newOnly=true 时显示
+    if (p.is_new === true) {
+      if (!f.newOnly) return false;
+    } else {
+      // newOnly 模式下，排除非新项目
+      if (f.newOnly) return false;
+    }
     if (f.q) {
       const hay = `${p.name || ''} ${p.display_name || ''} ${p.description || ''} ${p.category || ''}`.toLowerCase();
       if (!hay.includes(f.q)) return false;
@@ -328,12 +397,36 @@ function renderSearchResults(root) {
 
   root.innerHTML = '';
   root.append(el('div', { class: 'empty' },
-    `命中 ${filtered.length} 条 / 共 ${state.projects.length} 条`));
+    `命中 ${filtered.length} 条 / 共 ${state.projects.length} 条`
+    + (f.newOnly ? '（仅新项目）' : '')));
   if (!filtered.length) return;
 
   const grid = el('div', { class: 'grid' });
   filtered.forEach((p, i) => grid.append(projectCard(p, i + 1)));
   root.append(grid);
+}
+
+// 搜索视图专用：「仅看新项目」开关
+function newOnlyGroup(f, onChange) {
+  const wrap = el('div', { class: 'control-group' });
+  wrap.append(el('span', { class: 'label' }, '新项目'));
+  const box = el('div', { class: 'checkbox-group' });
+  const lbl = el('label', {}, '仅看新项目');
+  const inp = el('input', {
+    type: 'checkbox',
+    id: 'new-only-toggle',
+    ...(f.newOnly ? { checked: '' } : {}),
+    onchange: e => {
+      f.newOnly = e.target.checked;
+      lbl.classList.toggle('active', e.target.checked);
+      onChange();
+    },
+  });
+  lbl.prepend(inp);
+  if (f.newOnly) lbl.classList.add('active');
+  box.append(lbl);
+  wrap.append(box);
+  return wrap;
 }
 
 // =================== 卡片 ===================
@@ -345,6 +438,7 @@ function projectCard(p, rank) {
   card.querySelector('.card-rank').textContent = `#${rank}`;
   card.querySelector('.card-desc').textContent = p.description || '—';
   const badges = card.querySelector('.card-badges');
+  if (p.is_new === true) badges.append(el('span', { class: 'badge is-new' }, '新项目'));
   if (p.source) badges.append(el('span', { class: `badge source-${p.source}` }, p.source));
   if (p.activity) badges.append(el('span', { class: `badge activity-${p.activity}` }, p.activity));
   if (p.official_catalog) badges.append(el('span', { class: 'badge' }, 'TPC 官方'));
@@ -381,7 +475,7 @@ function searchInput(name, val, onInput, placeholder) {
   return el('input', attrs);
 }
 function selectInput(name, val, opts, onChange) {
-  const sel = el('select', { class: 'input', onchange: onChange });
+  const sel = el('select', { class: 'input', name, onchange: onChange });
   for (const [v, t] of opts) {
     sel.append(el('option', { value: v, ...(v === val ? { selected: '' } : {}) }, t));
   }

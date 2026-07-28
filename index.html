@@ -16,19 +16,26 @@
         · 共 <strong id="total-records">0</strong> 条精选记录
       </p>
       <p class="meta-links">
-        <a href="../awesome-cangjie.md">精选清单</a>
-        · <a href="../all-cangjie-projects.md">全量索引</a>
-        · <a href="../gitcode-cangjie-projects.json">原始 JSON</a>
+        <a href="awesome-cangjie.md">精选清单</a>
+        · <a href="all-cangjie-projects.md">全量索引</a>
+        · <a href="gitcode-cangjie-projects.json">原始 JSON</a>
       </p>
     </div>
   </header>
 
-  <nav class="tabs" id="tabs">
-    <button class="tab active" data-view="top">🏆 Top 排行</button>
-    <button class="tab" data-view="category">📚 分类分组</button>
-    <button class="tab" data-view="source">🏢 来源分组</button>
-    <button class="tab" data-view="activity">⚡ 活跃度</button>
-    <button class="tab" data-view="search">🔍 搜索过滤</button>
+  <nav class="tabs-bar">
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-view="top">🏆 Top 排行</button>
+      <button class="tab" data-view="category">📚 分类分组</button>
+      <button class="tab" data-view="source">🏢 来源分组</button>
+      <button class="tab" data-view="activity">⚡ 活跃度</button>
+      <button class="tab" data-view="search">🔍 搜索过滤</button>
+    </div>
+    <label class="global-toggle" title="默认隐藏带「新」标记的项目；勾选后显示">
+      <input type="checkbox" id="show-new">
+      <span>显示新项目</span>
+      <span class="new-count" id="new-count" hidden></span>
+    </label>
   </nav>
 
   <section id="controls" class="controls" hidden></section>
