@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>仓颉生态榜单 · Cangjie Ecosystem Leaderboard</title>
+  <meta name="description" content="GitCode 上仓颉（Cangjie）编程语言生态项目的精选榜单与检索工具。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <h1>仓颉生态榜单</h1>
+      <p class="subtitle">
+        GitCode Cangjie Ecosystem · 数据快照 <time id="snapshot-date">—</time>
+        · 共 <strong id="total-records">0</strong> 条精选记录
+      </p>
+      <p class="meta-links">
+        <a href="../awesome-cangjie.md">精选清单</a>
+        · <a href="../all-cangjie-projects.md">全量索引</a>
+        · <a href="../gitcode-cangjie-projects.json">原始 JSON</a>
+      </p>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-view="top">🏆 Top 排行</button>
+    <button class="tab" data-view="category">📚 分类分组</button>
+    <button class="tab" data-view="source">🏢 来源分组</button>
+    <button class="tab" data-view="activity">⚡ 活跃度</button>
+    <button class="tab" data-view="search">🔍 搜索过滤</button>
+  </nav>
+
+  <section id="controls" class="controls" hidden></section>
+
+  <main id="content" class="content">
+    <div class="loading">加载中…</div>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      数据来源：
+      <a href="https://gitcode.com/cangjie-tpc" target="_blank" rel="noopener">Cangjie-TPC</a>
+      · <a href="https://gitcode.com/cangjie-sig" target="_blank" rel="noopener">Cangjie-SIG</a>
+      · <a href="https://gitcode.com/?tn=68db866406fdf740df364584" target="_blank" rel="noopener">GitCode 仓颉频道</a>
+    </p>
+    <p class="footer-note">
+      活跃度仅描述维护节奏，不代表质量：≤180 天为「活跃」，181–365 天为「维护中」，366–730 天为「低活跃」，&gt;730 天为「沉寂」。
+    </p>
+  </footer>
+
+  <template id="card-template">
+    <article class="card">
+      <header class="card-head">
+        <a class="card-name" target="_blank" rel="noopener"></a>
+        <span class="card-rank"></span>
+      </header>
+      <p class="card-desc"></p>
+      <div class="card-badges"></div>
+      <div class="card-stats"></div>
+      <div class="card-foot"></div>
+    </article>
+  </template>
+
+  <script src="main.js"></script>
+</body>
+</html>
