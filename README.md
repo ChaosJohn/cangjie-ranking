@@ -113,44 +113,124 @@ Top 10 by forks.
 
 ## By Category
 
-按主要使用方式分组的 Top 5 榜单（仿 Github-Ranking 的语言分组）。分组依据为 `classification`：三方库 / 工具与应用 / 学习与资源。
+按 `category` 字段分组（与 web 页面「分类分组」视图一致），组按组内 Stars 总和降序排列，每组取 Top 5。下表展示 Stars 总和前 10 个分组。
 
 <!-- AUTO: by-category:START -->
-### Libraries（三方库）
+### AI 与智能体框架
 
-共 **252** 个项目，按 Stars 取前 5：
+共 **1** 个项目，按 Stars 取前 1：
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 715 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
-| 2 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 524 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2025-09-09 |
-| 3 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 358 | 60 | Cangjie | 0 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-07-28 |
-| 4 | [hyperion](https://gitcode.com/Cangjie-TPC/hyperion) | 148 | 23 | Cangjie | 3 | 仓颉语言实现的TCP通信框架，支持添加自定义编解码器，积木式添加IoFilter处理入栈出栈消息。仓颉redis-sdk和activemq4cj项目使用了该框架。当前mast... | 2025-09-09 |
-| 5 | [yishengTH/tea](https://gitcode.com/yishengTH/tea) | 146 | 13 | Cangjie | 4 | 仓颉后端生态高性能、高可用、功能完整的Web后端框架 | 2026-04-22 |
 
-### Tools & Apps（工具与应用）
+### 数据库驱动
 
-共 **39** 个项目，按 Stars 取前 5：
+共 **6** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 524 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2025-09-09 |
+| 2 | [opengauss-driver](https://gitcode.com/Cangjie-TPC/opengauss-driver) | 70 | 19 | Cangjie | 35 | 仓颉语言的openGauss, postgresql数据库驱动 | 2026-05-29 |
+| 3 | [mysqlclient-ffi](https://gitcode.com/Cangjie-TPC/mysqlclient-ffi) | 29 | 4 | Cangjie | 1 | 仓颉版的mysql客户端 | 2025-09-01 |
+| 4 | [odbc4cj](https://gitcode.com/Cangjie-TPC/odbc4cj) | 18 | 4 | Cangjie | 5 | 一个开放数据库连接标准的实现 | 2026-06-27 |
+| 5 | [kv4cj](https://gitcode.com/Cangjie-TPC/kv4cj) | 15 | 3 | Cangjie | 1 | 一个轻量级的键值存储库 | 2026-06-23 |
+
+### 基础与通用
+
+共 **21** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 358 | 60 | Cangjie | 0 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-07-28 |
+| 2 | [terminalcolor](https://gitcode.com/Cangjie-SIG/terminalcolor) | 31 | 1 | Cangjie | 1 | 符合直觉的终端颜色库，看一眼就会使用。 | 2026-03-21 |
+| 3 | [dateparse4cj](https://gitcode.com/Cangjie-SIG/dateparse4cj) | 22 | 1 | Cangjie | 0 | dateparse4cj 是一个基于 cangjie 标准库实现的高性能、功能丰富的日期时间解析库。它能够自动识别并解析多种格式的日期字符串，支持全球各种常见日期格式，包括各... | 2026-03-27 |
+| 4 | [filetype4cj](https://gitcode.com/Cangjie-SIG/filetype4cj) | 17 | 1 | Cangjie | 0 | 通过检查魔数签名推断文件和 MIME 类型 | 2026-03-27 |
+| 5 | [tabulate4cj](https://gitcode.com/Cangjie-SIG/tabulate4cj) | 15 | 1 | Cangjie | 1 | tabulate4cj - 使用 仓颉 轻松美化 表格数据。 | 2026-03-27 |
+
+### AI 与智能体应用
+
+共 **11** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [梅科尔工作室/CM_Recipe](https://gitcode.com/search?q=CM_Recipe&type=repo&l=Cangjie) | 59 | 2 | Cangjie | 0 | 一款基于Cangjie Magic 打造智能食谱系统，做饭小白只需输入食材以及口味，便可生成一份详细且富有趣味的定制化菜谱 | — |
+| 2 | [UCToo/agentskills-runtime](https://gitcode.com/UCToo/agentskills-runtime) | 55 | 5 | Cangjie | 0 | AgentSkills Runtime 是一个基于仓颉编程语言实现的 Agent Skills 标准运行时环境。它是对MCP、WebMCP、AgentSkills、智能体互联... | 2026-07-24 |
+| 3 | [梅科尔工作室/CM_BioSnap](https://gitcode.com/search?q=CM_BioSnap&type=repo&l=Cangjie) | 53 | 2 | Cangjie | 0 | 我们打造的菌趣百科小助手是基于Cangjie Magic智能体引擎与MCP协议开发的菌落知识互动平台，将专业微生物检测转化为趣味科学探索。 | — |
+| 4 | [梅科尔工作室/CM_AreaSolver](https://gitcode.com/search?q=CM_AreaSolver&type=repo&l=Cangjie) | 51 | 0 | Cangjie | 0 | 一款基于Cangjie Magic的智能几何计算系统 | — |
+| 5 | [梅科尔工作室/CM_SoilDoctor](https://gitcode.com/search?q=CM_SoilDoctor&type=repo&l=Cangjie) | 51 | 0 | Cangjie | 0 | 本项目将带领读者探索 Cangjie Magic 的开发环境配置、智能体构建方法，并通过土壤医生智能体这一实际应用案例，展示其在农业领域的强大潜力。 | — |
+
+### Web、网络与协议
+
+共 **20** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [yishengTH/tea](https://gitcode.com/yishengTH/tea) | 146 | 13 | Cangjie | 4 | 仓颉后端生态高性能、高可用、功能完整的Web后端框架 | 2026-04-22 |
+| 2 | [soulsoft/spire](https://gitcode.com/soulsoft/spire) | 83 | 12 | Cangjie | 17 | Spire (天擎) 一个基于仓颉语言开发、借鉴 ASP.NET Core 设计哲学的现代化 Web 框架。我们与仓颉官方团队共同研发，致力于打造轻量级、高性能、可扩展的应用... | 2026-07-28 |
+| 3 | [easyapi](https://gitcode.com/Cangjie-SIG/easyapi) | 30 | 1 | Cangjie | 1 | 轻量级Http服务框架 | 2025-07-14 |
+| 4 | [ginger](https://gitcode.com/Cangjie-SIG/ginger) | 28 | 3 | Cangjie | 0 | Ginger是一个轻量级的httpClient库，支持多种请求配置，及使用函数方式注册拦截器链。 | 2026-04-02 |
+| 5 | [tea](https://gitcode.com/Cangjie-SIG/tea) | 25 | 3 | Cangjie | 0 | 仓颉语言轻量级的、函数式的、高效的HTTP Web后端框架 | 2025-07-04 |
+
+### 网络
+
+共 **9** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [hyperion](https://gitcode.com/Cangjie-TPC/hyperion) | 148 | 23 | Cangjie | 3 | 仓颉语言实现的TCP通信框架，支持添加自定义编解码器，积木式添加IoFilter处理入栈出栈消息。仓颉redis-sdk和activemq4cj项目使用了该框架。当前mast... | 2025-09-09 |
+| 2 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 60 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
+| 3 | [httpclient4cj](https://gitcode.com/Cangjie-TPC/httpclient4cj) | 54 | 12 | Cangjie | 4 | 一个高效的HTTP客户端 | 2026-06-11 |
+| 4 | [rpc4cj](https://gitcode.com/Cangjie-TPC/rpc4cj) | 34 | 1 | Cangjie | 4 | 一个高性能、开源和通用的RPC框架，基于ProtoBuf(Protocol Buffers)序列化协议开发 | 2026-06-18 |
+| 5 | [ntp4cj](https://gitcode.com/Cangjie-TPC/ntp4cj) | 29 | 0 | Cangjie | 0 | NTP（Network Time Protocol）客户端库 | 2025-04-28 |
+
+### 工具类
+
+共 **27** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [Cjson](https://gitcode.com/Cangjie-TPC/CJson) | 34 | 9 | Cangjie | 6 | Json 序列化/反序列化工具，自动给被标记的类增加fromJson()和toJson()等方法，使其自身具备序列化/反序列化能力 | 2026-07-21 |
+| 2 | [fast-eventbus-cj](https://gitcode.com/Cangjie-TPC/fast-eventbus-cj) | 29 | 1 | Cangjie | 1 | 一种发布/订阅事件总线，为多线程应用程序中的高吞吐量而优化的强大事件总线。 | 2026-06-06 |
+| 3 | [cjbind](https://gitcode.com/Cangjie-TPC/cjbind) | 26 | 2 | Cangjie | 1 | 这是 https://github.com/cjbind/cjbind 的只读镜像 | 2026-07-29 |
+| 4 | [cjfast_json](https://gitcode.com/Cangjie-TPC/cjfast_json) | 24 | 2 | Cangjie | 0 | fast_json_cj 是一个用仓颉语言编写的高性能JSON处理库，提供了快速的JSON序列化和反序列化功能。该库专为提升JSON处理效率而设计，支持标准JSON数据类型与... | 2026-01-31 |
+| 5 | [zip4cj](https://gitcode.com/Cangjie-TPC/zip4cj) | 22 | 4 | Cangjie | 11 | 一个用于创建和解压ZIP压缩格式的库 | 2026-02-24 |
+
+### 数据、存储与序列化
+
+共 **18** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [mariadb-driver](https://gitcode.com/Cangjie-SIG/mariadb-driver) | 88 | 32 | Cangjie | 0 | MariaDB驱动，适配MySQL、TiDB、OceanBase数据库。 | 2026-07-02 |
+| 2 | [LilFlameZ/xlsx4cj](https://gitcode.com/LilFlameZ/xlsx4cj) | 31 | 1 | Cangjie | 0 | 纯仓颉语言实现的 Excel xlsx 文件读写库，基于 Office Open XML 标准，无需任何 C FFI 或外部依赖。 | 2026-07-28 |
+| 3 | [cjmustache](https://gitcode.com/Cangjie-SIG/cjmustache) | 21 | 0 | Cangjie | 0 | 一个迁移自 jmustache 的模版引擎项目。 | 2026-06-09 |
+| 4 | [service/cangjie-mysql-driver](https://gitcode.com/service/cangjie-mysql-driver) | 21 | 1 | Cangjie | 2 | 仓颉原生 mysql 驱动实现，专注更少的代码，更好的性能。自带链接池管理, 符合原生协程编程方式。实现官方 datbase.sql 接口。 | 2025-05-21 |
+| 5 | [sql_builder](https://gitcode.com/Cangjie-SIG/sql_builder) | 20 | 6 | Cangjie | 3 | sql_builder 库是一个使用仓颉语言数据库ORM组件 | 2026-06-23 |
+
+### AI 与智能体工具
+
+共 **8** 个项目，按 Stars 取前 5：
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 164 | 63 | TSX | 5 | 重构你的Agent生产力 \| Your team of AI | 2026-07-28 |
 | 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 78 | 58 | Cangjie | 4 |  | 2026-07-24 |
-| 3 | [梅科尔工作室/CM_Recipe](https://gitcode.com/search?q=CM_Recipe&type=repo&l=Cangjie) | 59 | 2 | Cangjie | 0 | 一款基于Cangjie Magic 打造智能食谱系统，做饭小白只需输入食材以及口味，便可生成一份详细且富有趣味的定制化菜谱 | — |
-| 4 | [UCToo/agentskills-runtime](https://gitcode.com/UCToo/agentskills-runtime) | 55 | 5 | Cangjie | 0 | AgentSkills Runtime 是一个基于仓颉编程语言实现的 Agent Skills 标准运行时环境。它是对MCP、WebMCP、AgentSkills、智能体互联... | 2026-07-24 |
-| 5 | [梅科尔工作室/CM_BioSnap](https://gitcode.com/search?q=CM_BioSnap&type=repo&l=Cangjie) | 53 | 2 | Cangjie | 0 | 我们打造的菌趣百科小助手是基于Cangjie Magic智能体引擎与MCP协议开发的菌落知识互动平台，将专业微生物检测转化为趣味科学探索。 | — |
+| 3 | [cangjie-docs-mcp](https://gitcode.com/Cangjie-SIG/cangjie-docs-mcp) | 15 | 0 | Go | 0 | 专为Claude Code设计的仓颉语言文档检索MCP服务器，让你能够直接在Claude Code中高效查询仓颉编程语言的所有文档。 | 2026-07-29 |
+| 4 | [DocFlow](https://gitcode.com/Cangjie-SIG/DocFlow) | 15 | 1 | Python | 0 |  | 2026-02-06 |
+| 5 | [DocAgent](https://gitcode.com/Cangjie-SIG/DocAgent) | 7 | 2 | Python | 0 |  | 2025-09-03 |
 
-### Learning & Resources（学习与资源）
+### 算法、科学计算与 AI
 
-共 **16** 个项目，按 Stars 取前 5：
+共 **15** 个项目，按 Stars 取前 5：
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [TPC-Resource](https://gitcode.com/Cangjie-TPC/TPC-Resource) | 154 | 7 | Cangjie | 177 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库资源汇总 | 2025-12-09 |
-| 2 | [Community](https://gitcode.com/Cangjie-TPC/Community) | 57 | 5 | — | 1 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库社区资源汇总 | 2025-03-25 |
-| 3 | [仓颉编程快速上手-刘玥_张荣超](https://gitcode.com/Cangjie-SIG/cangjiebianchengkuaisushangshou-ZRC) | 43 | 14 | Cangjie | 0 | 《仓颉编程快速上手》专门为仓颉编程语言的初学者量身打造，目标是助力读者快速上手仓颉编程语言。书中每个章节均配备了翔实的示例，旨在加深读者对所学内容的理解，并提升应用仓颉编程语... | 2025-07-01 |
-| 4 | [TPC-Cangjie-HarmonyOS-API](https://gitcode.com/Cangjie-TPC/TPC-Cangjie-HarmonyOS-API) | 24 | 0 | — | 3 |  | 2025-06-28 |
-| 5 | [图解仓颉编程-刘玥_张荣超](https://gitcode.com/Cangjie-SIG/tujiecangjiebiancheng-ZRC) | 19 | 2 | Cangjie | 1 | 《图解仓颉编程》系列图书采用广受好评的图解方式，并借助丰富的示例程序，力争做到通俗易懂、深入浅出地阐明仓颉编程语言的相关知识。本系列图书全彩印刷，图文并茂，附有全彩的学习路径... | 2025-07-01 |
+| 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 106 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
+| 2 | [genex-cj](https://gitcode.com/Cangjie-SIG/genex-cj) | 31 | 0 | Cangjie | 0 | 生成表达式（Generate Expression，简称：Genex或GE）是一款用于按照指定语法规则随机或固定生成数据的功能库。主要适用于依赖规则数据的应用场景，例如：应用... | 2026-03-29 |
+| 3 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 27 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-05-22 |
+| 4 | [stats4cj](https://gitcode.com/Cangjie-SIG/stats4cj) | 23 | 1 | Cangjie | 0 | stats4cj是一个仓颉实现的数学统计库，包括总体/样本均值、总体/样本方差、分位数、统计分布等多种数理统计函数。 | 2026-04-25 |
+| 5 | [cj-money](https://gitcode.com/Cangjie-SIG/cj-money) | 20 | 0 | Cangjie | 0 | 一个用于解决金融计算领域浮点数误差的库。 | 2025-07-19 |
 <!-- AUTO: by-category:END -->
 
 ## Documentation

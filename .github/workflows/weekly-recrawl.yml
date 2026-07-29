@@ -78,7 +78,8 @@ jobs:
       - name: Detect changes
         id: diff
         run: |
-          python scripts/lib/readme_gen.py --data data.json --readme README.md
+          # 数据更新后同步刷新 README 榜单区块，使其随 data.json 一起提交
+          python scripts/lib/readme_gen.py --data data.json --readme README.md || true
           git add data.json gitcode-cangjie-all-projects.json archive/ README.md
           if git diff --cached --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
