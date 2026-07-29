@@ -517,9 +517,53 @@ function sourceBadge(source) {
   return el('span', { class: 'rank-source' }, source);
 }
 
+// =================== 主题切换 ===================
+const THEME_KEY = 'theme';
+const THEME_CYCLE = [
+  { id: 'system', icon: '🖥️', label: '自动' },
+  { id: 'light', icon: '☀️', label: '浅色' },
+  { id: 'dark', icon: '🌙', label: '深色' },
+];
+
+function getStoredTheme() {
+  try {
+    const t = localStorage.getItem(THEME_KEY);
+    return THEME_CYCLE.some(x => x.id === t) ? t : 'system';
+  } catch (e) {
+    return 'system';
+  }
+}
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const cfg = THEME_CYCLE.find(t => t.id === theme) || THEME_CYCLE[0];
+  const iconEl = document.getElementById('theme-icon');
+  const labelEl = document.getElementById('theme-label');
+  const btn = document.getElementById('theme-toggle');
+  if (iconEl) iconEl.textContent = cfg.icon;
+  if (labelEl) labelEl.textContent = cfg.label;
+  if (btn) btn.title = `切换主题（当前：${cfg.label}）`;
+}
+
+function cycleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'system';
+  const idx = THEME_CYCLE.findIndex(t => t.id === current);
+  const next = THEME_CYCLE[(idx + 1) % THEME_CYCLE.length];
+  try { localStorage.setItem(THEME_KEY, next.id); } catch (e) { /* 忽略写入失败 */ }
+  applyTheme(next.id);
+}
+
+function initThemeToggle() {
+  applyTheme(getStoredTheme());
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.addEventListener('click', cycleTheme);
+}
+
 // =================== 启动 ===================
 if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initThemeToggle);
   document.addEventListener('DOMContentLoaded', init);
 } else {
+  initThemeToggle();
   init();
 }

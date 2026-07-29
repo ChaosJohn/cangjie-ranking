@@ -1,4 +1,4 @@
-/* ====== 主题：跟随系统 ====== */
+/* ====== 主题：浅色（默认） ====== */
 :root {
   --bg: #f5f6f8;
   --bg-elev: #ffffff;
@@ -19,8 +19,30 @@
   --new-badge-bg-soft: rgba(214, 59, 59, .14);
 }
 
+/* ====== 主题：深色（手动切换） ====== */
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --bg-elev: #161b22;
+  --bg-soft: #1c2230;
+  --border: #2a313c;
+  --text: #e6edf3;
+  --text-soft: #b1bac4;
+  --text-mute: #7d8590;
+  --accent: #4d8bff;
+  --accent-soft: #1c2a4a;
+  --star: #f0c050;
+  --fork: #9aa6b2;
+  --tag-bg: #1c2230;
+  --tag-text: #b1bac4;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.2);
+  --shadow-hover: 0 4px 16px rgba(0,0,0,.5);
+  --new-badge-bg: #ff5252;
+  --new-badge-bg-soft: rgba(255, 82, 82, .18);
+}
+
+/* ====== 主题：跟随系统（未显式锁定为浅色时） ====== */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #0d1117;
     --bg-elev: #161b22;
     --bg-soft: #1c2230;
@@ -34,11 +56,11 @@
     --fork: #9aa6b2;
     --tag-bg: #1c2230;
     --tag-text: #b1bac4;
-  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.2);
-  --shadow-hover: 0 4px 16px rgba(0,0,0,.5);
-  --new-badge-bg: #ff5252;
-  --new-badge-bg-soft: rgba(255, 82, 82, .18);
-}
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 2px 8px rgba(0,0,0,.2);
+    --shadow-hover: 0 4px 16px rgba(0,0,0,.5);
+    --new-badge-bg: #ff5252;
+    --new-badge-bg-soft: rgba(255, 82, 82, .18);
+  }
 }
 
 * { box-sizing: border-box; }
@@ -65,8 +87,44 @@ a:hover { text-decoration: underline; }
   padding: 28px 16px 22px;
 }
 .header-inner {
+  position: relative;
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* ====== 主题切换按钮 ====== */
+.theme-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: all .12s;
+}
+.theme-toggle:hover {
+  background: var(--bg-elev);
+  border-color: var(--accent);
+  color: var(--text);
+}
+.theme-toggle:active { transform: translateY(1px); }
+.theme-toggle .theme-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+@media (max-width: 640px) {
+  .theme-toggle { padding: 5px 10px; font-size: 12px; }
+  .theme-toggle .theme-label { display: none; }
 }
 .site-header h1 {
   margin: 0 0 6px;
