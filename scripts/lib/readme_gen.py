@@ -93,25 +93,6 @@ def render_snapshot(data: dict) -> str:
     )
 
 
-def render_counter(counter: Counter, headers: list[str], exclude=()) -> str:
-    lines = ["| " + " | ".join(headers) + " |", "| " + " | ".join(["---"] * len(headers)) + " |"]
-    for key, n in counter.most_common():
-        if key in exclude:
-            continue
-        lines.append(f"| {md_escape(key)} | {n} |")
-    return "\n".join(lines)
-
-
-def render_by_activity(projects: list[dict]) -> str:
-    counter = Counter(p.get("activity") or "未知" for p in projects)
-    return render_counter(counter, ["Activity", "Count"])
-
-
-def render_by_classification(projects: list[dict]) -> str:
-    counter = Counter(p.get("classification") or "未分类" for p in projects)
-    return render_counter(counter, ["Classification", "Count"], exclude=("未分类",))
-
-
 def render_by_source(projects: list[dict]) -> str:
     counter = Counter(p.get("source") or "未知" for p in projects)
     lines = [
@@ -165,8 +146,6 @@ SECTIONS = {
     "snapshot": lambda d: render_snapshot(d),
     "top-stars": lambda d: render_top(d["projects"], "stars"),
     "top-forks": lambda d: render_top(d["projects"], "forks"),
-    "by-activity": lambda d: render_by_activity(d["projects"]),
-    "by-classification": lambda d: render_by_classification(d["projects"]),
     "by-source": lambda d: render_by_source(d["projects"]),
     "by-category": lambda d: render_by_category(d["projects"]),
 }
