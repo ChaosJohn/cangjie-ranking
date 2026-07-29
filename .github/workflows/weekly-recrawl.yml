@@ -78,7 +78,8 @@ jobs:
       - name: Detect changes
         id: diff
         run: |
-          git add data.json gitcode-cangjie-all-projects.json archive/
+          python scripts/lib/readme_gen.py --data data.json --readme README.md
+          git add data.json gitcode-cangjie-all-projects.json archive/ README.md
           if git diff --cached --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "no changes detected"
