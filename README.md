@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-07-28* · 数据快照 **793** 项（322 curated + 471 新发现）
+*Last Automatic Update Time: 2026-07-29* · 数据快照 **794** 项（322 curated + 1 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -17,6 +17,7 @@
 - [By Activity](#by-activity)
 - [By Classification](#by-classification)
 - [By Source](#by-source)
+- [By Category](#by-category)
 - [Documentation](#documentation)
 - [Data Sources](#data-sources)
 - [License](#license)
@@ -66,7 +67,7 @@ Top 10 by forks.
 <!-- AUTO: by-activity:START -->
 | Activity | Count |
 | --- | --- |
-| 活跃 | 422 |
+| 活跃 | 423 |
 | 低活跃 | 185 |
 | 维护中 | 182 |
 | 沉寂 | 4 |
@@ -109,6 +110,48 @@ Top 10 by forks.
 | MingGod | 1 |
 | belyaev-mikhail | 1 |
 <!-- AUTO: by-source:END -->
+
+## By Category
+
+按主要使用方式分组的 Top 5 榜单（仿 Github-Ranking 的语言分组）。分组依据为 `classification`：三方库 / 工具与应用 / 学习与资源。
+
+<!-- AUTO: by-category:START -->
+### Libraries（三方库）
+
+共 **252** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 715 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
+| 2 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 524 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2025-09-09 |
+| 3 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 358 | 60 | Cangjie | 0 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-07-28 |
+| 4 | [hyperion](https://gitcode.com/Cangjie-TPC/hyperion) | 148 | 23 | Cangjie | 3 | 仓颉语言实现的TCP通信框架，支持添加自定义编解码器，积木式添加IoFilter处理入栈出栈消息。仓颉redis-sdk和activemq4cj项目使用了该框架。当前mast... | 2025-09-09 |
+| 5 | [yishengTH/tea](https://gitcode.com/yishengTH/tea) | 146 | 13 | Cangjie | 4 | 仓颉后端生态高性能、高可用、功能完整的Web后端框架 | 2026-04-22 |
+
+### Tools & Apps（工具与应用）
+
+共 **39** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 164 | 63 | TSX | 5 | 重构你的Agent生产力 \| Your team of AI | 2026-07-28 |
+| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 78 | 58 | Cangjie | 4 |  | 2026-07-24 |
+| 3 | [梅科尔工作室/CM_Recipe](https://gitcode.com/search?q=CM_Recipe&type=repo&l=Cangjie) | 59 | 2 | Cangjie | 0 | 一款基于Cangjie Magic 打造智能食谱系统，做饭小白只需输入食材以及口味，便可生成一份详细且富有趣味的定制化菜谱 | — |
+| 4 | [UCToo/agentskills-runtime](https://gitcode.com/UCToo/agentskills-runtime) | 55 | 5 | Cangjie | 0 | AgentSkills Runtime 是一个基于仓颉编程语言实现的 Agent Skills 标准运行时环境。它是对MCP、WebMCP、AgentSkills、智能体互联... | 2026-07-24 |
+| 5 | [梅科尔工作室/CM_BioSnap](https://gitcode.com/search?q=CM_BioSnap&type=repo&l=Cangjie) | 53 | 2 | Cangjie | 0 | 我们打造的菌趣百科小助手是基于Cangjie Magic智能体引擎与MCP协议开发的菌落知识互动平台，将专业微生物检测转化为趣味科学探索。 | — |
+
+### Learning & Resources（学习与资源）
+
+共 **16** 个项目，按 Stars 取前 5：
+
+| Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | [TPC-Resource](https://gitcode.com/Cangjie-TPC/TPC-Resource) | 154 | 7 | Cangjie | 177 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库资源汇总 | 2025-12-09 |
+| 2 | [Community](https://gitcode.com/Cangjie-TPC/Community) | 57 | 5 | — | 1 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库社区资源汇总 | 2025-03-25 |
+| 3 | [仓颉编程快速上手-刘玥_张荣超](https://gitcode.com/Cangjie-SIG/cangjiebianchengkuaisushangshou-ZRC) | 43 | 14 | Cangjie | 0 | 《仓颉编程快速上手》专门为仓颉编程语言的初学者量身打造，目标是助力读者快速上手仓颉编程语言。书中每个章节均配备了翔实的示例，旨在加深读者对所学内容的理解，并提升应用仓颉编程语... | 2025-07-01 |
+| 4 | [TPC-Cangjie-HarmonyOS-API](https://gitcode.com/Cangjie-TPC/TPC-Cangjie-HarmonyOS-API) | 24 | 0 | — | 3 |  | 2025-06-28 |
+| 5 | [图解仓颉编程-刘玥_张荣超](https://gitcode.com/Cangjie-SIG/tujiecangjiebiancheng-ZRC) | 19 | 2 | Cangjie | 1 | 《图解仓颉编程》系列图书采用广受好评的图解方式，并借助丰富的示例程序，力争做到通俗易懂、深入浅出地阐明仓颉编程语言的相关知识。本系列图书全彩印刷，图文并茂，附有全彩的学习路径... | 2025-07-01 |
+<!-- AUTO: by-category:END -->
 
 ## Documentation
 
