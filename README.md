@@ -4,7 +4,7 @@
 > 
 > 数据快照会通过 GitHub Actions 自动更新：每日刷新已知项目指标，每周全量重爬发现新项目。
 
-🌐 在线访问：<https://gitcode.com/ChaosJohn/cangjie-ranking> （注：根据 CNAME 配置）
+🌐 在线访问：[https://rank.cangjie-lang.cc/](https://rank.cangjie-lang.cc/)
 
 ## 文档
 
