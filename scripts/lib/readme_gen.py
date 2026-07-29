@@ -26,8 +26,17 @@ from collections import Counter
 from pathlib import Path
 
 TOP_N = 10          # Top Stars / Top Forks 展示条数
+CATEGORY_TOP_N = 5  # 分类分组榜单每个分类展示条数
 DESC_LIMIT = 90    # 描述列最大字符数（超出截断）
 SOURCE_TOP = 15    # 来源表最多展示条数（排除“未知”后取前 N）
+
+# 分类分组的展示顺序与中英对照（未列入的 classification 不展示）
+CLASSIFICATION_ORDER = ["library", "tool", "resource"]
+CLASSIFICATION_LABELS = {
+    "library": "Libraries（三方库）",
+    "tool": "Tools & Apps（工具与应用）",
+    "resource": "Learning & Resources（学习与资源）",
+}
 
 # 表头（与 Github-Ranking 对齐：Last Commit 在此用 Last Updated）
 STARS_HEADER = (
@@ -127,6 +136,25 @@ def render_by_source(projects: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def render_by_category(projects: list[dict]) -> str:
+    """按 classification 分组，每组按 stars 排序展示 Top N，仿 Github-Ranking 的语言分组。"""
+    blocks = []
+    for cls in CLASSIFICATION_ORDER:
+        members = [p for p in projects if p.get("classification") == cls]
+        if not members:
+            continue
+        members.sort(key=lambda p: (p.get("stars") or 0), reverse=True)
+        top = members[:CATEGORY_TOP_N]
+        label = CLASSIFICATION_LABELS.get(cls, cls)
+        lines = [f"### {label}", ""]
+        lines.append(f"共 **{len(members)}** 个项目，按 Stars 取前 {len(top)}：")
+        lines.append("")
+        lines.append(STARS_HEADER)
+        lines += [rank_row(i, p) for i, p in enumerate(top, 1)]
+        blocks.append("\n".join(lines))
+    return "\n\n".join(blocks)
+
+
 # 占位区块名 → 渲染函数
 SECTIONS = {
     "snapshot": lambda d: render_snapshot(d),
@@ -135,6 +163,7 @@ SECTIONS = {
     "by-activity": lambda d: render_by_activity(d["projects"]),
     "by-classification": lambda d: render_by_classification(d["projects"]),
     "by-source": lambda d: render_by_source(d["projects"]),
+    "by-category": lambda d: render_by_category(d["projects"]),
 }
 
 
@@ -143,11 +172,12 @@ def replace_section(text: str, name: str, content: str) -> str:
     pattern = re.compile(
         rf"(<!-- AUTO: {re.escape(name)}:START -->\n)"
         r"([\s\S]*?)"
-        rf"(\n<!-- AUTO: {re.escape(name)}:END -->)"
+        rf"(<!-- AUTO: {re.escape(name)}:END -->)"
     )
     if not pattern.search(text):
         return text  # 该区块不存在，跳过
-    return pattern.sub(rf"\1{content}\3", text)
+    # 内容末尾去掉多余换行，保证 END 标记紧跟内容后一行
+    return pattern.sub(rf"\1{content.rstrip()}\n\3", text)
 
 
 def generate(data: dict, readme_text: str) -> str:
