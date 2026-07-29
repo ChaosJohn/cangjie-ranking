@@ -14,8 +14,6 @@
 
 - [Most Stars](#most-stars)
 - [Most Forks](#most-forks)
-- [By Activity](#by-activity)
-- [By Classification](#by-classification)
 - [By Source](#by-source)
 - [By Category](#by-category)
 - [Documentation](#documentation)
@@ -59,33 +57,6 @@ Top 10 by forks.
 | 9 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 60 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
 | 10 | [cjgrapht_wp](https://gitcode.com/zhangyin_gitcode/cjgrapht_wp) | 6 | 41 | — | 26 |  | 2026-07-08 |
 <!-- AUTO: top-forks:END -->
-
-## By Activity
-
-活跃度基于最后代码推送时间：180 天内「活跃」，181–365 天「维护中」，366–730 天「低活跃」，超过 730 天「沉寂」。
-
-<!-- AUTO: by-activity:START -->
-| Activity | Count |
-| --- | --- |
-| 活跃 | 423 |
-| 低活跃 | 185 |
-| 维护中 | 182 |
-| 沉寂 | 4 |
-<!-- AUTO: by-activity:END -->
-
-## By Classification
-
-按主要使用方式分类（`library` 三方库 / `tool` 工具与应用 / `resource` 学习与资源 / `candidate`/`pending` 候选待核验）。未分类的新发现项目不计入。
-
-<!-- AUTO: by-classification:START -->
-| Classification | Count |
-| --- | --- |
-| library | 252 |
-| tool | 39 |
-| resource | 16 |
-| pending | 8 |
-| candidate | 7 |
-<!-- AUTO: by-classification:END -->
 
 ## By Source
 
