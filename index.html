@@ -6,10 +6,25 @@
   <title>仓颉生态榜单 · Cangjie Ecosystem Leaderboard</title>
   <meta name="description" content="GitCode 上仓颉（Cangjie）编程语言生态项目的精选榜单与检索工具。">
   <link rel="stylesheet" href="style.css">
+  <script>
+    // 在首屏渲染前应用已保存的主题，避免闪烁
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark' || t === 'system') {
+          document.documentElement.setAttribute('data-theme', t);
+        }
+      } catch (e) { /* localStorage 不可用时静默忽略 */ }
+    })();
+  </script>
 </head>
 <body>
   <header class="site-header">
     <div class="header-inner">
+      <button class="theme-toggle" id="theme-toggle" type="button" title="切换主题" aria-label="切换主题">
+        <span class="theme-icon" id="theme-icon" aria-hidden="true">🖥️</span>
+        <span class="theme-label" id="theme-label">自动</span>
+      </button>
       <h1>仓颉生态榜单</h1>
       <p class="subtitle">
         GitCode Cangjie Ecosystem · 数据快照 <time id="snapshot-date">—</time>
