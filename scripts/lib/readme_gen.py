@@ -27,16 +27,9 @@ from pathlib import Path
 
 TOP_N = 10          # Top Stars / Top Forks 展示条数
 CATEGORY_TOP_N = 5  # 分类分组榜单每个分类展示条数
+CATEGORY_GROUP_TOP = 10  # 分类分组最多展示的分组数
 DESC_LIMIT = 90    # 描述列最大字符数（超出截断）
 SOURCE_TOP = 15    # 来源表最多展示条数（排除“未知”后取前 N）
-
-# 分类分组的展示顺序与中英对照（未列入的 classification 不展示）
-CLASSIFICATION_ORDER = ["library", "tool", "resource"]
-CLASSIFICATION_LABELS = {
-    "library": "Libraries（三方库）",
-    "tool": "Tools & Apps（工具与应用）",
-    "resource": "Learning & Resources（学习与资源）",
-}
 
 # 表头（与 Github-Ranking 对齐：Last Commit 在此用 Last Updated）
 STARS_HEADER = (
@@ -137,16 +130,28 @@ def render_by_source(projects: list[dict]) -> str:
 
 
 def render_by_category(projects: list[dict]) -> str:
-    """按 classification 分组，每组按 stars 排序展示 Top N，仿 Github-Ranking 的语言分组。"""
+    """按 category 字段分组（与 web 页面 renderGrouped(key='category') 完全一致）：
+    - 无 category 的项目归为「未分类」并跳过；
+    - 组排序：组内 stars 之和降序；
+    - 组内：按 stars 降序，每组取前 CATEGORY_TOP_N 个；
+    - 为控制 README 长度，仅展示 stars 之和前 CATEGORY_GROUP_TOP 个分组。
+    """
+    groups: dict[str, list[dict]] = {}
+    for p in projects:
+        g = p.get("category") or "未分类"
+        groups.setdefault(g, []).append(p)
+
+    sorted_groups = sorted(
+        ((g, m) for g, m in groups.items() if g != "未分类"),
+        key=lambda gm: sum(p.get("stars") or 0 for p in gm[1]),
+        reverse=True,
+    )[:CATEGORY_GROUP_TOP]
+
     blocks = []
-    for cls in CLASSIFICATION_ORDER:
-        members = [p for p in projects if p.get("classification") == cls]
-        if not members:
-            continue
-        members.sort(key=lambda p: (p.get("stars") or 0), reverse=True)
-        top = members[:CATEGORY_TOP_N]
-        label = CLASSIFICATION_LABELS.get(cls, cls)
-        lines = [f"### {label}", ""]
+    for group_name, members in sorted_groups:
+        members_sorted = sorted(members, key=lambda p: (p.get("stars") or 0), reverse=True)
+        top = members_sorted[:CATEGORY_TOP_N]
+        lines = [f"### {group_name}", ""]
         lines.append(f"共 **{len(members)}** 个项目，按 Stars 取前 {len(top)}：")
         lines.append("")
         lines.append(STARS_HEADER)
