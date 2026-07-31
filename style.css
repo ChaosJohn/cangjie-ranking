@@ -92,11 +92,16 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 
-/* ====== 主题切换按钮 ====== */
-.theme-toggle {
+/* ====== 右上角操作区（许愿 + 主题切换） ====== */
+.header-actions {
   position: absolute;
   top: 0;
   right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.theme-toggle {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -125,6 +130,259 @@ a:hover { text-decoration: underline; }
 @media (max-width: 640px) {
   .theme-toggle { padding: 5px 10px; font-size: 12px; }
   .theme-toggle .theme-label { display: none; }
+}
+
+/* ====== 许愿按钮 ====== */
+.wish-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  transition: all .12s;
+}
+.wish-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.wish-btn:active { transform: translateY(1px); }
+.wish-btn[disabled] {
+  opacity: .55;
+  cursor: not-allowed;
+  border-color: var(--border);
+  background: var(--bg-soft);
+  color: var(--text-mute);
+}
+.wish-btn .wish-icon { font-size: 14px; line-height: 1; }
+.wish-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+.wish-btn:hover .wish-badge {
+  background: #fff;
+  color: var(--accent);
+}
+@media (max-width: 640px) {
+  .wish-btn { padding: 5px 10px; font-size: 12px; }
+  .wish-btn .wish-label { display: none; }
+}
+
+/* ====== 许愿弹窗 ====== */
+.wish-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(2px);
+  animation: wish-fade-in .15s ease-out;
+}
+@keyframes wish-fade-in { from { opacity: 0; } to { opacity: 1; } }
+.wish-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow-hover);
+  padding: 24px;
+  animation: wish-slide-up .2s ease-out;
+}
+@keyframes wish-slide-up {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.wish-modal h2 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.wish-modal .wish-intro {
+  margin: 0 0 18px;
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.wish-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-mute);
+  font-size: 18px;
+  cursor: pointer;
+  transition: all .12s;
+}
+.wish-close:hover { background: var(--bg-soft); color: var(--text); }
+.wish-modal-wrap { position: relative; }
+.wish-form .field {
+  margin-bottom: 14px;
+}
+.wish-form label.field-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.wish-form .field-hint {
+  font-size: 12px;
+  color: var(--text-mute);
+  margin-top: 3px;
+}
+.wish-form .required { color: #d63b3b; }
+.wish-form input[type="text"],
+.wish-form input[type="email"],
+.wish-form input[type="url"],
+.wish-form select,
+.wish-form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: border-color .12s, box-shadow .12s;
+}
+.wish-form input:focus,
+.wish-form select:focus,
+.wish-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.wish-form textarea {
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+.wish-form .field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 560px) {
+  .wish-form .field-row { grid-template-columns: 1fr; }
+}
+.wish-turnstile {
+  margin: 4px 0 14px;
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+}
+.wish-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+.wish-submit {
+  flex: 1;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .12s;
+}
+.wish-submit:hover { filter: brightness(1.08); }
+.wish-submit:active { transform: translateY(1px); }
+.wish-submit[disabled] {
+  opacity: .6;
+  cursor: not-allowed;
+  filter: none;
+}
+.wish-cancel {
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.wish-cancel:hover { background: var(--bg-soft); color: var(--text); }
+
+/* 提交后状态视图 */
+.wish-result {
+  text-align: center;
+  padding: 24px 8px;
+}
+.wish-result .result-icon {
+  font-size: 42px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.wish-result h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.wish-result p {
+  margin: 0 0 14px;
+  color: var(--text-soft);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.wish-result .result-link {
+  display: inline-block;
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.wish-result .result-link:hover {
+  background: var(--accent-soft);
+}
+.wish-error {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(214, 59, 59, .12);
+  color: #d63b3b;
+  font-size: 13px;
+  line-height: 1.5;
 }
 .site-header h1 {
   margin: 0 0 6px;
