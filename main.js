@@ -79,6 +79,7 @@ async function init() {
   bindKeyboard();
   updateNewCount();
   renderView();
+  initWishBadge();
 }
 
 // =================== 新项目过滤（全局开关）===================
@@ -558,6 +559,325 @@ function initThemeToggle() {
   const btn = document.getElementById('theme-toggle');
   if (btn) btn.addEventListener('click', cycleTheme);
 }
+
+// ====================================================================
+// 许愿功能（Wish）
+// 收集外部用户希望仓颉社区建设的三方库/工具，并附竞品来源。
+// 提交 → Cloudflare Worker → 校验 Turnstile + Origin + 频率限 → GitHub Issue（label: wish）
+// ====================================================================
+
+const WISH_LABEL = 'wish';
+const WISH_ISSUES_URL = `https://github.com/ChaosJohn/cangjie-ranking/issues?q=is:issue+label:${WISH_LABEL}`;
+
+function wishConfig() {
+  return (window.WISH_CONFIG) || { workerUrl: '', turnstileSiteKey: '' };
+}
+
+function wishEnabled() {
+  const c = wishConfig();
+  return !!(c.workerUrl && c.turnstileSiteKey);
+}
+
+// ---------- 计数 badge 初始化 ----------
+async function initWishBadge() {
+  const btn = document.getElementById('wish-btn');
+  const badge = document.getElementById('wish-count');
+  if (!btn) return;
+
+  if (!wishEnabled()) {
+    btn.disabled = true;
+    btn.title = '许愿功能尚未启用（管理员未配置 Cloudflare Worker / Turnstile）';
+    return;
+  }
+  btn.addEventListener('click', openWishModal);
+
+  // 拉取当前已收集许愿数量
+  try {
+    const c = wishConfig();
+    const res = await fetch(`${c.workerUrl}/api/wishes/count`, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (badge && typeof data.count === 'number' && data.count >= 0) {
+      badge.textContent = String(data.count);
+      badge.hidden = data.count === 0;
+    }
+  } catch (e) {
+    // 静默忽略：badge 不显示不影响主流程
+  }
+}
+
+// ---------- 弹窗渲染 ----------
+let wishTurnstileWidgetId = null;
+let wishTurnstileReady = false;
+
+function openWishModal() {
+  closeWishModal(true);
+  const overlay = el('div', { class: 'wish-overlay', id: 'wish-overlay' });
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeWishModal();
+  });
+
+  const wrap = el('div', { class: 'wish-modal-wrap' });
+  const modal = el('div', { class: 'wish-modal' });
+  modal.append(
+    el('button', {
+      class: 'wish-close',
+      type: 'button',
+      'aria-label': '关闭',
+      onclick: () => closeWishModal(),
+    }, '×'),
+    el('h2', {}, '许愿'),
+    el('p', { class: 'wish-intro' },
+      '告诉我们你希望仓颉社区建设哪些三方库或工具，并附上竞品来源，便于社区参考实现。匿名提交即可。'),
+  );
+
+  const form = el('form', { class: 'wish-form', id: 'wish-form' });
+  form.append(
+    // 标题（必填）
+    field('wish-title', '许愿标题', true,
+      el('input', { type: 'text', id: 'wish-title', name: 'title', required: '',
+        maxlength: '120', placeholder: '例如：仓颉版 Markdown 解析库', autocomplete: 'off' }),
+      '一句话描述你希望有的库/工具'),
+
+    // 详细描述（必填）
+    field('wish-desc', '详细描述', true,
+      el('textarea', { id: 'wish-desc', name: 'description', required: '',
+        maxlength: '2000', placeholder: '说明使用场景、期望特性、为什么需要它……' }),
+      '最多 2000 字'),
+
+    // 类别（必填）+ 竞品语言（必填）
+    el('div', { class: 'field-row' },
+      field('wish-category', '类别', true,
+        selectEl('category', [
+          ['', '请选择…'],
+          ['库', '库（Library）'],
+          ['工具', '工具（Tool）'],
+          ['框架', '框架（Framework）'],
+          ['其他', '其他'],
+        ], '请选择类别'),
+        ''),
+      field('wish-competitor-lang', '竞品语言', true,
+        selectEl('competitor_lang', [
+          ['', '请选择…'],
+          ['Cangjie', 'Cangjie'],
+          ['Rust', 'Rust'],
+          ['Go', 'Go'],
+          ['Python', 'Python'],
+          ['Java', 'Java'],
+          ['JavaScript', 'JavaScript'],
+          ['C++', 'C++'],
+          ['其他', '其他'],
+        ], '请选择竞品实现语言'),
+        ''),
+    ),
+
+    // 竞品名称（必填）+ 竞品链接（必填）
+    el('div', { class: 'field-row' },
+      field('wish-competitor-name', '竞品名称', true,
+        el('input', { type: 'text', id: 'wish-competitor-name', name: 'competitor_name',
+          required: '', maxlength: '120', placeholder: '例如：marked', autocomplete: 'off' }),
+        ''),
+      field('wish-competitor-url', '竞品链接', true,
+        el('input', { type: 'url', id: 'wish-competitor-url', name: 'competitor_url',
+          required: '', maxlength: '500', placeholder: 'https://github.com/...', autocomplete: 'off' }),
+        ''),
+    ),
+
+    // 可选昵称 + 可选邮箱
+    el('div', { class: 'field-row' },
+      field('wish-nickname', '昵称（可选）', false,
+        el('input', { type: 'text', id: 'wish-nickname', name: 'nickname',
+          maxlength: '60', placeholder: '匿名', autocomplete: 'off' }),
+        '留空将标记为「匿名」'),
+      field('wish-email', '邮箱（可选）', false,
+        el('input', { type: 'email', id: 'wish-email', name: 'email',
+          maxlength: '120', placeholder: '便于后续反馈，不会公开展示', autocomplete: 'off' }),
+        ''),
+    ),
+  );
+
+  // Turnstile 容器
+  form.append(el('div', { class: 'wish-turnstile', id: 'wish-turnstile' }));
+  // 错误提示
+  form.append(el('div', { class: 'wish-error', id: 'wish-error', hidden: '' }));
+  // 操作按钮
+  form.append(
+    el('div', { class: 'wish-actions' },
+      el('button', { type: 'button', class: 'wish-cancel', onclick: () => closeWishModal() }, '取消'),
+      el('button', { type: 'submit', class: 'wish-submit', id: 'wish-submit' }, '提交许愿'),
+    ),
+  );
+
+  form.addEventListener('submit', submitWish);
+  modal.append(form);
+  wrap.append(modal);
+  overlay.append(wrap);
+  document.body.append(overlay);
+  document.body.style.overflow = 'hidden';
+
+  // 加载 Turnstile widget
+  loadTurnstileWidget();
+}
+
+function field(id, labelText, required, control, hint) {
+  const f = el('div', { class: 'field' });
+  const lbl = el('label', { class: 'field-label', for: id }, labelText,
+    required ? el('span', { class: 'required' }, ' *') : null);
+  f.append(lbl, control);
+  if (hint) f.append(el('div', { class: 'field-hint' }, hint));
+  return f;
+}
+
+function selectEl(name, options, placeholder) {
+  const sel = el('select', { name, required: '' });
+  for (const [v, t] of options) {
+    sel.append(el('option', { value: v }, t));
+  }
+  return sel;
+}
+
+// ---------- Turnstile ----------
+function loadTurnstileScript() {
+  return new Promise((resolve, reject) => {
+    if (window.turnstile) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.async = true;
+    s.defer = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('Turnstile 加载失败'));
+    document.head.append(s);
+  });
+}
+
+async function loadTurnstileWidget() {
+  const c = wishConfig();
+  const container = document.getElementById('wish-turnstile');
+  if (!container) return;
+  wishTurnstileReady = false;
+  try {
+    await loadTurnstileScript();
+    if (!window.turnstile) throw new Error('Turnstile 不可用');
+    wishTurnstileWidgetId = window.turnstile.render(container, {
+      sitekey: c.turnstileSiteKey,
+      theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light',
+      callback: () => { wishTurnstileReady = true; clearWishError(); },
+      'error-callback': () => { wishTurnstileReady = false; showWishError('人机验证加载失败，请刷新重试'); },
+      'expired-callback': () => { wishTurnstileReady = false; },
+    });
+  } catch (e) {
+    container.innerHTML = '';
+    showWishError(e.message || 'Turnstile 加载失败');
+  }
+}
+
+function getTurnstileToken() {
+  if (!wishTurnstileWidgetId || !window.turnstile) return '';
+  try { return window.turnstile.getResponse(wishTurnstileWidgetId) || ''; }
+  catch (e) { return ''; }
+}
+
+// ---------- 表单提交 ----------
+async function submitWish(e) {
+  e.preventDefault();
+  clearWishError();
+
+  const form = e.currentTarget;
+  const data = Object.fromEntries(new FormData(form).entries());
+  const token = getTurnstileToken();
+
+  if (!token) {
+    showWishError('请先完成人机验证');
+    return;
+  }
+
+  // 简单前端校验
+  if (!data.title?.trim() || !data.description?.trim() ||
+      !data.category || !data.competitor_name?.trim() ||
+      !data.competitor_url?.trim() || !data.competitor_lang) {
+    showWishError('请填写所有必填字段');
+    return;
+  }
+
+  const btn = document.getElementById('wish-submit');
+  if (btn) btn.disabled = true;
+  const origText = btn ? btn.textContent : '';
+  if (btn) btn.textContent = '提交中…';
+
+  try {
+    const c = wishConfig();
+    const res = await fetch(`${c.workerUrl}/api/wish`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...data, turnstileToken: token }),
+    });
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok || !payload.ok) {
+      throw new Error(payload.error || `提交失败（HTTP ${res.status}）`);
+    }
+    // 提交成功：badge +1，显示结果
+    const badge = document.getElementById('wish-count');
+    if (badge) {
+      const n = (parseInt(badge.textContent, 10) || 0) + 1;
+      badge.textContent = String(n);
+      badge.hidden = false;
+    }
+    renderWishResult(payload.issueUrl, payload.issueNumber);
+  } catch (err) {
+    showWishError(err.message || '提交失败，请稍后重试');
+    if (btn) { btn.disabled = false; btn.textContent = origText; }
+  }
+}
+
+function renderWishResult(issueUrl, issueNumber) {
+  const modal = document.querySelector('.wish-modal');
+  if (!modal) return;
+  modal.innerHTML = '';
+  modal.append(
+    el('div', { class: 'wish-result' },
+      el('div', { class: 'result-icon' }, '🎉'),
+      el('h3', {}, '许愿提交成功'),
+      el('p', {}, '感谢你的建议！已自动创建 GitHub Issue 用于后续讨论和跟踪。'),
+      issueUrl ? el('a', { class: 'result-link', href: issueUrl, target: '_blank', rel: 'noopener' },
+        `查看 Issue #${issueNumber || ''}`) : null,
+      el('p', {}, '想看看其他人都许了什么愿？'),
+      el('a', { class: 'result-link', href: WISH_ISSUES_URL, target: '_blank', rel: 'noopener' },
+        '查看许愿列表'),
+      el('div', { class: 'wish-actions' },
+        el('button', { type: 'button', class: 'wish-submit', onclick: () => closeWishModal() }, '关闭'),
+      ),
+    ),
+  );
+}
+
+function showWishError(msg) {
+  const err = document.getElementById('wish-error');
+  if (!err) return;
+  err.textContent = msg;
+  err.hidden = false;
+}
+function clearWishError() {
+  const err = document.getElementById('wish-error');
+  if (!err) return;
+  err.textContent = '';
+  err.hidden = true;
+}
+
+function closeWishModal(silent) {
+  const overlay = document.getElementById('wish-overlay');
+  if (overlay) overlay.remove();
+  document.body.style.overflow = '';
+  if (wishTurnstileWidgetId && window.turnstile) {
+    try { window.turnstile.remove(wishTurnstileWidgetId); } catch (e) {}
+  }
+  wishTurnstileWidgetId = null;
+  wishTurnstileReady = false;
+}
+
+// ESC 关闭
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('wish-overlay')) closeWishModal();
+});
 
 // =================== 启动 ===================
 if (document.readyState === 'loading') {

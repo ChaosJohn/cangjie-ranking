@@ -21,10 +21,17 @@
 <body>
   <header class="site-header">
     <div class="header-inner">
-      <button class="theme-toggle" id="theme-toggle" type="button" title="切换主题" aria-label="切换主题">
-        <span class="theme-icon" id="theme-icon" aria-hidden="true">🖥️</span>
-        <span class="theme-label" id="theme-label">自动</span>
-      </button>
+      <div class="header-actions">
+        <button class="wish-btn" id="wish-btn" type="button" title="提交许愿：希望仓颉社区建设的三方库或工具" aria-label="许愿">
+          <span class="wish-icon" aria-hidden="true">🎯</span>
+          <span class="wish-label">许愿</span>
+          <span class="wish-badge" id="wish-count" hidden>0</span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" type="button" title="切换主题" aria-label="切换主题">
+          <span class="theme-icon" id="theme-icon" aria-hidden="true">🖥️</span>
+          <span class="theme-label" id="theme-label">自动</span>
+        </button>
+      </div>
       <h1>仓颉生态榜单</h1>
       <p class="subtitle">
         GitCode Cangjie Ecosystem · 数据快照 <time id="snapshot-date">—</time>
@@ -84,6 +91,7 @@
     </article>
   </template>
 
+  <script src="config.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
