@@ -19,7 +19,7 @@
 // ====================================================================
 window.WISH_CONFIG = {
   // Cloudflare Worker 部署后填入完整 URL（部署前留空将自动禁用许愿按钮）
-  workerUrl: '',
+  workerUrl: 'https://cangjie-wish.cangjie-lang.workers.dev',
   // Cloudflare Turnstile 站点公钥（申请见 cloudflare-worker/README.md）
-  turnstileSiteKey: '',
+  turnstileSiteKey: '0x4AAAAAAEDNKz0eHJ-kEhie',
 };
