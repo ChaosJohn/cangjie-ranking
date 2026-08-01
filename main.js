@@ -561,37 +561,83 @@ function initThemeToggle() {
 }
 
 // ====================================================================
-// 许愿功能（Wish）
-// 收集外部用户希望仓颉社区建设的三方库/工具，并附竞品来源。
-// 提交 → Cloudflare Worker → 校验 Turnstile + Origin + 频率限 → GitHub Issue（label: wish）
+// 许愿池 v2（Wish Pool）
+// 自闭环的许愿管理：列表 / 详情 / +1 / 提交 / 查重
+// 后端：Cloudflare Worker + D1（SQLite）+ FTS5 全文检索
+// 不再依赖 GitHub Issues，全部数据走自有 API
 // ====================================================================
 
-const WISH_LABEL = 'wish';
-const WISH_ISSUES_URL = `https://github.com/ChaosJohn/cangjie-ranking/issues?q=is:issue+label:${WISH_LABEL}`;
+const WISH_VOTED_KEY = 'wish_voted_ids';
+const WISH_CATEGORIES = [
+  ['库', '库（Library）'],
+  ['工具', '工具（Tool）'],
+  ['框架', '框架（Framework）'],
+  ['其他', '其他'],
+];
+const WISH_LANGS = [
+  ['', '请选择…'],
+  ['Cangjie', 'Cangjie'],
+  ['Rust', 'Rust'],
+  ['Go', 'Go'],
+  ['Python', 'Python'],
+  ['Java', 'Java'],
+  ['JavaScript', 'JavaScript'],
+  ['TypeScript', 'TypeScript'],
+  ['C++', 'C++'],
+  ['C', 'C'],
+  ['其他', '其他'],
+];
+const WISH_STATUSES = [
+  ['pending', '待实现'],
+  ['done', '已实现'],
+  ['rejected', '不实现'],
+];
+
+// 运行时状态
+const wishState = {
+  view: 'list',              // list / detail / form
+  sort: 'hot',               // hot / latest / category
+  status: 'pending',         // pending / done / rejected / all
+  items: [],
+  total: 0,
+  loaded: 0,
+  loading: false,
+  newWishId: null,           // 刚提交成功的 id，用于高亮
+};
 
 function wishConfig() {
-  return (window.WISH_CONFIG) || { workerUrl: '', turnstileSiteKey: '' };
+  return window.WISH_CONFIG || { workerUrl: '', turnstileSiteKey: '', wishesPageSize: 20 };
 }
-
 function wishEnabled() {
   const c = wishConfig();
   return !!(c.workerUrl && c.turnstileSiteKey);
 }
+function wishPageSize() {
+  return Math.max(5, Math.min(100, wishConfig().wishesPageSize || 20));
+}
 
-// ---------- 计数 badge 初始化 ----------
+// ---------- 已投票记录（localStorage） ----------
+function getVotedIds() {
+  try { return new Set(JSON.parse(localStorage.getItem(WISH_VOTED_KEY) || '[]')); }
+  catch (e) { return new Set(); }
+}
+function saveVotedId(id) {
+  const s = getVotedIds();
+  s.add(id);
+  try { localStorage.setItem(WISH_VOTED_KEY, JSON.stringify([...s])); } catch (e) {}
+}
+
+// ---------- badge 初始化 ----------
 async function initWishBadge() {
   const btn = document.getElementById('wish-btn');
   const badge = document.getElementById('wish-count');
   if (!btn) return;
-
   if (!wishEnabled()) {
     btn.disabled = true;
-    btn.title = '许愿功能尚未启用（管理员未配置 Cloudflare Worker / Turnstile）';
+    btn.title = '许愿池尚未启用（管理员未配置 Cloudflare Worker / Turnstile）';
     return;
   }
-  btn.addEventListener('click', openWishModal);
-
-  // 拉取当前已收集许愿数量
+  btn.addEventListener('click', openWishPool);
   try {
     const c = wishConfig();
     const res = await fetch(`${c.workerUrl}/api/wishes/count`, { headers: { 'Accept': 'application/json' } });
@@ -601,139 +647,484 @@ async function initWishBadge() {
       badge.textContent = String(data.count);
       badge.hidden = data.count === 0;
     }
+  } catch (e) { /* 静默 */ }
+}
+
+function bumpWishBadge(delta) {
+  const badge = document.getElementById('wish-count');
+  if (!badge) return;
+  const n = (parseInt(badge.textContent, 10) || 0) + delta;
+  badge.textContent = String(n);
+  badge.hidden = n <= 0;
+}
+
+// ---------- 弹层骨架 ----------
+let wishTurnstileWidgetId = null;
+let wishTurnstileReady = false;
+let wishSearchTimer = null;
+let wishPendingSubmit = null;   // 二次确认时暂存的提交数据
+
+function openWishPool() {
+  closeWishPool(true);
+  const overlay = el('div', { class: 'wish-overlay', id: 'wish-overlay' });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeWishPool(); });
+  const wrap = el('div', { class: 'wish-modal-wrap' });
+  const modal = el('div', { class: 'wish-modal', id: 'wish-modal' });
+  modal.append(el('button', {
+    class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
+  }, '×'));
+  wrap.append(modal);
+  overlay.append(wrap);
+  document.body.append(overlay);
+  document.body.style.overflow = 'hidden';
+  // 重置状态
+  wishState.view = 'list';
+  wishState.sort = 'hot';
+  wishState.status = 'pending';
+  wishState.items = [];
+  wishState.total = 0;
+  wishState.loaded = 0;
+  wishState.newWishId = null;
+  renderWishPool();
+}
+
+function closeWishPool() {
+  const overlay = document.getElementById('wish-overlay');
+  if (overlay) overlay.remove();
+  document.body.style.overflow = '';
+  destroyTurnstile();
+  wishState.items = [];
+  wishState.total = 0;
+  wishState.loaded = 0;
+  wishPendingSubmit = null;
+}
+
+// ---------- 视图：列表 ----------
+async function renderWishPool() {
+  const modal = document.getElementById('wish-modal');
+  if (!modal) return;
+  modal.innerHTML = '';
+  wishState.view = 'list';
+
+  // 头部：标题 + 提交按钮
+  const header = el('div', { class: 'wish-pool-header' });
+  header.append(
+    el('h2', {}, '许愿池'),
+    el('button', {
+      class: 'wish-submit',
+      type: 'button',
+      onclick: () => renderWishForm(),
+    }, '+ 提交许愿'),
+  );
+
+  // 工具栏：排序 + 状态
+  const toolbar = el('div', { class: 'wish-pool-toolbar' });
+  toolbar.append(
+    el('div', { class: 'seg' },
+      segBtn('hot', '🔥 热门', wishState.sort, () => switchSort('hot')),
+      segBtn('latest', '🕐 最新', wishState.sort, () => switchSort('latest')),
+      segBtn('category', '📚 分类', wishState.sort, () => switchSort('category')),
+    ),
+    el('div', { class: 'seg' },
+      segBtn('pending', '待实现', wishState.status, () => switchStatus('pending')),
+      segBtn('done', '已实现', wishState.status, () => switchStatus('done')),
+      segBtn('rejected', '不实现', wishState.status, () => switchStatus('rejected')),
+      segBtn('all', '全部', wishState.status, () => switchStatus('all')),
+    ),
+    el('span', { class: 'meta', id: 'wish-meta' }, ''),
+  );
+  modal.append(header, toolbar);
+
+  // 列表容器
+  const pool = el('div', { class: 'wish-pool', id: 'wish-pool' });
+  pool.append(el('div', { class: 'wish-empty' }, '加载中…'));
+  modal.append(pool);
+
+  await loadWishes(true);
+}
+
+function segBtn(value, label, current, onClick) {
+  return el('button', {
+    type: 'button',
+    class: value === current ? 'active' : '',
+    onclick: onClick,
+  }, label);
+}
+
+async function switchSort(s) {
+  if (wishState.sort === s) return;
+  wishState.sort = s;
+  wishState.items = [];
+  wishState.loaded = 0;
+  await loadWishes(true);
+}
+async function switchStatus(s) {
+  if (wishState.status === s) return;
+  wishState.status = s;
+  wishState.items = [];
+  wishState.loaded = 0;
+  await loadWishes(true);
+}
+
+async function loadWishes(reset) {
+  const pool = document.getElementById('wish-pool');
+  if (!pool) return;
+  if (wishState.loading) return;
+  wishState.loading = true;
+
+  const limit = wishPageSize();
+  const offset = wishState.loaded;
+  if (reset) {
+    wishState.items = [];
+    wishState.loaded = 0;
+    pool.innerHTML = '<div class="wish-empty">加载中…</div>';
+  }
+
+  try {
+    const c = wishConfig();
+    const url = `${c.workerUrl}/api/wishes?sort=${encodeURIComponent(wishState.sort)}&status=${encodeURIComponent(wishState.status)}&limit=${limit}&offset=${offset}`;
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    wishState.items = wishState.items.concat(data.items || []);
+    wishState.total = data.total || 0;
+    wishState.loaded = wishState.items.length;
+    renderWishList();
   } catch (e) {
-    // 静默忽略：badge 不显示不影响主流程
+    pool.innerHTML = `<div class="wish-empty">加载失败：${escapeHtml(e.message)}</div>`;
+  } finally {
+    wishState.loading = false;
   }
 }
 
-// ---------- 弹窗渲染 ----------
-let wishTurnstileWidgetId = null;
-let wishTurnstileReady = false;
+function renderWishList() {
+  const pool = document.getElementById('wish-pool');
+  if (!pool) return;
+  pool.innerHTML = '';
+  const items = wishState.items;
+  const meta = document.getElementById('wish-meta');
+  if (meta) meta.textContent = `共 ${wishState.total} 条`;
 
-function openWishModal() {
-  closeWishModal(true);
-  const overlay = el('div', { class: 'wish-overlay', id: 'wish-overlay' });
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeWishModal();
+  if (items.length === 0) {
+    pool.append(el('div', { class: 'wish-empty' }, '还没有许愿，点击右上角「+ 提交许愿」来许第一个吧！'));
+    return;
+  }
+
+  const voted = getVotedIds();
+
+  if (wishState.sort === 'category') {
+    // 按类别分组
+    const groups = new Map();
+    for (const w of items) {
+      const g = w.category || '未分类';
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(w);
+    }
+    for (const [cat, ws] of groups) {
+      pool.append(el('h3', { style: 'margin:14px 0 6px;font-size:14px;color:var(--text-mute);' }, cat));
+      for (const w of ws) pool.append(renderWishCard(w, voted));
+    }
+  } else {
+    for (const w of items) pool.append(renderWishCard(w, voted));
+  }
+
+  // 加载更多
+  if (wishState.loaded < wishState.total) {
+    const btn = el('button', {
+      class: 'wish-load-more',
+      onclick: () => loadWishes(false),
+    }, `加载更多（还剩 ${wishState.total - wishState.loaded} 条）`);
+    pool.append(btn);
+  }
+}
+
+function renderWishCard(w, voted) {
+  const isVoted = voted.has(w.id);
+  const card = el('div', {
+    class: `wish-card${w.id === wishState.newWishId ? ' is-new' : ''}`,
+    onclick: () => renderWishDetail(w.id),
   });
+  card.append(
+    el('div', { class: 'wish-card-row' },
+      el('div', { class: 'wish-card-main' },
+        el('h3', { class: 'wish-card-title' }, w.title),
+        el('div', { class: 'wish-card-meta' },
+          el('span', { class: 'cat' }, w.category || '—'),
+          statusBadge(w.status),
+          el('span', {}, `· ${w.competitor_count || 0} 个竞品`),
+          el('span', {}, `· ${fmtDate(new Date(w.created_at).toISOString())}`),
+          el('span', {}, `· by ${w.nickname || '匿名'}`),
+        ),
+      ),
+      el('div', { class: 'wish-card-side' },
+        renderUpvoteBtn(w, isVoted),
+      ),
+    ),
+  );
+  return card;
+}
 
-  const wrap = el('div', { class: 'wish-modal-wrap' });
-  const modal = el('div', { class: 'wish-modal' });
+function renderUpvoteBtn(w, isVoted) {
+  const btn = el('button', {
+    class: `wish-upvote${isVoted ? ' voted' : ''}`,
+    type: 'button',
+    disabled: isVoted,
+    onclick: async (e) => {
+      e.stopPropagation();
+      await upvoteWish(w.id, btn);
+    },
+  },
+    el('span', { class: 'uv-icon' }, '👍'),
+    el('span', { class: 'uv-num' }, String(w.upvotes || 0)),
+  );
+  return btn;
+}
+
+function statusBadge(status) {
+  const map = { pending: '待实现', done: '已实现', rejected: '不实现', hidden: '已隐藏' };
+  return el('span', { class: `wish-status-badge ${status || 'pending'}` }, map[status] || status);
+}
+
+async function upvoteWish(id, btn) {
+  if (btn.disabled) return;
+  const voted = getVotedIds();
+  if (voted.has(id)) {
+    btn.classList.add('voted');
+    btn.disabled = true;
+    return;
+  }
+  btn.disabled = true;
+  const orig = btn.querySelector('.uv-num').textContent;
+  btn.querySelector('.uv-num').textContent = '…';
+  try {
+    const c = wishConfig();
+    const res = await fetch(`${c.workerUrl}/api/wishes/${id}/upvote`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data.ok) {
+      btn.querySelector('.uv-num').textContent = String(data.upvotes);
+      btn.classList.add('voted');
+      saveVotedId(id);
+      // 同步本地状态
+      const w = wishState.items.find(x => x.id === id);
+      if (w) w.upvotes = data.upvotes;
+    } else if (res.status === 409) {
+      // 已投过
+      btn.classList.add('voted');
+      btn.querySelector('.uv-num').textContent = String(data.upvotes || orig);
+      saveVotedId(id);
+    } else {
+      btn.disabled = false;
+      btn.querySelector('.uv-num').textContent = orig;
+      alert(data.error || '投票失败');
+    }
+  } catch (e) {
+    btn.disabled = false;
+    btn.querySelector('.uv-num').textContent = orig;
+    alert('网络错误，投票失败');
+  }
+}
+
+// ---------- 视图：详情 ----------
+async function renderWishDetail(id) {
+  const modal = document.getElementById('wish-modal');
+  if (!modal) return;
+  modal.innerHTML = '';
+  wishState.view = 'detail';
   modal.append(
     el('button', {
-      class: 'wish-close',
-      type: 'button',
-      'aria-label': '关闭',
-      onclick: () => closeWishModal(),
+      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
     }, '×'),
-    el('h2', {}, '许愿'),
+    el('div', { class: 'wish-empty' }, '加载中…'),
+  );
+  try {
+    const c = wishConfig();
+    const res = await fetch(`${c.workerUrl}/api/wishes/${id}`, { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const w = await res.json();
+    modal.innerHTML = '';
+    modal.append(el('button', {
+      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
+    }, '×'));
+    const detail = el('div', { class: 'wish-detail' });
+    const voted = getVotedIds();
+    detail.append(
+      el('h3', {}, w.title),
+      el('div', { class: 'wish-card-meta', style: 'margin-bottom:14px;' },
+        el('span', { class: 'cat' }, w.category || '—'),
+        statusBadge(w.status),
+        el('span', {}, `· ${fmtDate(new Date(w.created_at).toISOString())}`),
+        el('span', {}, `· by ${w.nickname || '匿名'}`),
+      ),
+      el('div', { class: 'detail-section' },
+        el('h4', {}, '详细描述'),
+        el('div', { class: 'detail-desc' }, w.description || '—'),
+      ),
+      el('div', { class: 'detail-section' },
+        el('h4', {}, `竞品参考（${(w.competitors || []).length}）`),
+        el('div', { class: 'wish-competitor-list' },
+          ...(w.competitors || []).map(c =>
+            el('div', { class: 'wish-competitor-item' },
+              el('span', { class: 'comp-name' }, c.name),
+              el('span', { class: 'comp-lang' }, c.lang),
+              el('a', { class: 'comp-link', href: c.url, target: '_blank', rel: 'noopener' }, '查看 →'),
+            ),
+          ),
+        ),
+      ),
+      el('div', { class: 'detail-back' },
+        el('button', { type: 'button', class: 'wish-cancel', onclick: () => backToList() }, '← 返回列表'),
+        el('span', { style: 'margin-left:auto;' }, renderUpvoteBtn(w, voted.has(w.id))),
+      ),
+    );
+    modal.append(detail);
+  } catch (e) {
+    modal.innerHTML = '';
+    modal.append(
+      el('button', { class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool() }, '×'),
+      el('div', { class: 'wish-empty' }, `加载失败：${escapeHtml(e.message)}`),
+    );
+  }
+}
+
+function backToList() {
+  renderWishPool();
+}
+
+// ---------- 视图：表单（创建许愿） ----------
+function renderWishForm() {
+  const modal = document.getElementById('wish-modal');
+  if (!modal) return;
+  modal.innerHTML = '';
+  wishState.view = 'form';
+  modal.append(
+    el('button', {
+      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
+    }, '×'),
+    el('h2', {}, '提交许愿'),
     el('p', { class: 'wish-intro' },
       '告诉我们你希望仓颉社区建设哪些三方库或工具，并附上竞品来源，便于社区参考实现。匿名提交即可。'),
   );
 
   const form = el('form', { class: 'wish-form', id: 'wish-form' });
-  form.append(
-    // 标题（必填）
-    field('wish-title', '许愿标题', true,
-      el('input', { type: 'text', id: 'wish-title', name: 'title', required: '',
-        maxlength: '120', placeholder: '例如：仓颉版 Markdown 解析库', autocomplete: 'off' }),
-      '一句话描述你希望有的库/工具'),
 
-    // 详细描述（必填）
-    field('wish-desc', '详细描述', true,
-      el('textarea', { id: 'wish-desc', name: 'description', required: '',
-        maxlength: '2000', placeholder: '说明使用场景、期望特性、为什么需要它……' }),
-      '最多 2000 字'),
+  // 标题（带实时查重）
+  const titleInput = el('input', {
+    type: 'text', id: 'wish-title', name: 'title', required: '',
+    maxlength: '120', placeholder: '例如：仓颉版 Markdown 解析库', autocomplete: 'off',
+  });
+  titleInput.addEventListener('input', () => {
+    clearTimeout(wishSearchTimer);
+    const v = titleInput.value.trim();
+    const similar = document.getElementById('wish-similar');
+    if (!v) { if (similar) similar.remove(); return; }
+    wishSearchTimer = setTimeout(() => searchSimilar(v), 400);
+  });
+  form.append(fieldEl('wish-title', '许愿标题', true, titleInput, '一句话描述你希望有的库/工具'));
 
-    // 类别（必填）+ 竞品语言（必填）
-    el('div', { class: 'field-row' },
-      field('wish-category', '类别', true,
-        selectEl('category', [
-          ['', '请选择…'],
-          ['库', '库（Library）'],
-          ['工具', '工具（Tool）'],
-          ['框架', '框架（Framework）'],
-          ['其他', '其他'],
-        ], '请选择类别'),
-        ''),
-      field('wish-competitor-lang', '竞品语言', true,
-        selectEl('competitor_lang', [
-          ['', '请选择…'],
-          ['Cangjie', 'Cangjie'],
-          ['Rust', 'Rust'],
-          ['Go', 'Go'],
-          ['Python', 'Python'],
-          ['Java', 'Java'],
-          ['JavaScript', 'JavaScript'],
-          ['C++', 'C++'],
-          ['其他', '其他'],
-        ], '请选择竞品实现语言'),
-        ''),
-    ),
+  // 相似许愿提示容器（动态插入到 title field 之后）
+  const similarBox = el('div', { class: 'wish-similar', id: 'wish-similar', hidden: '' });
+  form.append(similarBox);
 
-    // 竞品名称（必填）+ 竞品链接（必填）
-    el('div', { class: 'field-row' },
-      field('wish-competitor-name', '竞品名称', true,
-        el('input', { type: 'text', id: 'wish-competitor-name', name: 'competitor_name',
-          required: '', maxlength: '120', placeholder: '例如：marked', autocomplete: 'off' }),
-        ''),
-      field('wish-competitor-url', '竞品链接', true,
-        el('input', { type: 'url', id: 'wish-competitor-url', name: 'competitor_url',
-          required: '', maxlength: '500', placeholder: 'https://github.com/...', autocomplete: 'off' }),
-        ''),
-    ),
+  // 详细描述
+  form.append(fieldEl('wish-desc', '详细描述', true,
+    el('textarea', { id: 'wish-desc', name: 'description', required: '',
+      maxlength: '2000', placeholder: '说明使用场景、期望特性、为什么需要它……' }),
+    '最多 2000 字'));
 
-    // 可选昵称 + 可选邮箱
-    el('div', { class: 'field-row' },
-      field('wish-nickname', '昵称（可选）', false,
-        el('input', { type: 'text', id: 'wish-nickname', name: 'nickname',
-          maxlength: '60', placeholder: '匿名', autocomplete: 'off' }),
-        '留空将标记为「匿名」'),
-      field('wish-email', '邮箱（可选）', false,
-        el('input', { type: 'email', id: 'wish-email', name: 'email',
-          maxlength: '120', placeholder: '便于后续反馈，不会公开展示', autocomplete: 'off' }),
-        ''),
-    ),
+  // 类别
+  form.append(fieldEl('wish-category', '类别', true,
+    selectEl('category', [['', '请选择…'], ...WISH_CATEGORIES])));
+
+  // 多竞品行
+  const compBox = el('div', { class: 'wish-competitor-rows', id: 'wish-competitors' });
+  compBox.append(buildCompetitorRow());
+  const compField = el('div', { class: 'field' });
+  compField.append(
+    el('label', { class: 'field-label' }, '竞品参考', el('span', { class: 'required' }, ' *')),
+    compBox,
+    el('button', {
+      type: 'button', class: 'wish-add-competitor',
+      onclick: () => compBox.append(buildCompetitorRow()),
+    }, '+ 添加竞品'),
+    el('div', { class: 'field-hint' }, '至少一个，可添加多个同类竞品'),
   );
+  form.append(compField);
 
-  // Turnstile 容器
+  // 可选昵称 + 邮箱
+  form.append(el('div', { class: 'field-row' },
+    fieldEl('wish-nickname', '昵称（可选）', false,
+      el('input', { type: 'text', id: 'wish-nickname', name: 'nickname',
+        maxlength: '60', placeholder: '匿名', autocomplete: 'off' }),
+      '留空将标记为「匿名」'),
+    fieldEl('wish-email', '邮箱（可选）', false,
+      el('input', { type: 'email', id: 'wish-email', name: 'email',
+        maxlength: '120', placeholder: '便于后续反馈，不会公开展示', autocomplete: 'off' }),
+      ''),
+  ));
+
+  // Turnstile + 错误 + 按钮
   form.append(el('div', { class: 'wish-turnstile', id: 'wish-turnstile' }));
-  // 错误提示
   form.append(el('div', { class: 'wish-error', id: 'wish-error', hidden: '' }));
-  // 操作按钮
-  form.append(
-    el('div', { class: 'wish-actions' },
-      el('button', { type: 'button', class: 'wish-cancel', onclick: () => closeWishModal() }, '取消'),
-      el('button', { type: 'submit', class: 'wish-submit', id: 'wish-submit' }, '提交许愿'),
-    ),
-  );
+  form.append(el('div', { class: 'wish-actions' },
+    el('button', { type: 'button', class: 'wish-cancel', onclick: () => renderWishPool() }, '← 返回列表'),
+    el('button', { type: 'submit', class: 'wish-submit', id: 'wish-submit' }, '提交许愿'),
+  ));
 
   form.addEventListener('submit', submitWish);
   modal.append(form);
-  wrap.append(modal);
-  overlay.append(wrap);
-  document.body.append(overlay);
-  document.body.style.overflow = 'hidden';
-
-  // 加载 Turnstile widget
   loadTurnstileWidget();
 }
 
-function field(id, labelText, required, control, hint) {
-  const f = el('div', { class: 'field' });
-  const lbl = el('label', { class: 'field-label', for: id }, labelText,
-    required ? el('span', { class: 'required' }, ' *') : null);
-  f.append(lbl, control);
-  if (hint) f.append(el('div', { class: 'field-hint' }, hint));
-  return f;
+function buildCompetitorRow() {
+  const row = el('div', { class: 'wish-competitor-row' });
+  row.append(
+    el('input', { type: 'text', name: 'comp_name',
+      maxlength: '120', placeholder: '竞品名称', autocomplete: 'off' }),
+    el('input', { type: 'url', name: 'comp_url',
+      maxlength: '500', placeholder: 'https://github.com/...', autocomplete: 'off' }),
+    selectEl('comp_lang', WISH_LANGS),
+    el('button', {
+      type: 'button', class: 'row-del', title: '删除此竞品',
+      onclick: () => {
+        const box = document.getElementById('wish-competitors');
+        if (box && box.children.length > 1) row.remove();
+      },
+    }, '×'),
+  );
+  return row;
 }
 
-function selectEl(name, options, placeholder) {
-  const sel = el('select', { name, required: '' });
-  for (const [v, t] of options) {
-    sel.append(el('option', { value: v }, t));
+// ---------- 查重搜索 ----------
+async function searchSimilar(q) {
+  const box = document.getElementById('wish-similar');
+  if (!box) return;
+  try {
+    const c = wishConfig();
+    const res = await fetch(`${c.workerUrl}/api/wishes/search?q=${encodeURIComponent(q)}&limit=5`,
+      { headers: { 'Accept': 'application/json' } });
+    if (!res.ok) { box.hidden = true; return; }
+    const data = await res.json();
+    const items = data.items || [];
+    if (items.length === 0) { box.hidden = true; return; }
+    box.innerHTML = '';
+    box.append(el('div', { class: 'wish-similar-title' },
+      data.similar ? '⚠️ 检测到高度相似许愿，请先确认：' : '💡 看看是否有相似许愿：'));
+    const list = el('div', { class: 'wish-similar-list' });
+    for (const it of items) {
+      const item = el('div', {
+        class: 'wish-similar-item',
+        onclick: () => renderWishDetail(it.id),
+      }, `· ${it.title}（👍 ${it.upvotes || 0}）`);
+      list.append(item);
+    }
+    box.append(list);
+    box.hidden = false;
+  } catch (e) {
+    box.hidden = true;
   }
-  return sel;
 }
 
 // ---------- Turnstile ----------
@@ -742,8 +1133,7 @@ function loadTurnstileScript() {
     if (window.turnstile) return resolve();
     const s = document.createElement('script');
     s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    s.async = true;
-    s.defer = true;
+    s.async = true; s.defer = true;
     s.onload = () => resolve();
     s.onerror = () => reject(new Error('Turnstile 加载失败'));
     document.head.append(s);
@@ -771,6 +1161,14 @@ async function loadTurnstileWidget() {
   }
 }
 
+function destroyTurnstile() {
+  if (wishTurnstileWidgetId && window.turnstile) {
+    try { window.turnstile.remove(wishTurnstileWidgetId); } catch (e) {}
+  }
+  wishTurnstileWidgetId = null;
+  wishTurnstileReady = false;
+}
+
 function getTurnstileToken() {
   if (!wishTurnstileWidgetId || !window.turnstile) return '';
   try { return window.turnstile.getResponse(wishTurnstileWidgetId) || ''; }
@@ -783,73 +1181,136 @@ async function submitWish(e) {
   clearWishError();
 
   const form = e.currentTarget;
-  const data = Object.fromEntries(new FormData(form).entries());
+  const title = form.querySelector('#wish-title').value.trim();
+  const description = form.querySelector('#wish-desc').value.trim();
+  const category = form.querySelector('select[name="category"]').value;
+  const nickname = form.querySelector('#wish-nickname').value.trim();
+  const email = form.querySelector('#wish-email').value.trim();
   const token = getTurnstileToken();
 
-  if (!token) {
-    showWishError('请先完成人机验证');
-    return;
-  }
+  // 收集竞品行
+  const compRows = [...form.querySelectorAll('.wish-competitor-row')];
+  const competitors = compRows.map(r => ({
+    name: r.querySelector('input[name="comp_name"]').value.trim(),
+    url: r.querySelector('input[name="comp_url"]').value.trim(),
+    lang: r.querySelector('select[name="comp_lang"]').value,
+  })).filter(c => c.name && c.url && c.lang);
 
-  // 简单前端校验
-  if (!data.title?.trim() || !data.description?.trim() ||
-      !data.category || !data.competitor_name?.trim() ||
-      !data.competitor_url?.trim() || !data.competitor_lang) {
-    showWishError('请填写所有必填字段');
-    return;
+  // 前端校验
+  if (!title || !description || !category) {
+    showWishError('请填写所有必填字段'); return;
+  }
+  if (competitors.length === 0) {
+    showWishError('至少需要提供一个完整竞品（名称/链接/语言）'); return;
+  }
+  if (!token) { showWishError('请先完成人机验证'); return; }
+
+  const payload = { title, description, category, nickname, email, competitors, turnstileToken: token };
+
+  // 如果是二次确认后的提交，带 force=true 跳过查重
+  if (wishPendingSubmit && wishPendingSubmit.title === title) {
+    payload.force = true;
+    wishPendingSubmit = null;
   }
 
   const btn = document.getElementById('wish-submit');
-  if (btn) btn.disabled = true;
-  const origText = btn ? btn.textContent : '';
-  if (btn) btn.textContent = '提交中…';
+  if (btn) { btn.disabled = true; btn.textContent = '提交中…'; }
 
   try {
     const c = wishConfig();
-    const res = await fetch(`${c.workerUrl}/api/wish`, {
+    const res = await fetch(`${c.workerUrl}/api/wishes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, turnstileToken: token }),
+      body: JSON.stringify(payload),
     });
-    const payload = await res.json().catch(() => ({}));
-    if (!res.ok || !payload.ok) {
-      throw new Error(payload.error || `提交失败（HTTP ${res.status}）`);
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 409 && data.code === 'DUPLICATE_FOUND') {
+      // 检测到高度相似，弹二次确认
+      btn.disabled = false; btn.textContent = '提交许愿';
+      wishPendingSubmit = { title };  // 标记下一次同标题提交带 force=true
+      showDuplicateConfirm(data.similarWishes || []);
+      return;
     }
-    // 提交成功：badge +1，显示结果
-    const badge = document.getElementById('wish-count');
-    if (badge) {
-      const n = (parseInt(badge.textContent, 10) || 0) + 1;
-      badge.textContent = String(n);
-      badge.hidden = false;
+    if (!res.ok || !data.ok) {
+      throw new Error(data.error || `提交失败（HTTP ${res.status}）`);
     }
-    renderWishResult(payload.issueUrl, payload.issueNumber);
+    // 成功
+    bumpWishBadge(1);
+    wishState.newWishId = data.id;
+    // 返回列表并刷新
+    await renderWishPool();
+    // 滚到顶部，便于看到新条目
+    const modal = document.getElementById('wish-modal');
+    if (modal) modal.scrollTop = 0;
   } catch (err) {
     showWishError(err.message || '提交失败，请稍后重试');
-    if (btn) { btn.disabled = false; btn.textContent = origText; }
+    if (btn) { btn.disabled = false; btn.textContent = '提交许愿'; }
   }
 }
 
-function renderWishResult(issueUrl, issueNumber) {
-  const modal = document.querySelector('.wish-modal');
+function showDuplicateConfirm(similarWishes) {
+  const modal = document.getElementById('wish-modal');
   if (!modal) return;
-  modal.innerHTML = '';
-  modal.append(
-    el('div', { class: 'wish-result' },
-      el('div', { class: 'result-icon' }, '🎉'),
-      el('h3', {}, '许愿提交成功'),
-      el('p', {}, '感谢你的建议！已自动创建 GitHub Issue 用于后续讨论和跟踪。'),
-      issueUrl ? el('a', { class: 'result-link', href: issueUrl, target: '_blank', rel: 'noopener' },
-        `查看 Issue #${issueNumber || ''}`) : null,
-      el('p', {}, '想看看其他人都许了什么愿？'),
-      el('a', { class: 'result-link', href: WISH_ISSUES_URL, target: '_blank', rel: 'noopener' },
-        '查看许愿列表'),
-      el('div', { class: 'wish-actions' },
-        el('button', { type: 'button', class: 'wish-submit', onclick: () => closeWishModal() }, '关闭'),
-      ),
-    ),
+  // 隐藏表单（保留 DOM 以便「坚持提交」重新触发）
+  const form = document.getElementById('wish-form');
+  if (form) form.style.display = 'none';
+
+  const box = el('div', { class: 'wish-result' });
+  box.append(
+    el('div', { class: 'result-icon' }, '⚠️'),
+    el('h3', {}, '检测到高度相似许愿'),
+    el('p', {}, '以下许愿可能与你想提交的重复，建议先查看或给已有的 +1：'),
   );
+  const list = el('div', { class: 'wish-similar-list', style: 'margin-bottom:16px;' });
+  for (const w of similarWishes) {
+    list.append(el('div', {
+      class: 'wish-similar-item',
+      onclick: () => renderWishDetail(w.id),
+    }, `· ${w.title}（👍 ${w.upvotes || 0}）`));
+  }
+  box.append(list);
+  box.append(el('p', {}, '仍要提交新许愿？'));
+  box.append(el('div', { class: 'wish-actions' },
+    el('button', {
+      type: 'button', class: 'wish-cancel',
+      onclick: () => {
+        // 取消：恢复表单显示
+        box.remove();
+        wishPendingSubmit = null;
+        if (form) form.style.display = '';
+      },
+    }, '取消，去查看'),
+    el('button', {
+      type: 'button', class: 'wish-submit',
+      onclick: () => {
+        // 重新触发表单提交（wishPendingSubmit 已设置，将带 force=true）
+        if (form) {
+          form.style.display = '';
+          form.requestSubmit();
+        }
+      },
+    }, '坚持提交'),
+  ));
+  modal.append(box);
 }
 
+// ---------- 工具 ----------
+function fieldEl(id, labelText, required, control, hint) {
+  const f = el('div', { class: 'field' });
+  const lbl = el('label', { class: 'field-label', for: id }, labelText,
+    required ? el('span', { class: 'required' }, ' *') : null);
+  f.append(lbl, control);
+  if (hint) f.append(el('div', { class: 'field-hint' }, hint));
+  return f;
+}
+function selectEl(name, options) {
+  const sel = el('select', { name });
+  if (!options.find(o => o[0] === '')) sel.setAttribute('required', '');
+  for (const [v, t] of options) {
+    sel.append(el('option', { value: v }, t));
+  }
+  return sel;
+}
 function showWishError(msg) {
   const err = document.getElementById('wish-error');
   if (!err) return;
@@ -862,21 +1323,15 @@ function clearWishError() {
   err.textContent = '';
   err.hidden = true;
 }
-
-function closeWishModal(silent) {
-  const overlay = document.getElementById('wish-overlay');
-  if (overlay) overlay.remove();
-  document.body.style.overflow = '';
-  if (wishTurnstileWidgetId && window.turnstile) {
-    try { window.turnstile.remove(wishTurnstileWidgetId); } catch (e) {}
-  }
-  wishTurnstileWidgetId = null;
-  wishTurnstileReady = false;
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
 }
 
 // ESC 关闭
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && document.getElementById('wish-overlay')) closeWishModal();
+  if (e.key === 'Escape' && document.getElementById('wish-overlay')) closeWishPool();
 });
 
 // =================== 启动 ===================
