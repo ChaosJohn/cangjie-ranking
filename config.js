@@ -12,14 +12,17 @@
 //   前端用于渲染 widget。私钥 TURNSTILE_SECRET 只存在于 Worker 环境变量中。
 //
 // 真正不能泄露的（仅放在 Worker Secrets 里，不要写到这里）：
-// - GITHUB_TOKEN   GitHub fine-grained PAT（仅 issues:write，仅本仓库）
-// - TURNSTILE_SECRET  Cloudflare Turnstile 私钥
-// - GITHUB_REPO    形如 ChaosJohn/cangjie-ranking
-// - ALLOWED_ORIGIN 形如 https://rank.cangjie-lang.cc
+// - TURNSTILE_SECRET   Cloudflare Turnstile 私钥
+// - ADMIN_TOKEN        管理员密码（保护 PATCH /api/wishes/:id/status）
+// - SECRET_SALT        IP hash 加盐随机字符串
+// - ALLOWED_ORIGIN     形如 https://rank.cangjie-lang.cc
+// - DB                 D1 数据库 binding（在 wrangler.toml 配置）
 // ====================================================================
 window.WISH_CONFIG = {
   // Cloudflare Worker 部署后填入完整 URL（部署前留空将自动禁用许愿按钮）
   workerUrl: 'https://cangjie-wish.cangjie-lang.workers.dev',
   // Cloudflare Turnstile 站点公钥（申请见 cloudflare-worker/README.md）
   turnstileSiteKey: '0x4AAAAAAEDNKz0eHJ-kEhie',
+  // 许愿池列表分页大小
+  wishesPageSize: 20,
 };

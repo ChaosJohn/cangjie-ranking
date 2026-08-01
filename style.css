@@ -384,6 +384,322 @@ a:hover { text-decoration: underline; }
   font-size: 13px;
   line-height: 1.5;
 }
+
+/* ====== 许愿池 v2：列表 / 卡片 / 详情 / 排序 / 状态徽章 / 多竞品 / 相似提示 ====== */
+.wish-pool {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.wish-pool-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.wish-pool-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.wish-pool-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+.wish-pool-toolbar .seg {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--bg-soft);
+}
+.wish-pool-toolbar .seg button {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all .12s;
+}
+.wish-pool-toolbar .seg button:hover { color: var(--text); }
+.wish-pool-toolbar .seg button.active {
+  background: var(--accent);
+  color: #fff;
+}
+.wish-pool-toolbar .meta {
+  color: var(--text-mute);
+  font-size: 12px;
+}
+
+/* 许愿卡片 */
+.wish-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elev);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color .12s, box-shadow .12s, transform .08s;
+}
+.wish-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+.wish-card:active { transform: translateY(1px); }
+.wish-card.is-new {
+  animation: wish-highlight 2s ease-out;
+}
+@keyframes wish-highlight {
+  0% { background: var(--accent-soft); border-color: var(--accent); }
+  100% { background: var(--bg-elev); border-color: var(--border); }
+}
+.wish-card-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.wish-card-main {
+  flex: 1;
+  min-width: 0;
+}
+.wish-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 4px;
+  word-break: break-word;
+}
+.wish-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-mute);
+}
+.wish-card-meta .cat {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-weight: 500;
+}
+.wish-card-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.wish-upvote {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  color: var(--text-soft);
+  font: inherit;
+  cursor: pointer;
+  transition: all .12s;
+  min-width: 56px;
+}
+.wish-upvote:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+.wish-upvote.voted {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.wish-upvote:disabled {
+  cursor: default;
+  opacity: .7;
+}
+.wish-upvote .uv-icon { font-size: 14px; line-height: 1; }
+.wish-upvote .uv-num { font-size: 13px; font-weight: 700; line-height: 1.2; }
+
+/* 状态徽章 */
+.wish-status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.wish-status-badge.pending { background: rgba(214, 143, 0, .15); color: #d68f00; }
+.wish-status-badge.done { background: rgba(34, 139, 34, .15); color: #228b22; }
+.wish-status-badge.rejected { background: rgba(107, 114, 128, .15); color: #6b7280; }
+[data-theme="dark"] .wish-status-badge.pending { color: #f0c050; }
+[data-theme="dark"] .wish-status-badge.done { color: #6fdc6f; }
+[data-theme="dark"] .wish-status-badge.rejected { color: #9aa6b2; }
+
+/* 详情视图 */
+.wish-detail {
+  padding: 4px 0;
+}
+.wish-detail h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+  font-weight: 700;
+  word-break: break-word;
+}
+.wish-detail .detail-section {
+  margin: 14px 0;
+}
+.wish-detail .detail-section h4 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.wish-detail .detail-desc {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+  color: var(--text);
+}
+.wish-competitor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wish-competitor-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-soft);
+}
+.wish-competitor-item .comp-name {
+  font-weight: 600;
+  color: var(--text);
+}
+.wish-competitor-item .comp-lang {
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: var(--tag-bg);
+  color: var(--tag-text);
+  font-size: 11px;
+}
+.wish-competitor-item .comp-link {
+  margin-left: auto;
+  font-size: 12px;
+}
+.wish-detail .detail-back {
+  margin-top: 16px;
+}
+
+/* 多竞品行（表单内） */
+.wish-competitor-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wish-competitor-row {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr 1fr auto;
+  gap: 6px;
+  align-items: center;
+}
+.wish-competitor-row input,
+.wish-competitor-row select {
+  padding: 7px 9px;
+  font-size: 13px;
+}
+.wish-competitor-row .row-del {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-soft);
+  color: var(--text-mute);
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+}
+.wish-competitor-row .row-del:hover {
+  color: #d63b3b;
+  border-color: #d63b3b;
+}
+.wish-add-competitor {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.wish-add-competitor:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+@media (max-width: 560px) {
+  .wish-competitor-row { grid-template-columns: 1fr 1fr; }
+  .wish-competitor-row .row-del { grid-column: 1 / -1; width: 100%; height: 28px; }
+}
+
+/* 相似许愿提示 */
+.wish-similar {
+  margin: -4px 0 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  background: var(--accent-soft);
+}
+.wish-similar-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.wish-similar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.wish-similar-item {
+  font-size: 13px;
+  color: var(--text-soft);
+  padding: 4px 0;
+  cursor: pointer;
+}
+.wish-similar-item:hover { color: var(--accent); text-decoration: underline; }
+
+/* 加载更多 / 空状态 */
+.wish-load-more {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-soft);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: center;
+}
+.wish-load-more:hover { background: var(--bg-soft); }
+.wish-empty {
+  text-align: center;
+  padding: 40px 16px;
+  color: var(--text-mute);
+  font-size: 14px;
+}
 .site-header h1 {
   margin: 0 0 6px;
   font-size: 28px;
