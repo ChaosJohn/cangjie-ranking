@@ -34,30 +34,32 @@ def parse_owner_repo(url: str) -> tuple[str | None, str | None]:
     return (m.group(1), m.group(2)) if m else (None, None)
 
 
-# ============== 新项目 HTML 补全 ==============
+# ============== HTML 补全 ==============
 
 # HTML 详情页能补的字段（仅静态；计数仍以 API 为准）
 ENRICH_FIELDS = ["license", "language", "topics", "description", "pull_requests"]
 
 
-def enrich_new_projects(
+def enrich_projects(
     client: gitcode.GitCodeClient,
     projects: list[dict],
     enrich_limit: int | None = None,
     verbose: bool = False,
 ) -> tuple[int, int]:
-    """对 ``is_new=true`` 且 ``license`` 为空且 ``enriched != true`` 的项目抓 HTML 补全。
+    """对尚未补全（``enriched != true``）的项目抓 HTML 详情页补全静态字段。
 
-    用 ``enriched`` 标记避免每周重复抓取无 LICENSE 文件的项目
-    （已尝试过一次即标记，即使 license 仍为 None）。
+    早期版本只对 ``is_new=true`` 且无 license 的项目补全；为支持 G-Star 等徽章，
+    现已拓宽为「任何未补全过的项目」都抓一次 HTML。``enriched=True`` 标记
+    避免每周重复抓取（已尝试过一次即标记，即使 license/topics 仍为空）。
+
+    首次拓宽后跑一次会抓取所有 curated 项目（约 322 个 × 1.5s 退避 ≈ 8 分钟），
+    后续每周仅新发现的项目需要补全。
 
     返回 (成功补全数, 失败/跳过数)。
     """
     to_enrich = [
         p for p in projects
-        if p.get("is_new")
-        and not p.get("license")
-        and p.get("enriched") is not True
+        if p.get("enriched") is not True
     ]
     if enrich_limit is not None:
         to_enrich = to_enrich[:enrich_limit]
@@ -89,6 +91,30 @@ def enrich_new_projects(
         succeeded += 1
 
     return succeeded, failed
+
+
+# ============== G-Star 派生 ==============
+
+def derive_g_star(projects: list[dict]) -> int:
+    """从 ``topics`` 字段派生 ``g_star`` 布尔值。
+
+    GitCode json-ld 的 ``keywords`` 中若含 "G-Star项目" 等 topic，HTML 解析会
+    写入 ``topics`` 列表。这里扫描是否含有以 "G-Star" 开头的 topic（兼容
+    "G-Star项目" / "G-Star" / "G-Star 项目" 等变体）。
+
+    返回标记为 G-Star 的项目数。
+    """
+    count = 0
+    for p in projects:
+        topics = p.get("topics") or []
+        is_g_star = any(
+            isinstance(t, str) and t.startswith("G-Star")
+            for t in topics
+        )
+        p["g_star"] = is_g_star
+        if is_g_star:
+            count += 1
+    return count
 
 
 # ============== 全量快照写入 ==============
@@ -269,47 +295,53 @@ def run(args: argparse.Namespace) -> int:
             file=sys.stderr,
         )
 
-    # 6. 新项目 HTML 补全（recrawl 独有步骤）
-    #    对所有 is_new=true 且 license=None 且 enriched!=true 的项目补 HTML
-    #    （包含本次新发现 + refresh 时已加但未补 HTML 的项目）
+    # 6. HTML 补全（recrawl 独有步骤）
+    #    对所有 enriched != true 的项目（含 curated + is_new）抓 HTML 详情页，
+    #    补 license/language/topics/PRs/description 静态字段。
+    #    enriched=True 标记避免每周重复抓取。
     if enrich_limit is None or enrich_limit > 0:
         # 统计待补数（在 enrich 函数内做实际筛选，这里只用于日志）
         to_enrich_count = sum(
             1 for p in output_projects
-            if p.get("is_new") and not p.get("license") and p.get("enriched") is not True
+            if p.get("enriched") is not True
         )
         if verbose:
             print(
-                f"开始 HTML 补全 is_new 项目（{to_enrich_count} 个待抓，"
+                f"开始 HTML 补全（{to_enrich_count} 个待抓，"
                 f"上限 {enrich_limit if enrich_limit is not None else '不限'}）…",
                 file=sys.stderr,
             )
-        succeeded, failed = enrich_new_projects(
+        succeeded, failed = enrich_projects(
             client, output_projects, enrich_limit=enrich_limit, verbose=verbose
         )
         if verbose:
             print(f"HTML 补全完成: 成功 {succeeded} 个，失败/跳过 {failed} 个", file=sys.stderr)
 
-    # 7. 重算 activity
+    # 7. 派生 g_star（基于 topics 中是否含 "G-Star" 前缀 topic）
+    g_star_count = derive_g_star(output_projects)
+    if verbose:
+        print(f"G-Star 项目数: {g_star_count}", file=sys.stderr)
+
+    # 8. 重算 activity
     snapshot_date = time.strftime("%Y-%m-%d", time.gmtime())
     for p in output_projects:
         act = refresh.recompute_activity(p.get("updated_at"), snapshot_date)
         if act:
             p["activity"] = act
 
-    # 8. 写全量快照
+    # 9. 写全量快照
     write_full_snapshot(output_path, api_repos_list, sorted_orgs, snapshot_date)
     if verbose:
         print(f"已写入全量快照: {output_path}", file=sys.stderr)
 
-    # 9. 写 data.json
+    # 10. 写 data.json
     if merge_into_path:
         write_data_json(merge_into_path, output_projects, snapshot_date,
                         curated_count=len(curated_projects), new_count=new_count)
         if verbose:
             print(f"已写入 data.json: {merge_into_path}", file=sys.stderr)
 
-        # 10. 月度归档（月初且本月未归档时触发）
+        # 11. 月度归档（月初且本月未归档时触发）
         archive_dir = Path(args.archive_dir) if args.archive_dir else Path("archive")
         archive_mod.archive_if_needed(
             merge_into_path, archive_dir, force=args.force_archive, verbose=verbose,

@@ -204,6 +204,7 @@ function rankItem(p, rank) {
         class: 'rank-name',
         href: p.url, target: '_blank', rel: 'noopener',
       }, p.display_name || p.name),
+      p.g_star === true ? gStarBadge() : null,
       p.is_new === true ? el('span', { class: 'badge is-new' }, '新') : null,
       sourceBadge(p.source),
       el('div', { class: 'rank-desc' }, p.description || '—'),
@@ -436,6 +437,9 @@ function projectCard(p, rank) {
   const card = tpl.querySelector('.card');
   card.querySelector('.card-name').textContent = p.display_name || p.name;
   card.querySelector('.card-name').href = p.url;
+  if (p.g_star === true) {
+    card.querySelector('.card-name').after(gStarBadge());
+  }
   card.querySelector('.card-rank').textContent = `#${rank}`;
   card.querySelector('.card-desc').textContent = p.description || '—';
   const badges = card.querySelector('.card-badges');
@@ -516,6 +520,15 @@ function checkboxGroup(labelText, options, selectedSet, onChange) {
 function sourceBadge(source) {
   if (!source) return null;
   return el('span', { class: 'rank-source' }, source);
+}
+
+function gStarBadge() {
+  // 金色 G 徽章，对应 GitCode 项目页仓库名右侧的 G-Star 标识
+  return el('span', {
+    class: 'g-star-badge',
+    title: 'G-Star 项目',
+    'aria-label': 'G-Star 项目',
+  }, 'G');
 }
 
 // =================== 主题切换 ===================

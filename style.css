@@ -971,7 +971,6 @@ input[type="number"].input { min-width: 80px; width: 80px; }
 .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
 .card-head {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
   gap: 8px;
   margin-bottom: 6px;
@@ -988,6 +987,7 @@ input[type="number"].input { min-width: 80px; width: 80px; }
   color: var(--text-mute);
   font-variant-numeric: tabular-nums;
   flex-shrink: 0;
+  margin-left: auto;
 }
 .card-desc {
   margin: 0 0 8px;
@@ -1031,6 +1031,31 @@ input[type="number"].input { min-width: 80px; width: 80px; }
 .badge.is-new-pending {
   background: var(--new-badge-bg-soft);
   color: var(--new-badge-bg);
+}
+
+/* G-Star 项目徽章：金色外圈 + 金色 G 字母，对应 GitCode 项目页仓库名右侧标识 */
+.g-star-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px solid var(--star);
+  background: transparent;
+  color: var(--star);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1;
+  vertical-align: middle;
+  margin: 0 2px;
+  flex-shrink: 0;
+  cursor: help;
+}
+[data-theme="dark"] .g-star-badge {
+  border-color: var(--star);
+  color: var(--star);
 }
 .card-stats {
   display: flex;

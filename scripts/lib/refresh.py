@@ -46,6 +46,7 @@ PRESERVED_FIELDS = [
     "display_name", "source", "source_kind", "classification", "category",
     "language", "license", "topics", "pull_requests", "activity",
     "official_catalog", "selected_for_awesome", "verification", "display_path",
+    "g_star", "enriched",
 ]
 
 
@@ -80,8 +81,31 @@ def api_repo_to_project(api: dict, *, is_new: bool) -> dict:
     out["license"] = None
     out["language"] = None
     out["topics"] = []
+    out["g_star"] = False
     out["is_new"] = is_new
     return out
+
+
+def derive_g_star(projects: list[dict]) -> int:
+    """从 ``topics`` 字段派生 ``g_star`` 布尔值。
+
+    扫描 topics 列表是否含有以 "G-Star" 开头的 topic（兼容
+    "G-Star项目" / "G-Star" / "G-Star 项目" 等变体）。
+    与 recrawl.derive_g_star 等价（refresh 模式不导入 recrawl，避免循环依赖）。
+
+    返回标记为 G-Star 的项目数。
+    """
+    count = 0
+    for p in projects:
+        topics = p.get("topics") or []
+        is_g_star = any(
+            isinstance(t, str) and t.startswith("G-Star")
+            for t in topics
+        )
+        p["g_star"] = is_g_star
+        if is_g_star:
+            count += 1
+    return count
 
 
 def merge_counts(curated: dict, api: dict | None, existing: dict | None) -> dict:
@@ -244,7 +268,13 @@ def run(args: argparse.Namespace) -> int:
         if act:
             p["activity"] = act
 
-    # 7. 写 output
+    # 7. 派生 g_star（基于 topics 中是否含 "G-Star" 前缀 topic；
+    #    refresh 模式不抓 HTML，仅复用既有 topics）
+    g_star_count = derive_g_star(output_projects)
+    if verbose:
+        print(f"G-Star 项目数: {g_star_count}", file=sys.stderr)
+
+    # 8. 写 output
     out_data = {
         "schema_version": 1,
         "snapshot_date": snapshot_date,
