@@ -667,14 +667,13 @@ let wishPendingSubmit = null;   // 二次确认时暂存的提交数据
 function openWishPool() {
   closeWishPool(true);
   const overlay = el('div', { class: 'wish-overlay', id: 'wish-overlay' });
-  // 不允许点击外部区域关闭弹窗（避免误触丢失已填表单）
+  // 仅清单视图允许点击外部空白关闭；表单/详情视图有 × 按钮，不点外部关闭（避免误触丢失已填数据）
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay && wishState.view === 'list') closeWishPool();
+  });
   const wrap = el('div', { class: 'wish-modal-wrap' });
   const modal = el('div', { class: 'wish-modal', id: 'wish-modal' });
-  // × 按钮常驻 modal，各视图切换只重置 body 内容，不动 × 按钮
-  modal.append(el('button', {
-    class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
-  }, '×'));
-  // body 容器：各视图（list/detail/form）的内容都塞这里
+  // body 容器：各视图（list/detail/form）的内容都塞这里；× 按钮由非 list 视图自行加入 body
   const body = el('div', { class: 'wish-modal-body', id: 'wish-modal-body' });
   modal.append(body);
   wrap.append(modal);
@@ -692,12 +691,19 @@ function openWishPool() {
   renderWishPool();
 }
 
-// 清空 modal body 内容（不动 × 按钮）
+// 清空 modal body 内容，并一次性 append 所有节点
 function setWishBody(...nodes) {
   const body = document.getElementById('wish-modal-body');
   if (!body) return;
   body.innerHTML = '';
   for (const n of nodes) body.append(n);
+}
+
+// 构造 × 关闭按钮（仅用于表单/详情视图，清单视图靠点击外部关闭）
+function wishCloseBtn() {
+  return el('button', {
+    class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
+  }, '×');
 }
 
 function closeWishPool() {
@@ -944,7 +950,7 @@ async function renderWishDetail(id) {
   const body = document.getElementById('wish-modal-body');
   if (!body) return;
   wishState.view = 'detail';
-  setWishBody(el('div', { class: 'wish-empty' }, '加载中…'));
+  setWishBody(wishCloseBtn(), el('div', { class: 'wish-empty' }, '加载中…'));
   try {
     const c = wishConfig();
     const res = await fetch(`${c.workerUrl}/api/wishes/${id}`, { headers: { 'Accept': 'application/json' } });
@@ -981,9 +987,9 @@ async function renderWishDetail(id) {
         el('span', { style: 'margin-left:auto;' }, renderUpvoteBtn(w, voted.has(w.id))),
       ),
     );
-    setWishBody(detail);
+    setWishBody(wishCloseBtn(), detail);
   } catch (e) {
-    setWishBody(el('div', { class: 'wish-empty' }, `加载失败：${escapeHtml(e.message)}`));
+    setWishBody(wishCloseBtn(), el('div', { class: 'wish-empty' }, `加载失败：${escapeHtml(e.message)}`));
   }
 }
 
@@ -1069,7 +1075,7 @@ function renderWishForm() {
   ));
 
   form.addEventListener('submit', submitWish);
-  setWishBody(intro, form);
+  setWishBody(wishCloseBtn(), intro, form);
   loadTurnstileWidget();
 }
 

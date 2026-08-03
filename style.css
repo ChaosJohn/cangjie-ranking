@@ -206,6 +206,8 @@ a:hover { text-decoration: underline; }
   max-width: 560px;
   max-height: 90vh;
   overflow-y: auto;
+  /* 始终预留滚动条空间，避免内容加载后滚动条出现导致宽度跳变 */
+  scrollbar-gutter: stable;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 12px;
