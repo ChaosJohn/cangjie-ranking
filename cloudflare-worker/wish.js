@@ -80,8 +80,10 @@ export default {
       }
       return json({ error: 'Not Found' }, 404, corsHeaders);
     } catch (err) {
+      // 暴露具体错误信息，便于线上排查（含 D1 报错、SQL 异常等）
+      const msg = err && err.message ? err.message : String(err);
       console.error('wish worker error', err);
-      return json({ error: 'Internal Server Error' }, 500, corsHeaders);
+      return json({ error: 'Internal Server Error', detail: msg }, 500, corsHeaders);
     }
   },
 };
