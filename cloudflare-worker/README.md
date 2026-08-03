@@ -56,20 +56,23 @@ wrangler d1 create cangjie-wish-db
 仓库已包含建表脚本 `cloudflare-worker/schema.sql`。在仓库根目录执行：
 
 ```bash
-wrangler d1 execute cangjie-wish-db --file=cloudflare-worker/schema.sql
+wrangler d1 execute cangjie-wish-db --remote --file=cloudflare-worker/schema.sql
 ```
 
-首次执行时会提示是否在远程数据库执行，输入 `y` 确认。
+> ⚠️ **必须加 `--remote`**
+> wrangler 默认操作本地 SQLite 文件（`.wrangler/state/`），不会影响部署后 Worker 实际访问的远程 D1。如果不加 `--remote`，本地建表成功但线上 Worker 仍会报 `D1_ERROR: no such table: wishes`。
+>
+> 如果旧版 wrangler 不支持 `--remote`，命令行不带该 flag 时会交互式询问 `?Execute in remote database?`，输入 `y` 确认即可（等价于 `--remote`）。
 
 或者，在 Cloudflare Dashboard：
 1. 进入 **D1** → `cangjie-wish-db` → **Console**
 2. 打开 `cloudflare-worker/schema.sql`，复制全部内容粘贴进去
 3. 点击 **Execute**
 
-验证表已创建：
+验证表已创建（同样需要 `--remote`）：
 
 ```bash
-wrangler d1 execute cangjie-wish-db --command "SELECT name FROM sqlite_master WHERE type='table';"
+wrangler d1 execute cangjie-wish-db --remote --command "SELECT name FROM sqlite_master WHERE type='table';"
 ```
 
 应看到：`wishes`、`competitors`、`wishes_fts`、`upvote_logs`、`_cf_KV` 等。
@@ -291,6 +294,24 @@ wrangler tail
 ```
 实时查看所有请求和错误，排查 502、403、429 等。
 
+### `/api/wishes` 返回 `Internal Server Error`
+部署后调用接口报 500，外层 catch 会把根因放进响应体 `detail` 字段：
+
+```bash
+curl https://cangjie-wish.<your-subdomain>.workers.dev/api/wishes
+# {"error":"Internal Server Error","detail":"D1_ERROR: no such table: wishes: SQLITE_ERROR"}
+```
+
+常见根因：
+
+| `detail` 内容 | 原因 | 解决 |
+|---|---|---|
+| `D1_ERROR: no such table: wishes` | 远程 D1 没建表（很可能是建表时漏了 `--remote`，只建到了本地 `.wrangler/state/`） | `wrangler d1 execute cangjie-wish-db --remote --file=cloudflare-worker/schema.sql` |
+| `D1_ERROR: no such column: ...` | schema.sql 版本旧，缺字段 | 重新执行 schema.sql（`CREATE TABLE IF NOT EXISTS` 不会改已有表结构，必要时需手动 `ALTER TABLE`） |
+| `Cannot read properties of undefined (reading 'prepare')` | `env.DB` 为 undefined，binding 未生效 | 检查 `wrangler.toml` 的 `[[d1_databases]]` binding 名是 `DB`（不是 `cangjie_wish_db` 等其他名字）；重新 `wrangler deploy` |
+
+> 💡 `wrangler tail` 有时拿不到日志（请求未落到 console.error 的实例上），优先看响应体 `detail` 字段，最直接。
+
 ### 续期 / 重置 Turnstile
 1. Cloudflare Dashboard → Turnstile → 你的站点 → 重新生成 secret
 2. `wrangler secret put TURNSTILE_SECRET`（粘贴新 secret）
@@ -305,8 +326,8 @@ wrangler deploy
 
 ### 备份数据
 ```bash
-wrangler d1 execute cangjie-wish-db --command "SELECT * FROM wishes;" --output backup.json
-wrangler d1 execute cangjie-wish-db --command "SELECT * FROM competitors;" --output backup_comp.json
+wrangler d1 execute cangjie-wish-db --remote --command "SELECT * FROM wishes;" --output backup.json
+wrangler d1 execute cangjie-wish-db --remote --command "SELECT * FROM competitors;" --output backup_comp.json
 ```
 
 ### 重置管理员密码
@@ -326,10 +347,10 @@ wrangler deploy
 
 ### 查重没命中
 - FTS5 表为空时查重自然返回空，第一次提交任意标题都会成功
-- 检查 `wishes_fts` 表是否有数据：`wrangler d1 execute cangjie-wish-db --command "SELECT COUNT(*) FROM wishes_fts;"`
+- 检查 `wishes_fts` 表是否有数据：`wrangler d1 execute cangjie-wish-db --remote --command "SELECT COUNT(*) FROM wishes_fts;"`
 - 若主表有数据但 FTS 表为空（可能触发器未生效），手动重建：
   ```bash
-  wrangler d1 execute cangjie-wish-db --command "INSERT INTO wishes_fts(wishes_fts) VALUES('rebuild');"
+  wrangler d1 execute cangjie-wish-db --remote --command "INSERT INTO wishes_fts(wishes_fts) VALUES('rebuild');"
   ```
 
 ### +1 不生效
