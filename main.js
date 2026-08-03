@@ -667,7 +667,7 @@ let wishPendingSubmit = null;   // 二次确认时暂存的提交数据
 function openWishPool() {
   closeWishPool(true);
   const overlay = el('div', { class: 'wish-overlay', id: 'wish-overlay' });
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeWishPool(); });
+  // 不允许点击外部区域关闭弹窗（避免误触丢失已填表单）
   const wrap = el('div', { class: 'wish-modal-wrap' });
   const modal = el('div', { class: 'wish-modal', id: 'wish-modal' });
   modal.append(el('button', {
