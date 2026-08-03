@@ -76,10 +76,6 @@ html, body {
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
-/* 始终预留滚动条空间，避免弹窗内动态加载内容时滚动条出现/消失导致宽度跳变 */
-html {
-  scrollbar-gutter: stable;
-}
 
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
@@ -210,9 +206,6 @@ a:hover { text-decoration: underline; }
   max-width: 560px;
   max-height: 90vh;
   overflow-y: auto;
-  scrollbar-gutter: stable;
-  /* 加载前内容少，强制让 modal 一开始就有滚动条，与加载后一致，避免宽度跳变 */
-  min-height: 60vh;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -442,6 +435,8 @@ a:hover { text-decoration: underline; }
 .wish-pool-toolbar .meta {
   color: var(--text-mute);
   font-size: 12px;
+  white-space: nowrap;
+  min-width: 5em;
 }
 
 /* 许愿卡片 */

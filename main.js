@@ -748,7 +748,7 @@ async function renderWishPool() {
       segBtn('rejected', '不实现', wishState.status, () => switchStatus('rejected')),
       segBtn('all', '全部', wishState.status, () => switchStatus('all')),
     ),
-    el('span', { class: 'meta', id: 'wish-meta' }, ''),
+    el('span', { class: 'meta', id: 'wish-meta' }, '加载中…'),
   );
 
   // 列表容器
