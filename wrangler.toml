@@ -5,6 +5,6 @@ compatibility_date = "2024-09-23"
 # D1 数据库 binding（部署前必填：把 database_id 换成你自己的）
 # 查询 ID：wrangler d1 list  或  Cloudflare Dashboard → D1 → cangjie-wish-db
 [[d1_databases]]
-binding = "DB"
+binding = "cangjie_wish_db"
 database_name = "cangjie-wish-db"
-database_id = "在此粘贴你的 D1 database_id"
+database_id = "6d852ca1-dcf3-4b87-9557-360f051025b0"
