@@ -1329,10 +1329,7 @@ function escapeHtml(s) {
   }[c]));
 }
 
-// ESC 关闭
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape' && document.getElementById('wish-overlay')) closeWishPool();
-});
+// 许愿池仅通过右上角 × 按钮关闭（ESC 不关闭，避免误触丢失已填表单）
 
 // =================== 启动 ===================
 if (document.readyState === 'loading') {
