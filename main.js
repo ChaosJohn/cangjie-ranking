@@ -670,9 +670,13 @@ function openWishPool() {
   // 不允许点击外部区域关闭弹窗（避免误触丢失已填表单）
   const wrap = el('div', { class: 'wish-modal-wrap' });
   const modal = el('div', { class: 'wish-modal', id: 'wish-modal' });
+  // × 按钮常驻 modal，各视图切换只重置 body 内容，不动 × 按钮
   modal.append(el('button', {
     class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
   }, '×'));
+  // body 容器：各视图（list/detail/form）的内容都塞这里
+  const body = el('div', { class: 'wish-modal-body', id: 'wish-modal-body' });
+  modal.append(body);
   wrap.append(modal);
   overlay.append(wrap);
   document.body.append(overlay);
@@ -688,6 +692,14 @@ function openWishPool() {
   renderWishPool();
 }
 
+// 清空 modal body 内容（不动 × 按钮）
+function setWishBody(...nodes) {
+  const body = document.getElementById('wish-modal-body');
+  if (!body) return;
+  body.innerHTML = '';
+  for (const n of nodes) body.append(n);
+}
+
 function closeWishPool() {
   const overlay = document.getElementById('wish-overlay');
   if (overlay) overlay.remove();
@@ -701,15 +713,9 @@ function closeWishPool() {
 
 // ---------- 视图：列表 ----------
 async function renderWishPool() {
-  const modal = document.getElementById('wish-modal');
-  if (!modal) return;
-  modal.innerHTML = '';
+  const body = document.getElementById('wish-modal-body');
+  if (!body) return;
   wishState.view = 'list';
-
-  // 右上角关闭按钮（renderWishPool 会清空 modal，需重新加）
-  modal.append(el('button', {
-    class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
-  }, '×'));
 
   // 头部：标题 + 提交按钮
   const header = el('div', { class: 'wish-pool-header' });
@@ -738,12 +744,13 @@ async function renderWishPool() {
     ),
     el('span', { class: 'meta', id: 'wish-meta' }, ''),
   );
-  modal.append(header, toolbar);
 
   // 列表容器
   const pool = el('div', { class: 'wish-pool', id: 'wish-pool' });
   pool.append(el('div', { class: 'wish-empty' }, '加载中…'));
-  modal.append(pool);
+
+  // 一次性渲染骨架（header + toolbar + pool），避免分步渲染造成 UI 跳变
+  setWishBody(header, toolbar, pool);
 
   await loadWishes(true);
 }
@@ -934,25 +941,15 @@ async function upvoteWish(id, btn) {
 
 // ---------- 视图：详情 ----------
 async function renderWishDetail(id) {
-  const modal = document.getElementById('wish-modal');
-  if (!modal) return;
-  modal.innerHTML = '';
+  const body = document.getElementById('wish-modal-body');
+  if (!body) return;
   wishState.view = 'detail';
-  modal.append(
-    el('button', {
-      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
-    }, '×'),
-    el('div', { class: 'wish-empty' }, '加载中…'),
-  );
+  setWishBody(el('div', { class: 'wish-empty' }, '加载中…'));
   try {
     const c = wishConfig();
     const res = await fetch(`${c.workerUrl}/api/wishes/${id}`, { headers: { 'Accept': 'application/json' } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const w = await res.json();
-    modal.innerHTML = '';
-    modal.append(el('button', {
-      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
-    }, '×'));
     const detail = el('div', { class: 'wish-detail' });
     const voted = getVotedIds();
     detail.append(
@@ -984,13 +981,9 @@ async function renderWishDetail(id) {
         el('span', { style: 'margin-left:auto;' }, renderUpvoteBtn(w, voted.has(w.id))),
       ),
     );
-    modal.append(detail);
+    setWishBody(detail);
   } catch (e) {
-    modal.innerHTML = '';
-    modal.append(
-      el('button', { class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool() }, '×'),
-      el('div', { class: 'wish-empty' }, `加载失败：${escapeHtml(e.message)}`),
-    );
+    setWishBody(el('div', { class: 'wish-empty' }, `加载失败：${escapeHtml(e.message)}`));
   }
 }
 
@@ -1000,14 +993,11 @@ function backToList() {
 
 // ---------- 视图：表单（创建许愿） ----------
 function renderWishForm() {
-  const modal = document.getElementById('wish-modal');
-  if (!modal) return;
-  modal.innerHTML = '';
+  const body = document.getElementById('wish-modal-body');
+  if (!body) return;
   wishState.view = 'form';
-  modal.append(
-    el('button', {
-      class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
-    }, '×'),
+  const intro = el('div', {});
+  intro.append(
     el('h2', {}, '提交许愿'),
     el('p', { class: 'wish-intro' },
       '告诉我们你希望仓颉社区建设哪些三方库或工具，并附上竞品来源，便于社区参考实现。匿名提交即可。'),
@@ -1079,7 +1069,7 @@ function renderWishForm() {
   ));
 
   form.addEventListener('submit', submitWish);
-  modal.append(form);
+  setWishBody(intro, form);
   loadTurnstileWidget();
 }
 
@@ -1254,8 +1244,8 @@ async function submitWish(e) {
 }
 
 function showDuplicateConfirm(similarWishes) {
-  const modal = document.getElementById('wish-modal');
-  if (!modal) return;
+  const body = document.getElementById('wish-modal-body');
+  if (!body) return;
   // 隐藏表单（保留 DOM 以便「坚持提交」重新触发）
   const form = document.getElementById('wish-form');
   if (form) form.style.display = 'none';
@@ -1296,7 +1286,7 @@ function showDuplicateConfirm(similarWishes) {
       },
     }, '坚持提交'),
   ));
-  modal.append(box);
+  body.append(box);
 }
 
 // ---------- 工具 ----------
