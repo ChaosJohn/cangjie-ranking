@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-08-03* · 数据快照 **798** 项（322 curated + 4 新发现）
+*Last Automatic Update Time: 2026-08-03* · 数据快照 **798** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -55,7 +55,7 @@ Top 10 by forks.
 | 7 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 524 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2025-09-09 |
 | 8 | [syslog4cj](https://gitcode.com/Cangjie-TPC/syslog4cj) | 58 | 53 | Cangjie | 0 | Syslog4cj库参考Syslog4j设计的 Java 日志协议库，基于仓颉语言实现了Syslog协议客户端与服务端功能，支持 UDP/TCP 传输及 TLS 加密。 | 2026-06-06 |
 | 9 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 60 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
-| 10 | [cjgrapht_wp](https://gitcode.com/zhangyin_gitcode/cjgrapht_wp) | 6 | 41 | — | 26 |  | 2026-07-08 |
+| 10 | [cjgrapht_wp](https://gitcode.com/zhangyin_gitcode/cjgrapht_wp) | 6 | 41 | Cangjie | 26 |  | 2026-07-08 |
 <!-- AUTO: top-forks:END -->
 
 ## By Source
