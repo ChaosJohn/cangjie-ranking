@@ -706,6 +706,11 @@ async function renderWishPool() {
   modal.innerHTML = '';
   wishState.view = 'list';
 
+  // 右上角关闭按钮（renderWishPool 会清空 modal，需重新加）
+  modal.append(el('button', {
+    class: 'wish-close', type: 'button', 'aria-label': '关闭', onclick: () => closeWishPool(),
+  }, '×'));
+
   // 头部：标题 + 提交按钮
   const header = el('div', { class: 'wish-pool-header' });
   header.append(
