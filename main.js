@@ -523,12 +523,13 @@ function sourceBadge(source) {
 }
 
 function gStarBadge() {
-  // 金色 G 徽章，对应 GitCode 项目页仓库名右侧的 G-Star 标识
-  return el('span', {
+  // G-Star 项目徽章动图，对应 GitCode 项目页仓库名右侧的 G-Star 标识
+  return el('img', {
     class: 'g-star-badge',
+    src: 'assets/gstar-tag-twinkle.gif',
+    alt: 'G-Star 项目',
     title: 'G-Star 项目',
-    'aria-label': 'G-Star 项目',
-  }, 'G');
+  });
 }
 
 // =================== 主题切换 ===================
