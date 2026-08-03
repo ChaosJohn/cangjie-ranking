@@ -209,10 +209,10 @@ a:hover { text-decoration: underline; }
   width: 100%;
   max-width: 560px;
   max-height: 90vh;
-  /* 用 scroll + scrollbar-gutter: stable 双重保证滚动条轨道始终存在，
-     避免内容加载后滚动条出现导致内容区宽度跳变 */
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-gutter: stable;
+  /* 加载前内容少，强制让 modal 一开始就有滚动条，与加载后一致，避免宽度跳变 */
+  min-height: 60vh;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 12px;
