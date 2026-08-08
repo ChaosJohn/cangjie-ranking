@@ -276,9 +276,8 @@ def run(args: argparse.Namespace) -> int:
             continue
         existing = existing_by_url.get(url, {})
         if existing:
-            # 已知新项目：保留旧 license/language/PRs/enriched，刷新计数；不重复补全
+            # 已知非 curated 项目：保留旧 license/language/PRs/enriched，刷新计数；不重复补全
             merged = refresh.merge_counts(existing, api, existing)
-            merged["is_new"] = True
             output_projects.append(merged)
         else:
             # 本次新发现：加入待补全队列
@@ -290,7 +289,7 @@ def run(args: argparse.Namespace) -> int:
         print(
             f"合并后项目数: {len(output_projects)} "
             f"(curated={len(curated_projects)}, 本次新发现={new_count}, "
-            f"已知新={len(output_projects) - len(curated_projects) - new_count}, "
+            f"已知非 curated={len(output_projects) - len(curated_projects) - new_count}, "
             f"curated 在 API 中缺失={len(missing_in_api)})",
             file=sys.stderr,
         )
@@ -322,12 +321,16 @@ def run(args: argparse.Namespace) -> int:
     if verbose:
         print(f"G-Star 项目数: {g_star_count}", file=sys.stderr)
 
-    # 8. 重算 activity
+    # 8. 重算 activity + 派生 is_new
     snapshot_date = time.strftime("%Y-%m-%d", time.gmtime())
     for p in output_projects:
         act = refresh.recompute_activity(p.get("updated_at"), snapshot_date)
         if act:
             p["activity"] = act
+
+    new_proj_count = refresh.derive_is_new(output_projects, snapshot_date, curated_urls)
+    if verbose:
+        print(f"新项目数（最近 {refresh.NEW_PROJECT_WINDOW_DAYS} 天内创建）: {new_proj_count}", file=sys.stderr)
 
     # 9. 写全量快照
     write_full_snapshot(output_path, api_repos_list, sorted_orgs, snapshot_date)

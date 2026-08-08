@@ -39,6 +39,7 @@ API_FIELD_MAP = {
     "name": "name",
     "html_url": "url",
     "default_branch": "default_branch",
+    "created_at": "created_at",  # 仓库创建时间，用于派生 is_new
 }
 
 # 这些字段 API 不返回，必须从既有 data.json 保留
@@ -108,6 +109,53 @@ def derive_g_star(projects: list[dict]) -> int:
     return count
 
 
+# is_new 时间窗口：非 curated 仓库在创建后多少天内视为「新项目」
+NEW_PROJECT_WINDOW_DAYS = 30
+
+
+def derive_is_new(projects: list[dict], snapshot_date: str, curated_urls: set[str]) -> int:
+    """派生 ``is_new`` 布尔值。
+
+    语义：不在 curated 清单里，且 ``created_at`` 距 ``snapshot_date``
+    不超过 ``NEW_PROJECT_WINDOW_DAYS`` 天的仓库视为新项目。
+
+    早期版本对所有非 curated 项目永久标 ``is_new=true``，导致「显示新项目」
+    数量只增不减。改为基于 ``created_at`` 的时间窗口后，项目超过 30 天
+    即自动退出「新」状态。
+
+    无 ``created_at`` 的项目保守标 ``False``（不显示为新）。
+
+    返回标为新的项目数。
+    """
+    from datetime import date, datetime, timedelta
+    count = 0
+    try:
+        snap = date.fromisoformat(snapshot_date)
+    except (ValueError, TypeError):
+        snap = date.today()
+    threshold = snap - timedelta(days=NEW_PROJECT_WINDOW_DAYS)
+    for p in projects:
+        url = p.get("url") or ""
+        # curated 项目永远不是新项目
+        if url in curated_urls:
+            p["is_new"] = False
+            continue
+        created = p.get("created_at")
+        is_new = False
+        if created:
+            try:
+                # 容错：截掉毫秒 + 时区
+                ts = created.replace("Z", "+08:00")
+                c = datetime.fromisoformat(ts).date()
+                is_new = c >= threshold
+            except (ValueError, TypeError):
+                pass
+        p["is_new"] = is_new
+        if is_new:
+            count += 1
+    return count
+
+
 def merge_counts(curated: dict, api: dict | None, existing: dict | None) -> dict:
     """合并：curated 字段（基础）+ API 字段（动态计数）+ existing 字段（保留静态）。
 
@@ -128,7 +176,7 @@ def merge_counts(curated: dict, api: dict | None, existing: dict | None) -> dict
         for api_key, data_key in API_FIELD_MAP.items():
             if api_key in api and api[api_key] is not None:
                 out[data_key] = api[api_key]
-    out["is_new"] = False
+    # is_new 由 derive_is_new() 统一派生，这里不预设
     return out
 
 
@@ -239,12 +287,11 @@ def run(args: argparse.Namespace) -> int:
     for url, api in api_by_url.items():
         if url in curated_urls:
             continue
-        # 已在上一次 data.json 里被标过 is_new=true 的，沿用既有静态字段
+        # 已在上一次 data.json 里出现过的非 curated 项目，沿用既有静态字段
         existing = existing_by_url.get(url, {})
         if existing:
-            # 已知新项目：保留 license/language/PRs，刷新计数
+            # 已知非 curated 项目：保留 license/language/PRs，刷新计数
             merged = merge_counts(existing, api, existing)
-            merged["is_new"] = True
             output_projects.append(merged)
         else:
             # 全新发现
@@ -254,8 +301,9 @@ def run(args: argparse.Namespace) -> int:
     if verbose:
         print(
             f"输出项目数: {len(output_projects)} "
-            f"(curated={len(curated_projects)}, 已知新={len(api_by_url) - new_count - (len(curated_projects) - len(missing_in_api))}, "
-            f"本次新发现={new_count}, curated 在 API 中缺失={len(missing_in_api)})",
+            f"(curated={len(curated_projects)}, 本次新发现={new_count}, "
+            f"非 curated 已知={len(api_by_url) - new_count - (len(curated_projects) - len(missing_in_api))}, "
+            f"curated 在 API 中缺失={len(missing_in_api)})",
             file=sys.stderr,
         )
         if missing_in_api:
@@ -274,7 +322,12 @@ def run(args: argparse.Namespace) -> int:
     if verbose:
         print(f"G-Star 项目数: {g_star_count}", file=sys.stderr)
 
-    # 8. 写 output
+    # 8. 派生 is_new（基于 created_at 时间窗口，非 curated 且最近 N 天内创建）
+    new_proj_count = derive_is_new(output_projects, snapshot_date, curated_urls)
+    if verbose:
+        print(f"新项目数（最近 {NEW_PROJECT_WINDOW_DAYS} 天内创建）: {new_proj_count}", file=sys.stderr)
+
+    # 9. 写 output
     out_data = {
         "schema_version": 1,
         "snapshot_date": snapshot_date,
