@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-08-16* · 数据快照 **818** 项（322 curated + 1 新发现）
+*Last Automatic Update Time: 2026-08-17* · 数据快照 **819** 项（322 curated + 1 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -50,7 +50,7 @@ Top 10 by forks.
 | 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1174 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
 | 3 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
 | 4 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 170 | 67 | TSX | 7 | 重构你的Agent生产力 \| Your team of AI | 2026-08-15 |
-| 5 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 88 | 63 | Cangjie | 6 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-08-14 |
+| 5 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 88 | 63 | Cangjie | 6 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-08-16 |
 | 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-16 |
 | 7 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 532 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2025-09-09 |
 | 8 | [syslog4cj](https://gitcode.com/Cangjie-TPC/syslog4cj) | 58 | 53 | Cangjie | 0 | Syslog4cj库参考Syslog4j设计的 Java 日志协议库，基于仓颉语言实现了Syslog协议客户端与服务端功能，支持 UDP/TCP 传输及 TLS 加密。 | 2026-06-06 |
@@ -105,7 +105,7 @@ Top 10 by forks.
 | 2 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 472 | 5 | C | 2 |  | 2026-07-30 |
 | 3 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 43 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
 | 4 | [J2CJ](https://gitcode.com/Cangjie-SIG/j2cj) | 40 | 2 | — | 6 |  | 2026-02-09 |
-| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 35 | 1 | Kotlin | 0 | Intellij Platform 仓颉语言插件 | 2026-08-16 |
+| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 35 | 1 | Kotlin | 0 | Intellij Platform 仓颉语言插件 | 2026-08-17 |
 
 ### 算法、科学计算与 AI
 
@@ -141,7 +141,7 @@ Top 10 by forks.
 | 2 | [terminalcolor](https://gitcode.com/Cangjie-SIG/terminalcolor) | 45 | 1 | Cangjie | 1 | 符合直觉的终端颜色库，看一眼就会使用。 | 2026-03-21 |
 | 3 | [dateparse4cj](https://gitcode.com/Cangjie-SIG/dateparse4cj) | 31 | 1 | Cangjie | 0 | dateparse4cj 是一个基于 cangjie 标准库实现的高性能、功能丰富的日期时间解析库。它能够自动识别并解析多种格式的日期字符串，支持全球各种常见日期格式，包括各... | 2026-03-27 |
 | 4 | [ansies4cj](https://gitcode.com/Cangjie-SIG/ansies4cj) | 26 | 1 | Cangjie | 1 | ANSI转义序列生成，以及基于ANSI转义序列的输出文本颜色和样式、光标操作、屏幕擦除等控制。 | 2026-08-05 |
-| 5 | [cli-cj](https://gitcode.com/Cangjie-SIG/cli-cj) | 24 | 1 | Cangjie | 0 |  | 2026-08-16 |
+| 5 | [cli-cj](https://gitcode.com/Cangjie-SIG/cli-cj) | 24 | 1 | Cangjie | 0 |  | 2026-08-17 |
 
 ### Web、网络与协议
 
@@ -162,7 +162,7 @@ Top 10 by forks.
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [梅科尔工作室/CM_Recipe](https://gitcode.com/search?q=CM_Recipe&type=repo&l=Cangjie) | 59 | 2 | Cangjie | 0 | 一款基于Cangjie Magic 打造智能食谱系统，做饭小白只需输入食材以及口味，便可生成一份详细且富有趣味的定制化菜谱 | — |
-| 2 | [UCToo/agentskills-runtime](https://gitcode.com/UCToo/agentskills-runtime) | 55 | 5 | Cangjie | 0 | AgentSkills Runtime 是一个基于仓颉编程语言实现的 Agent Skills 标准运行时环境。它是对MCP、WebMCP、AgentSkills、智能体互联... | 2026-08-15 |
+| 2 | [UCToo/agentskills-runtime](https://gitcode.com/UCToo/agentskills-runtime) | 55 | 5 | Cangjie | 0 | AgentSkills Runtime 是一个基于仓颉编程语言实现的 Agent Skills 标准运行时环境。它是对MCP、WebMCP、AgentSkills、智能体互联... | 2026-08-16 |
 | 3 | [梅科尔工作室/CM_BioSnap](https://gitcode.com/search?q=CM_BioSnap&type=repo&l=Cangjie) | 53 | 2 | Cangjie | 0 | 我们打造的菌趣百科小助手是基于Cangjie Magic智能体引擎与MCP协议开发的菌落知识互动平台，将专业微生物检测转化为趣味科学探索。 | — |
 | 4 | [梅科尔工作室/CM_AreaSolver](https://gitcode.com/search?q=CM_AreaSolver&type=repo&l=Cangjie) | 51 | 0 | Cangjie | 0 | 一款基于Cangjie Magic的智能几何计算系统 | — |
 | 5 | [梅科尔工作室/CM_SoilDoctor](https://gitcode.com/search?q=CM_SoilDoctor&type=repo&l=Cangjie) | 51 | 0 | Cangjie | 0 | 本项目将带领读者探索 Cangjie Magic 的开发环境配置、智能体构建方法，并通过土壤医生智能体这一实际应用案例，展示其在农业领域的强大潜力。 | — |
