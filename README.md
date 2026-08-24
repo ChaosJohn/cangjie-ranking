@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-08-24* · 数据快照 **829** 项（322 curated + 2 新发现）
+*Last Automatic Update Time: 2026-08-24* · 数据快照 **829** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -27,15 +27,15 @@ Top 10 by stars. 完整排名与检索见 [在线榜单](https://rank.cangjie-la
 <!-- AUTO: top-stars:START -->
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1248 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
-| 2 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 559 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
-| 3 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 559 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-05-22 |
-| 4 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 546 | 5 | C | 2 |  | 2026-07-30 |
+| 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1260 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
+| 2 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 571 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
+| 3 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 571 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-05-22 |
+| 4 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 558 | 5 | C | 2 |  | 2026-07-30 |
 | 5 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 532 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-22 |
-| 6 | [TPC-Test-Framework](https://gitcode.com/Cangjie-TPC/TPC-Test-Framework) | 452 | 1 | Python | 10 | 仓颉用例执行脚本 | 2026-07-16 |
+| 6 | [TPC-Test-Framework](https://gitcode.com/Cangjie-TPC/TPC-Test-Framework) | 464 | 1 | Python | 10 | 仓颉用例执行脚本 | 2026-07-16 |
 | 7 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-23 |
 | 8 | [RGF_CJ](https://gitcode.com/Cangjie-SIG/RGF_CJ) | 212 | 6 | Cangjie | 2 | RGF是仓颉Windows系统下的通用渲染框架（兼应用开发框架）。RGF仓颉版（后续简称"RGF"）基于RGF(C/C++版)封装优化而来。RGF为开发者提供轻量化、安全、高... | 2026-08-14 |
-| 9 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 171 | 68 | TSX | 6 | 重构你的Agent生产力 \| Your team of AI | 2026-08-20 |
+| 9 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 171 | 68 | TSX | 6 | 重构你的Agent生产力 \| Your team of AI | 2026-08-24 |
 | 10 | [TPC-Resource](https://gitcode.com/Cangjie-TPC/TPC-Resource) | 159 | 7 | Cangjie | 176 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库资源汇总 | 2025-12-09 |
 <!-- AUTO: top-stars:END -->
 
@@ -47,9 +47,9 @@ Top 10 by forks.
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 112 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
-| 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1248 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
+| 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1260 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
 | 3 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
-| 4 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 171 | 68 | TSX | 6 | 重构你的Agent生产力 \| Your team of AI | 2026-08-20 |
+| 4 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 171 | 68 | TSX | 6 | 重构你的Agent生产力 \| Your team of AI | 2026-08-24 |
 | 5 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 90 | 63 | Cangjie | 7 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-08-20 |
 | 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-23 |
 | 7 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 532 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-22 |
@@ -93,8 +93,8 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 559 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
-| 2 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 546 | 5 | C | 2 |  | 2026-07-30 |
+| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 571 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
+| 2 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 558 | 5 | C | 2 |  | 2026-07-30 |
 | 3 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 43 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
 | 4 | [J2CJ](https://gitcode.com/Cangjie-SIG/j2cj) | 41 | 2 | — | 6 |  | 2026-02-09 |
 | 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 35 | 1 | Kotlin | 0 | Intellij Platform 仓颉语言插件 | 2026-08-24 |
@@ -105,7 +105,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1248 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
+| 1 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1260 | 78 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
 
 ### 算法、科学计算与 AI
 
@@ -113,7 +113,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 559 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-05-22 |
+| 1 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 571 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-05-22 |
 | 2 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 112 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
 | 3 | [genex-cj](https://gitcode.com/Cangjie-SIG/genex-cj) | 41 | 0 | Cangjie | 0 | 生成表达式（Generate Expression，简称：Genex或GE）是一款用于按照指定语法规则随机或固定生成数据的功能库。主要适用于依赖规则数据的应用场景，例如：应用... | 2026-03-29 |
 | 4 | [stats4cj](https://gitcode.com/Cangjie-SIG/stats4cj) | 33 | 1 | Cangjie | 0 | stats4cj是一个仓颉实现的数学统计库，包括总体/样本均值、总体/样本方差、分位数、统计分布等多种数理统计函数。 | 2026-04-25 |
@@ -173,7 +173,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [TPC-Test-Framework](https://gitcode.com/Cangjie-TPC/TPC-Test-Framework) | 452 | 1 | Python | 10 | 仓颉用例执行脚本 | 2026-07-16 |
+| 1 | [TPC-Test-Framework](https://gitcode.com/Cangjie-TPC/TPC-Test-Framework) | 464 | 1 | Python | 10 | 仓颉用例执行脚本 | 2026-07-16 |
 
 ### 工具类
 
