@@ -63,9 +63,10 @@ async function loadData() {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   state.data = await res.json();
   state.projects = state.data.projects.slice();
-  // 排名变化：默认选最细粒度的可用窗口（day > week > month）
+  // 排名变化：默认选「较上周」（位次变化榜单惯例按发布周期对比上期；
+  // 生态日变动太小，日窗口几乎全持平），无数据时降级 day → month
   state.rankWindows = state.data.rank_windows || {};
-  state.rankWindow = ['day', 'week', 'month'].find(w => state.rankWindows[w]) || null;
+  state.rankWindow = ['week', 'day', 'month'].find(w => state.rankWindows[w]) || null;
 }
 
 // =================== 排名变化 ===================
