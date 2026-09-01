@@ -20,6 +20,8 @@ const state = {
     minForks: null,
   },
   collapsed: new Set(),  // 分组视图折叠的组
+  rankWindow: null,      // 排名变化对比窗口：day / week / month（null=无基线数据）
+  rankWindows: {},       // 各窗口的基线日期（来自 data.json 的 rank_windows）
 };
 
 // =================== 工具 ===================
@@ -61,6 +63,77 @@ async function loadData() {
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   state.data = await res.json();
   state.projects = state.data.projects.slice();
+  // 排名变化：默认选最细粒度的可用窗口（day > week > month）
+  state.rankWindows = state.data.rank_windows || {};
+  state.rankWindow = ['day', 'week', 'month'].find(w => state.rankWindows[w]) || null;
+}
+
+// =================== 排名变化 ===================
+// 排名变化跟随当前排序键（Star/Fork/Issues/PR）；名称/更新时间排序无排名意义
+const RANK_SORTS = new Set(['stars', 'forks', 'issues', 'pull_requests']);
+const WINDOW_LABEL = { day: '昨日', week: '上周', month: '上月' };
+const _metricNum = v => (typeof v === 'number' ? v : -1);
+let _rankCache = { key: '', map: new Map() };
+
+// 降序数组中「严格大于 v 的个数 + 1」作为名次（竞赛排名，基线/当前同口径）
+function rankOf(sortedDesc, v) {
+  let lo = 0, hi = sortedDesc.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (sortedDesc[mid] > v) lo = mid + 1; else hi = mid;
+  }
+  return lo + 1;
+}
+
+// 可见集合的排名变化表：url → { delta, prev, cur } 或 { isNew, cur }
+// 基线排名同样在当前可见集合内计算，保证与榜单展示名次口径一致
+function rankDeltaMap(metric, win) {
+  const key = `${metric}|${win}|${state.showNew}`;
+  if (_rankCache.key === key) return _rankCache.map;
+  const visible = state.projects.filter(p => !isHiddenNew(p));
+  const curVals = visible.map(p => _metricNum(p[metric])).sort((a, b) => b - a);
+  const baseVals = visible
+    .filter(p => p.rank_base && p.rank_base[win])
+    .map(p => _metricNum(p.rank_base[win][metric]))
+    .sort((a, b) => b - a);
+  const map = new Map();
+  for (const p of visible) {
+    const cur = rankOf(curVals, _metricNum(p[metric]));
+    const base = p.rank_base && p.rank_base[win];
+    if (!base) { map.set(p.url, { isNew: true, cur }); continue; }
+    const prev = rankOf(baseVals, _metricNum(base[metric]));
+    map.set(p.url, { delta: prev - cur, prev, cur });
+  }
+  _rankCache = { key, map };
+  return map;
+}
+
+function rankDeltaBadge(p) {
+  const win = state.rankWindow, m = state.sort;
+  if (!win || !RANK_SORTS.has(m)) return null;
+  const info = rankDeltaMap(m, win).get(p.url);
+  if (!info) return null;
+  const tip = `较${WINDOW_LABEL[win]}（基线 ${state.rankWindows[win] || '—'}）`;
+  if (info.isNew) {
+    return el('span', { class: 'rank-delta new', title: `${tip}新上榜` }, 'NEW');
+  }
+  if (info.delta > 0) {
+    return el('span', { class: 'rank-delta up', title: `${tip}上升 ${info.delta} 名（${info.prev} → ${info.cur}）` }, `↑${info.delta}`);
+  }
+  if (info.delta < 0) {
+    return el('span', { class: 'rank-delta down', title: `${tip}下降 ${-info.delta} 名（${info.prev} → ${info.cur}）` }, `↓${-info.delta}`);
+  }
+  return el('span', { class: 'rank-delta flat', title: `${tip}排名不变（第 ${info.cur} 名）` }, '—');
+}
+
+// 对比窗口切换控件（Top 排行 / 活跃度共用）
+function rankWindowControl(onChange) {
+  const avail = ['day', 'week', 'month'].filter(w => state.rankWindows[w]);
+  if (!avail.length) return null;
+  return group('对比', selectInput('rankWindow', state.rankWindow,
+    avail.map(w => [w, `较${WINDOW_LABEL[w]}`]),
+    e => { state.rankWindow = e.target.value; onChange(); }),
+    span(`基线 ${state.rankWindows[state.rankWindow] || '—'}`));
 }
 
 // =================== 主入口 ===================
@@ -175,6 +248,7 @@ function renderTop(root, ctrl) {
       ['desc', '降序'],
       ['asc', '升序'],
     ], e => { state.sortDir = e.target.value; renderTop(root, ctrl); })] : []),
+    rankWindowControl(() => renderTop(root, ctrl)),
     label('展示', numberInput('topN', state.topN, 5, 500, e => {
       const v = Math.max(5, Math.min(500, +e.target.value || 100));
       state.topN = v; renderTop(root, ctrl);
@@ -198,7 +272,10 @@ function renderTop(root, ctrl) {
 function rankItem(p, rank) {
   const item = el('article', { class: 'rank-item' });
   item.append(
-    el('div', { class: `rank-num${rank <= 3 ? ' top3' : ''}` }, String(rank)),
+    el('div', { class: 'rank-num-col' },
+      el('div', { class: `rank-num${rank <= 3 ? ' top3' : ''}` }, String(rank)),
+      rankDeltaBadge(p),
+    ),
     el('div', { class: 'rank-main' },
       el('a', {
         class: 'rank-name',
@@ -308,6 +385,7 @@ function renderActivity(root, ctrl) {
       ['desc', '降序'],
       ['asc', '升序'],
     ], e => { state.sortDir = e.target.value; renderActivity(root, ctrl); })] : []),
+    rankWindowControl(() => renderActivity(root, ctrl)),
     span(`· ${order.length} 个活跃度级别`),
   );
 

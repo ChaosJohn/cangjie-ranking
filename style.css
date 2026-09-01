@@ -890,7 +890,7 @@ input[type="number"].input { min-width: 80px; width: 80px; }
 }
 .rank-item {
   display: grid;
-  grid-template-columns: 40px 1fr auto;
+  grid-template-columns: 52px 1fr auto;
   gap: 12px;
   align-items: center;
   padding: 14px 16px;
@@ -908,6 +908,26 @@ input[type="number"].input { min-width: 80px; width: 80px; }
   font-variant-numeric: tabular-nums;
 }
 .rank-num.top3 { color: var(--star); font-size: 26px; }
+.rank-num-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+/* 排名变化徽章：↑绿 ↓红 —灰 NEW蓝（与 badge.activity-* 配色体系一致） */
+.rank-delta {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  padding: 0 5px;
+  border-radius: 4px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.rank-delta.up { color: #2e8b57; background: rgba(34,139,87,.14); }
+.rank-delta.down { color: #b04040; background: rgba(178,64,64,.12); }
+.rank-delta.flat { color: var(--text-mute); }
+.rank-delta.new { color: var(--accent); background: rgba(47,111,237,.14); }
 .rank-main { min-width: 0; }
 .rank-name {
   font-size: 16px;
@@ -1119,7 +1139,7 @@ input[type="number"].input { min-width: 80px; width: 80px; }
   .controls { padding: 0 12px; }
   .content { padding: 0 12px; }
   .rank-item {
-    grid-template-columns: 32px 1fr;
+    grid-template-columns: auto 1fr;
     gap: 8px;
   }
   .rank-side {

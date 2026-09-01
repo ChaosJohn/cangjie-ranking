@@ -57,7 +57,8 @@ jobs:
         run: |
           # 数据更新后同步刷新 README 榜单区块，使其随 data.json 一起提交
           python scripts/lib/readme_gen.py --data data.json --readme README.md || true
-          git add data.json README.md
+          # archive/ 含排名变化用的每日精简快照（archive/daily/）
+          git add data.json README.md archive/
           if git diff --cached --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "no changes detected"

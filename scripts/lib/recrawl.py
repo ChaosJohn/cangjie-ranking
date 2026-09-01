@@ -26,6 +26,7 @@ from pathlib import Path
 
 from . import gitcode, refresh
 from . import archive as archive_mod
+from . import rank_change
 
 
 def parse_owner_repo(url: str) -> tuple[str | None, str | None]:
@@ -173,7 +174,7 @@ def write_full_snapshot(path: Path, api_repos: list[dict], orgs: list[str], snap
         json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
 
-def write_data_json(path: Path, projects: list[dict], snapshot_date: str, curated_count: int, new_count: int) -> None:
+def write_data_json(path: Path, projects: list[dict], snapshot_date: str, curated_count: int, new_count: int, rank_windows: dict | None = None) -> None:
     """写 data.json（与 refresh 模式输出格式一致）。"""
     out = {
         "schema_version": 1,
@@ -184,6 +185,7 @@ def write_data_json(path: Path, projects: list[dict], snapshot_date: str, curate
             "total_records": len(projects),
             "new_since_last_run": new_count,
         },
+        "rank_windows": rank_windows,
         "projects": projects,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -339,13 +341,21 @@ def run(args: argparse.Namespace) -> int:
 
     # 10. 写 data.json
     if merge_into_path:
+        archive_dir = Path(args.archive_dir) if args.archive_dir else Path("archive")
+
+        # 排名变化：存当日精简快照 + 注入日/周/月基线指标（rank_base）
+        # 放在写全量快照之后，rank_base 只进 data.json，不进全量快照
+        rank_windows = rank_change.enrich(
+            output_projects, snapshot_date, archive_dir, verbose=verbose,
+        )
+
         write_data_json(merge_into_path, output_projects, snapshot_date,
-                        curated_count=len(curated_projects), new_count=new_count)
+                        curated_count=len(curated_projects), new_count=new_count,
+                        rank_windows=rank_windows)
         if verbose:
             print(f"已写入 data.json: {merge_into_path}", file=sys.stderr)
 
         # 11. 月度归档（月初且本月未归档时触发）
-        archive_dir = Path(args.archive_dir) if args.archive_dir else Path("archive")
         archive_mod.archive_if_needed(
             merge_into_path, archive_dir, force=args.force_archive, verbose=verbose,
         )

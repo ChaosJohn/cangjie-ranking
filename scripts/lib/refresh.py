@@ -22,6 +22,7 @@ import time
 from pathlib import Path
 
 from . import gitcode
+from . import rank_change
 
 
 # ============== 字段映射 ==============
@@ -327,6 +328,12 @@ def run(args: argparse.Namespace) -> int:
     if verbose:
         print(f"新项目数（最近 {NEW_PROJECT_WINDOW_DAYS} 天内创建）: {new_proj_count}", file=sys.stderr)
 
+    # 8.5 排名变化：存当日精简快照 + 注入日/周/月基线指标（rank_base）
+    rank_windows = rank_change.enrich(
+        output_projects, snapshot_date, output_path.parent / "archive",
+        verbose=verbose,
+    )
+
     # 9. 写 output
     out_data = {
         "schema_version": 1,
@@ -337,6 +344,7 @@ def run(args: argparse.Namespace) -> int:
             "total_records": len(output_projects),
             "new_since_last_run": new_count,
         },
+        "rank_windows": rank_windows,
         "projects": output_projects,
     }
     output_path.parent.mkdir(parents=True, exist_ok=True)
