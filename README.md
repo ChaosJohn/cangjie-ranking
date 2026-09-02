@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-09-01* · 数据快照 **859** 项（322 curated + 1 新发现）
+*Last Automatic Update Time: 2026-09-02* · 数据快照 **861** 项（322 curated + 2 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -33,7 +33,7 @@ Top 10 by stars. 完整排名与检索见 [在线榜单](https://rank.cangjie-la
 | 4 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 642 | 5 | C | 2 |  | 2026-07-30 |
 | 5 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 532 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-29 |
 | 6 | [TPC-Test-Framework](https://gitcode.com/Cangjie-TPC/TPC-Test-Framework) | 507 | 1 | Python | 10 | 仓颉用例执行脚本 | 2026-07-16 |
-| 7 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-31 |
+| 7 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-09-02 |
 | 8 | [RGF_CJ](https://gitcode.com/Cangjie-SIG/RGF_CJ) | 212 | 6 | Cangjie | 2 | RGF是仓颉Windows系统下的通用渲染框架（兼应用开发框架）。RGF仓颉版（后续简称"RGF"）基于RGF(C/C++版)封装优化而来。RGF为开发者提供轻量化、安全、高... | 2026-08-14 |
 | 9 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 172 | 68 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
 | 10 | [TPC-Resource](https://gitcode.com/Cangjie-TPC/TPC-Resource) | 159 | 7 | Cangjie | 177 | Cangjie-TPC（Third Party Components）仓颉编程语言三方库资源汇总 | 2025-12-09 |
@@ -50,8 +50,8 @@ Top 10 by forks.
 | 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1294 | 79 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
 | 3 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
 | 4 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 172 | 68 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
-| 5 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 92 | 65 | Cangjie | 6 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-08-24 |
-| 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-31 |
+| 5 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 94 | 66 | Cangjie | 6 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-08-24 |
+| 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-09-02 |
 | 7 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 532 | 55 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-29 |
 | 8 | [syslog4cj](https://gitcode.com/Cangjie-TPC/syslog4cj) | 57 | 53 | Cangjie | 0 | Syslog4cj库参考Syslog4j设计的 Java 日志协议库，基于仓颉语言实现了Syslog协议客户端与服务端功能，支持 UDP/TCP 传输及 TLS 加密。 | 2026-06-06 |
 | 9 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 59 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
@@ -97,7 +97,7 @@ Top 10 by forks.
 | 2 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 642 | 5 | C | 2 |  | 2026-07-30 |
 | 3 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 45 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
 | 4 | [J2CJ](https://gitcode.com/Cangjie-SIG/j2cj) | 43 | 2 | — | 6 |  | 2026-02-09 |
-| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 38 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-09-01 |
+| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 38 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-09-02 |
 
 ### AI 与智能体框架
 
@@ -137,11 +137,11 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-08-31 |
+| 1 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 374 | 60 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-09-02 |
 | 2 | [terminalcolor](https://gitcode.com/Cangjie-SIG/terminalcolor) | 45 | 1 | Cangjie | 1 | 符合直觉的终端颜色库，看一眼就会使用。 | 2026-08-22 |
 | 3 | [dateparse4cj](https://gitcode.com/Cangjie-SIG/dateparse4cj) | 32 | 1 | Cangjie | 0 | dateparse4cj 是一个基于 cangjie 标准库实现的高性能、功能丰富的日期时间解析库。它能够自动识别并解析多种格式的日期字符串，支持全球各种常见日期格式，包括各... | 2026-03-27 |
 | 4 | [ansies4cj](https://gitcode.com/Cangjie-SIG/ansies4cj) | 28 | 1 | Cangjie | 1 | ANSI转义序列生成，以及基于ANSI转义序列的输出文本颜色和样式、光标操作、屏幕擦除等控制。 | 2026-08-05 |
-| 5 | [cli-cj](https://gitcode.com/Cangjie-SIG/cli-cj) | 26 | 1 | Cangjie | 0 |  | 2026-09-01 |
+| 5 | [cli-cj](https://gitcode.com/Cangjie-SIG/cli-cj) | 26 | 1 | Cangjie | 0 |  | 2026-09-02 |
 
 ### Web、网络与协议
 
@@ -150,8 +150,8 @@ Top 10 by forks.
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [yishengTH/tea](https://gitcode.com/yishengTH/tea) | 147 | 13 | Cangjie | 3 | 仓颉后端生态高性能、高可用、功能完整的Web后端框架 | 2026-08-22 |
-| 2 | [ginger](https://gitcode.com/Cangjie-SIG/ginger) | 98 | 3 | Cangjie | 0 | Ginger是一个轻量级的httpClient库，支持多种请求配置，及使用函数方式注册拦截器链。 | 2026-08-27 |
-| 3 | [soulsoft/spire](https://gitcode.com/soulsoft/spire) | 85 | 13 | Cangjie | 19 | Spire (天擎) 一个基于仓颉语言开发、借鉴 ASP.NET Core 设计哲学的现代化 Web 框架。我们与仓颉官方团队共同研发，致力于打造轻量级、高性能、可扩展的应用... | 2026-08-31 |
+| 2 | [ginger](https://gitcode.com/Cangjie-SIG/ginger) | 99 | 3 | Cangjie | 0 | Ginger是一个轻量级的httpClient库，支持多种请求配置，及使用函数方式注册拦截器链。 | 2026-08-27 |
+| 3 | [soulsoft/spire](https://gitcode.com/soulsoft/spire) | 85 | 13 | Cangjie | 20 | Spire (天擎) 一个基于仓颉语言开发、借鉴 ASP.NET Core 设计哲学的现代化 Web 框架。我们与仓颉官方团队共同研发，致力于打造轻量级、高性能、可扩展的应用... | 2026-08-31 |
 | 4 | [easyapi](https://gitcode.com/Cangjie-SIG/easyapi) | 40 | 1 | Cangjie | 1 | 轻量级Http服务框架 | 2025-07-14 |
 | 5 | [tea](https://gitcode.com/Cangjie-SIG/tea) | 35 | 3 | Cangjie | 0 | 仓颉语言轻量级的、函数式的、高效的HTTP Web后端框架 | 2025-07-04 |
 
@@ -161,7 +161,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [cjbind](https://gitcode.com/Cangjie-TPC/cjbind) | 104 | 2 | Cangjie | 1 | 这是 https://github.com/cjbind/cjbind 的只读镜像 | 2026-08-30 |
+| 1 | [cjbind](https://gitcode.com/Cangjie-TPC/cjbind) | 105 | 2 | Cangjie | 1 | 这是 https://github.com/cjbind/cjbind 的只读镜像 | 2026-09-02 |
 | 2 | [fast-eventbus-cj](https://gitcode.com/Cangjie-TPC/fast-eventbus-cj) | 44 | 1 | Cangjie | 1 | 一种发布/订阅事件总线，为多线程应用程序中的高吞吐量而优化的强大事件总线。 | 2026-06-06 |
 | 3 | [Cjson](https://gitcode.com/Cangjie-TPC/CJson) | 40 | 9 | Cangjie | 6 | Json 序列化/反序列化工具，自动给被标记的类增加fromJson()和toJson()等方法，使其自身具备序列化/反序列化能力 | 2026-07-21 |
 | 4 | [msgpack4cj](https://gitcode.com/Cangjie-TPC/msgpack4cj) | 34 | 1 | Cangjie | 1 | msgpack格式二进制序列化库 | 2026-06-11 |
