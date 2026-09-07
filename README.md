@@ -27,16 +27,16 @@ Top 10 by stars. 完整排名与检索见 [在线榜单](https://rank.cangjie-la
 <!-- AUTO: top-stars:START -->
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 1726 | 4 | C++ | 5 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
+| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 1728 | 4 | C++ | 5 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
 | 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1294 | 79 | Cangjie | 17 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-05-27 |
-| 3 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1094 | 0 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
-| 4 | [MagicExplorer](https://gitcode.com/Cangjie-TPC/MagicExplorer) | 1082 | 3 | JavaScript | 1 | 基于CangjieMagic(Cangjie Agent DSL)开发的自然语言浏览器Agent系统 | 2025-10-11 |
-| 5 | [hicrypto](https://gitcode.com/Cangjie-TPC/hicrypto) | 1079 | 0 | Cangjie | 0 | HiCrypto是一个基于Cangjie语言开发的密码学库，底层密码密码套件使用了华为公司自研的 openHiTls, 提供高效、敏捷的全场景开源密码学开发套件 | 2025-11-19 |
-| 6 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1073 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
-| 7 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1072 | 0 | Cangjie | 0 |  | 2026-05-06 |
-| 8 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1067 | 2 | Cangjie | 0 |  | 2026-01-09 |
-| 9 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1064 | 0 | Lua | 1 |  | 2025-08-25 |
-| 10 | [ribbon4cj](https://gitcode.com/Cangjie-TPC/ribbon4cj) | 1059 | 1 | Cangjie | 0 | 仓颉原生微服务客户端负载均衡器。支持随机/轮询/基于响应时间为权重的轮询算法；支持动态负载均衡列表，支持Apollo/Eureka注册中心；内置区域感知的负载均衡器实现。适配... | 2025-09-11 |
+| 3 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1097 | 0 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
+| 4 | [MagicExplorer](https://gitcode.com/Cangjie-TPC/MagicExplorer) | 1085 | 3 | JavaScript | 1 | 基于CangjieMagic(Cangjie Agent DSL)开发的自然语言浏览器Agent系统 | 2025-10-11 |
+| 5 | [hicrypto](https://gitcode.com/Cangjie-TPC/hicrypto) | 1082 | 0 | Cangjie | 0 | HiCrypto是一个基于Cangjie语言开发的密码学库，底层密码密码套件使用了华为公司自研的 openHiTls, 提供高效、敏捷的全场景开源密码学开发套件 | 2025-11-19 |
+| 6 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1076 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
+| 7 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1075 | 0 | Cangjie | 0 |  | 2026-05-06 |
+| 8 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1070 | 2 | Cangjie | 0 |  | 2026-01-09 |
+| 9 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1067 | 0 | Lua | 1 |  | 2025-08-25 |
+| 10 | [ribbon4cj](https://gitcode.com/Cangjie-TPC/ribbon4cj) | 1062 | 1 | Cangjie | 0 | 仓颉原生微服务客户端负载均衡器。支持随机/轮询/基于响应时间为权重的轮询算法；支持动态负载均衡列表，支持Apollo/Eureka注册中心；内置区域感知的负载均衡器实现。适配... | 2025-09-11 |
 <!-- AUTO: top-stars:END -->
 
 ## Most Forks
@@ -93,7 +93,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [locale_config](https://gitcode.com/Cangjie-SIG/locale_config) | 846 | 0 | Cangjie | 0 | 本地化配置管理系统 | 2025-08-30 |
+| 1 | [locale_config](https://gitcode.com/Cangjie-SIG/locale_config) | 849 | 0 | Cangjie | 0 | 本地化配置管理系统 | 2025-08-30 |
 | 2 | [cjok](https://gitcode.com/Cangjie-SIG/cjok) | 738 | 1 | Cangjie | 2 | 仓颉运算符扩展工具集（Cangjie Operation Kit） | 2025-05-30 |
 | 3 | [tabulate4cj](https://gitcode.com/Cangjie-SIG/tabulate4cj) | 727 | 1 | Cangjie | 1 | tabulate4cj - 使用 仓颉 轻松美化 表格数据。 | 2026-03-27 |
 | 4 | [address4cj](https://gitcode.com/Cangjie-SIG/address4cj) | 726 | 0 | Cangjie | 0 | 处理地址表示、验证和格式化。 | 2026-03-28 |
@@ -129,8 +129,8 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 1726 | 4 | C++ | 5 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
-| 2 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1064 | 0 | Lua | 1 |  | 2025-08-25 |
+| 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 1728 | 4 | C++ | 5 | Cangjie Abstract Syntax Tree Helper | 2026-08-20 |
+| 2 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1067 | 0 | Lua | 1 |  | 2025-08-25 |
 | 3 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 703 | 5 | C | 2 |  | 2026-07-30 |
 | 4 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 511 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-09-07 |
 | 5 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 440 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
@@ -153,8 +153,8 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1094 | 0 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
-| 2 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1067 | 2 | Cangjie | 0 |  | 2026-01-09 |
+| 1 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1097 | 0 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
+| 2 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1070 | 2 | Cangjie | 0 |  | 2026-01-09 |
 | 3 | [aad4cj](https://gitcode.com/Cangjie-SIG/aad4cj) | 701 | 1 | Cangjie | 0 | aad4cj 是一个基于仓颉（Cangjie）语言实现的 AAC 音频码流解析与处理组件库。 | 2026-03-28 |
 | 4 | [cj-cef](https://gitcode.com/Cangjie-SIG/cj-cef) | 528 | 0 | C | 0 | CEF(Chromium Embedded Framework)仓颉端封装扩展。作为仓颉桌面端开发框架， 实现基于html、css、 js和仓颉进行跨平台桌面开发的能力。底层... | 2025-11-09 |
 | 5 | [image4cj](https://gitcode.com/Cangjie-SIG/image4cj) | 525 | 0 | Cangjie | 0 | 提供基础图片处理能力 | 2025-07-02 |
@@ -177,7 +177,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1073 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
+| 1 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1076 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
 | 2 | [图解仓颉高效编程-吴京润](https://gitcode.com/Cangjie-SIG/EffectiveCangjieWithDiagrams) | 915 | 4 | Cangjie | 0 | 本项目是《图解高效仓颉编程》的程序清单 | 2025-08-10 |
 | 3 | [仓颉语言实战-张磊](https://gitcode.com/Cangjie-SIG/cangjieyuyanshizhan-ZL) | 505 | 4 | Cangjie | 0 | 仓颉语言实战由张磊编写，清华大学出版社出版。 该书践行“零基础入门仓颉语言”的理念，具有内容通俗易懂，知识点循序渐进的特点，可以帮助读者快速掌握仓颉编程语言。 | 2025-07-13 |
 | 4 | [仓颉语言元编程-张磊](https://gitcode.com/Cangjie-SIG/cangjieyuyanyuanbiancheng-ZL) | 473 | 3 | Cangjie | 0 | 仓颉语言元编程由张磊编写，清华大学出版社出版。该书从元编程的概念开始，逐步讲解仓颉元编程的基础知识、抽象语法树的常用用法，以及如何定义和使用仓颉宏。 | 2025-07-17 |
