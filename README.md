@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-09-14* · 数据快照 **894** 项（322 curated + 24 新发现）
+*Last Automatic Update Time: 2026-09-14* · 数据快照 **894** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -181,7 +181,7 @@ Top 10 by forks.
 | 2 | [circle-image-view-cj](https://gitcode.com/Cangjie-TPC/circle-image-view-cj) | 881 | 3 | Cangjie | 0 | 自定义圆形imageview，主要实现圆形图片展示 | 2026-08-26 |
 | 3 | [photoview4cj](https://gitcode.com/Cangjie-TPC/photoview4cj) | 849 | 2 | Cangjie | 1 | 一个图片缩放浏览组件库 | 2026-09-03 |
 | 4 | [rounded-image-view-cj](https://gitcode.com/Cangjie-TPC/rounded-image-view-cj) | 827 | 1 | Cangjie | 0 | 支持圆角（和椭圆或圆形）的快速 ImageView | 2026-06-12 |
-| 5 | [droplet-transformations](https://gitcode.com/Cangjie-TPC/droplet-transformations) | 812 | 1 | Cangjie | 0 | 图像转换库,提供了 高亮、滤镜、灰度、 虚幻、马赛克、漫画、像素、素描、漩涡、油画、暗边、模糊等图像转换能力 | 2026-09-07 |
+| 5 | [droplet-transformations](https://gitcode.com/Cangjie-TPC/droplet-transformations) | 813 | 1 | Cangjie | 0 | 图像转换库,提供了 高亮、滤镜、灰度、 虚幻、马赛克、漫画、像素、素描、漩涡、油画、暗边、模糊等图像转换能力 | 2026-09-07 |
 
 ### UI、图形与多媒体
 
