@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-10-03* · 数据快照 **902** 项（322 curated + 0 新发现）
+*Last Automatic Update Time: 2026-10-04* · 数据快照 **902** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -48,7 +48,7 @@ Top 10 by forks.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 840 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
 | 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1746 | 78 | Cangjie | 18 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
-| 3 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 138 | 74 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-09-03 |
+| 3 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 138 | 75 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-09-03 |
 | 4 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
 | 5 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 229 | 69 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
 | 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 826 | 61 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-10-03 |
@@ -157,7 +157,7 @@ Top 10 by forks.
 | 2 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1526 | 0 | Lua | 1 |  | 2025-08-25 |
 | 3 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 1175 | 5 | C | 2 |  | 2026-07-30 |
 | 4 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 894 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
-| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 877 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-10-03 |
+| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 877 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-10-04 |
 
 ### Web、网络与协议
 
