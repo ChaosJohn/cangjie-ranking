@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-10-09* · 数据快照 **906** 项（322 curated + 1 新发现）
+*Last Automatic Update Time: 2026-10-10* · 数据快照 **906** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -46,12 +46,12 @@ Top 10 by forks.
 <!-- AUTO: top-forks:START -->
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 840 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
-| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 138 | 77 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-09-03 |
+| 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 841 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
+| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 139 | 77 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-09-03 |
 | 3 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1747 | 76 | Cangjie | 18 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
 | 4 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
-| 5 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 229 | 69 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
-| 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 826 | 61 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-10-09 |
+| 5 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 230 | 69 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
+| 6 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 826 | 61 | Cangjie | 1 | 一个用于服务器应用开发的综合工具库。  - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载... | 2026-10-10 |
 | 7 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 950 | 56 | Cangjie | 1 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-29 |
 | 8 | [syslog4cj](https://gitcode.com/Cangjie-TPC/syslog4cj) | 57 | 53 | Cangjie | 0 | Syslog4cj库参考Syslog4j设计的 Java 日志协议库，基于仓颉语言实现了Syslog协议客户端与服务端功能，支持 UDP/TCP 传输及 TLS 加密。 | 2026-06-06 |
 | 9 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 59 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
@@ -95,8 +95,8 @@ Top 10 by forks.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [cjbind](https://gitcode.com/Cangjie-TPC/cjbind) | 955 | 2 | Cangjie | 1 | 这是 https://github.com/cjbind/cjbind 的只读镜像 | 2026-10-09 |
 | 2 | [protobuf-format-cj](https://gitcode.com/Cangjie-TPC/protobuf-format-cj) | 923 | 0 | Cangjie | 0 | 根据 protobuf 数据，提供不同格式的序列化 | 2025-07-21 |
-| 3 | [fast-compress-cj](https://gitcode.com/Cangjie-TPC/fast-compress-cj) | 907 | 1 | Cangjie | 1 | 一个快速的压缩/解压缩库 | 2026-09-03 |
-| 4 | [fast-eventbus-cj](https://gitcode.com/Cangjie-TPC/fast-eventbus-cj) | 892 | 1 | Cangjie | 1 | 一种发布/订阅事件总线，为多线程应用程序中的高吞吐量而优化的强大事件总线。 | 2026-06-06 |
+| 3 | [fast-compress-cj](https://gitcode.com/Cangjie-TPC/fast-compress-cj) | 907 | 1 | Cangjie | 0 | 一个快速的压缩/解压缩库 | 2026-10-09 |
+| 4 | [fast-eventbus-cj](https://gitcode.com/Cangjie-TPC/fast-eventbus-cj) | 893 | 1 | Cangjie | 1 | 一种发布/订阅事件总线，为多线程应用程序中的高吞吐量而优化的强大事件总线。 | 2026-06-06 |
 | 5 | [msgpack4cj](https://gitcode.com/Cangjie-TPC/msgpack4cj) | 878 | 1 | Cangjie | 1 | msgpack格式二进制序列化库 | 2026-09-18 |
 
 ### 基础与通用
@@ -133,7 +133,7 @@ Top 10 by forks.
 | 2 | [cbor4cj](https://gitcode.com/Cangjie-TPC/cbor4cj) | 830 | 2 | Cangjie | 2 | 基于RFC 7049协议的简明二进制对象表示法(Cbor)的Cangjie语言实现 | 2026-02-12 |
 | 3 | [cangjieJSON](https://gitcode.com/Cangjie-TPC/cangjieJSON) | 820 | 21 | Cangjie | 0 | Cangjie json 序列化与反序列化库 | 2026-09-07 |
 | 4 | [csv4cj](https://gitcode.com/Cangjie-TPC/csv4cj) | 793 | 4 | Cangjie | 2 | 一个支持csv文件的读写、解析的库 | 2026-10-09 |
-| 5 | [jwt4cj](https://gitcode.com/Cangjie-TPC/jwt4cj) | 788 | 12 | Cangjie | 4 | 一个用于生成和验证JSON Web Token的库 | 2026-09-03 |
+| 5 | [jwt4cj](https://gitcode.com/Cangjie-TPC/jwt4cj) | 788 | 12 | Cangjie | 4 | 一个用于生成和验证JSON Web Token的库 | 2026-10-09 |
 
 ### 算法、科学计算与 AI
 
@@ -144,7 +144,7 @@ Top 10 by forks.
 | 1 | [xurls4cj](https://gitcode.com/Cangjie-SIG/xurls4cj) | 1164 | 0 | Cangjie | 0 | 从文本中提取 URL | 2026-03-28 |
 | 2 | [whatlang4cj](https://gitcode.com/Cangjie-SIG/whatlang4cj) | 1137 | 2 | Cangjie | 0 | 一个快捷高效的自然语言检测库 | 2026-03-28 |
 | 3 | [stats4cj](https://gitcode.com/Cangjie-SIG/stats4cj) | 1108 | 1 | Cangjie | 0 | stats4cj是一个仓颉实现的数学统计库，包括总体/样本均值、总体/样本方差、分位数、统计分布等多种数理统计函数。 | 2026-04-25 |
-| 4 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 1102 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-09-10 |
+| 4 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 1103 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-09-10 |
 | 5 | [cj-money](https://gitcode.com/Cangjie-SIG/cj-money) | 1078 | 0 | Cangjie | 0 | 一个用于解决金融计算领域浮点数误差的库。 | 2025-07-19 |
 
 ### IDE、编辑器与代码分析
@@ -157,7 +157,7 @@ Top 10 by forks.
 | 2 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1526 | 0 | Lua | 1 |  | 2025-08-25 |
 | 3 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 1175 | 5 | C | 2 |  | 2026-07-30 |
 | 4 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 894 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
-| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 877 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-10-09 |
+| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 877 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-10-10 |
 
 ### Web、网络与协议
 
@@ -165,9 +165,9 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [grpc-cj](https://gitcode.com/Cangjie-SIG/grpc-cj) | 1109 | 1 | Cangjie | 0 |  | 2025-08-13 |
-| 2 | [tea](https://gitcode.com/Cangjie-SIG/tea) | 1061 | 3 | Cangjie | 0 | 仓颉语言轻量级的、函数式的、高效的HTTP Web后端框架 | 2025-07-04 |
-| 3 | [cj_ftp](https://gitcode.com/Cangjie-SIG/cj_ftp) | 994 | 1 | Cangjie | 0 |  | 2025-05-29 |
+| 1 | [grpc-cj](https://gitcode.com/Cangjie-SIG/grpc-cj) | 1110 | 1 | Cangjie | 0 |  | 2025-08-13 |
+| 2 | [tea](https://gitcode.com/Cangjie-SIG/tea) | 1062 | 3 | Cangjie | 0 | 仓颉语言轻量级的、函数式的、高效的HTTP Web后端框架 | 2025-07-04 |
+| 3 | [cj_ftp](https://gitcode.com/Cangjie-SIG/cj_ftp) | 995 | 1 | Cangjie | 0 |  | 2025-05-29 |
 | 4 | [easyapi](https://gitcode.com/Cangjie-SIG/easyapi) | 979 | 1 | Cangjie | 1 | 轻量级Http服务框架 | 2025-07-14 |
 | 5 | [dapr-cangjie-sdk](https://gitcode.com/Cangjie-SIG/dapr-cangjie-sdk) | 967 | 0 | Cangjie | 0 | Dapr Cangjie SDK是Dapr SDK的仓颉实现，实现了一个支持使用 HTTP 协议访问 Dapr 边车的客户端。 | 2026-03-23 |
 
@@ -204,8 +204,8 @@ Top 10 by forks.
 | 1 | [cangjie_toml](https://gitcode.com/Cangjie-SIG/cangjie_toml) | 1054 | 1 | Cangjie | 0 | Cangjie TOML 是一个符合仓颉语言标准库 serialization.serialization 包风格的 TOML 文件解析库，支持 toml 文件到 DataM... | 2025-09-03 |
 | 2 | [simplekv](https://gitcode.com/Cangjie-SIG/simplekv) | 1038 | 1 | Cangjie | 0 | simplekv是一个用Cangjie语言实现的高效、简洁的键值存储库，支持快速的数据查找、插入、删除，并具备排序数据获取、范围扫描、并发安全等高级功能，适用于需要高性能数据... | 2026-03-27 |
 | 3 | [alipay_sdk_cj](https://gitcode.com/Cangjie-SIG/alipay_sdk_cj) | 952 | 0 | Cangjie | 0 | AliPay Sdk for 仓颉 支付宝接口后端sdk，方便cangjie开发者快速接入支付宝的支付接口（目前只支持最广泛使用的商户直接接入模式，只支持最安全的RSA2，公... | 2025-07-02 |
-| 4 | [mustache-cj](https://gitcode.com/Cangjie-SIG/mustache-cj) | 945 | 0 | Cangjie | 0 | 基于仓颉实现的mustache模板引擎 | 2026-10-09 |
-| 5 | [sql_builder](https://gitcode.com/Cangjie-SIG/sql_builder) | 938 | 6 | Cangjie | 3 | sql_builder 库是一个使用仓颉语言数据库ORM组件 | 2026-06-23 |
+| 4 | [mustache-cj](https://gitcode.com/Cangjie-SIG/mustache-cj) | 945 | 0 | Cangjie | 0 | 基于仓颉实现的mustache模板引擎 | 2026-10-10 |
+| 5 | [sql_builder](https://gitcode.com/Cangjie-SIG/sql_builder) | 939 | 6 | Cangjie | 3 | sql_builder 库是一个使用仓颉语言数据库ORM组件 | 2026-06-23 |
 <!-- AUTO: by-category:END -->
 
 ## Documentation
