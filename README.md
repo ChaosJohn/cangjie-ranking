@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-11-02* · 数据快照 **925** 项（322 curated + 2 新发现）
+*Last Automatic Update Time: 2026-11-02* · 数据快照 **925** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -29,7 +29,7 @@ Top 10 by stars. 完整排名与检索见 [在线榜单](https://rank.cangjie-la
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 2131 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-10-31 |
 | 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1756 | 78 | Cangjie | 22 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
-| 3 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1549 | 0 | Cangjie | 0 | 可用于构建分布式系统，提供完整Actor模型实现、企业级特性、分布式能力和先进状态管理，采用6层模块化架构，支持超高并发、超低延迟消息处理，性能基准测试达行业领先水平 | 2026-11-01 |
+| 3 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1550 | 0 | Cangjie | 0 | 可用于构建分布式系统，提供完整Actor模型实现、企业级特性、分布式能力和先进状态管理，采用6层模块化架构，支持超高并发、超低延迟消息处理，性能基准测试达行业领先水平 | 2026-11-01 |
 | 4 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1548 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
 | 5 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1526 | 0 | Lua | 1 |  | 2025-08-25 |
 | 6 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1524 | 1 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
