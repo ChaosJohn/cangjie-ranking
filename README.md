@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-11-09* · 数据快照 **940** 项（322 curated + 3 新发现）
+*Last Automatic Update Time: 2026-11-09* · 数据快照 **940** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -47,7 +47,7 @@ Top 10 by forks.
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 846 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
-| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 147 | 80 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-10-14 |
+| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 148 | 80 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-10-14 |
 | 3 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1759 | 79 | Cangjie | 16 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
 | 4 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
 | 5 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 236 | 71 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
@@ -180,7 +180,7 @@ Top 10 by forks.
 | 1 | [circle-image-view-cj](https://gitcode.com/Cangjie-TPC/circle-image-view-cj) | 885 | 3 | Cangjie | 0 | 自定义圆形imageview，主要实现圆形图片展示 | 2026-08-26 |
 | 2 | [gifdrawable4cj](https://gitcode.com/Cangjie-TPC/gifdrawable4cj) | 882 | 2 | Cangjie | 0 | 一个gif图像加载库 | 2026-10-22 |
 | 3 | [photoview4cj](https://gitcode.com/Cangjie-TPC/photoview4cj) | 854 | 2 | Cangjie | 0 | 一个图片缩放浏览组件库 | 2026-10-28 |
-| 4 | [rounded-image-view-cj](https://gitcode.com/Cangjie-TPC/rounded-image-view-cj) | 834 | 1 | Cangjie | 0 | 支持圆角（和椭圆或圆形）的快速 ImageView | 2026-11-09 |
+| 4 | [rounded-image-view-cj](https://gitcode.com/Cangjie-TPC/rounded-image-view-cj) | 834 | 1 | Cangjie | 1 | 支持圆角（和椭圆或圆形）的快速 ImageView | 2026-11-09 |
 | 5 | [droplet-transformations](https://gitcode.com/Cangjie-TPC/droplet-transformations) | 822 | 1 | Cangjie | 0 | 图像转换库,提供了 高亮、滤镜、灰度、 虚幻、马赛克、漫画、像素、素描、漩涡、油画、暗边、模糊等图像转换能力 | 2026-10-19 |
 
 ### UI、图形与多媒体
