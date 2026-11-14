@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-11-13* · 数据快照 **980** 项（322 curated + 0 新发现）
+*Last Automatic Update Time: 2026-11-14* · 数据快照 **980** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
@@ -28,10 +28,10 @@ Top 10 by stars. 完整排名与检索见 [在线榜单](https://rank.cangjie-la
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [CJASTHelper](https://gitcode.com/Cangjie-SIG/CJASTHelper) | 2133 | 4 | C++ | 4 | Cangjie Abstract Syntax Tree Helper | 2026-10-31 |
-| 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1760 | 79 | Cangjie | 16 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
-| 3 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1554 | 0 | Cangjie | 0 | 可用于构建分布式系统，提供完整Actor模型实现、企业级特性、分布式能力和先进状态管理，采用6层模块化架构，支持超高并发、超低延迟消息处理，性能基准测试达行业领先水平 | 2026-11-13 |
+| 2 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1761 | 79 | Cangjie | 16 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
+| 3 | [cactor](https://gitcode.com/Cangjie-SIG/cactor) | 1555 | 0 | Cangjie | 0 | 可用于构建分布式系统，提供完整Actor模型实现、企业级特性、分布式能力和先进状态管理，采用6层模块化架构，支持超高并发、超低延迟消息处理，性能基准测试达行业领先水平 | 2026-11-14 |
 | 4 | [仓颉编程基础及应用_陈波_何睿_重庆大学](https://gitcode.com/Cangjie-SIG/Cangjie_Basics_Application) | 1550 | 2 | HTML | 0 | 《仓颉编程基础及应用》，清华大学出版社，2025年9月第1版： 1. 随书源代码；  2. PPT; 3.在线扩展阅读资料。 | 2025-11-17 |
-| 5 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1528 | 1 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
+| 5 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1529 | 1 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
 | 6 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1526 | 0 | Lua | 1 |  | 2025-08-25 |
 | 7 | [ribbon4cj](https://gitcode.com/Cangjie-TPC/ribbon4cj) | 1521 | 1 | Cangjie | 0 | 仓颉原生微服务客户端负载均衡器。支持随机/轮询/基于响应时间为权重的轮询算法；支持动态负载均衡列表，支持Apollo/Eureka注册中心；内置区域感知的负载均衡器实现。适配... | 2025-09-11 |
 | 8 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1517 | 2 | Cangjie | 0 |  | 2026-01-09 |
@@ -46,14 +46,14 @@ Top 10 by forks.
 <!-- AUTO: top-forks:START -->
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 848 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
-| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 149 | 80 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-10-14 |
-| 3 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1760 | 79 | Cangjie | 16 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
+| 1 | [cjgrapht](https://gitcode.com/Cangjie-SIG/cjgrapht) | 849 | 96 | Cangjie | 0 | 一个图论数据结构和算法库，提供多种图结构以及图算法。 | 2025-07-04 |
+| 2 | [CangjieSkills](https://gitcode.com/Cangjie-SIG/CangjieSkills) | 149 | 81 | Cangjie | 10 | 仓颉 AI Coding 必备神器，以极致效率实现仓颉编码自由 | 2026-10-14 |
+| 3 | [CangjieMagic](https://gitcode.com/Cangjie-TPC/CangjieMagic) | 1761 | 79 | Cangjie | 16 | 基于仓颉编程语言构建的 LLM Agent DSL，其主要特点包括：声明式 DSL、支持 MCP 协议，支持任务智能规划等。 | 2026-09-23 |
 | 4 | [cangjie_demo_spring_2025](https://gitcode.com/zhangyin_gitcode/cangjie_demo_spring_2025) | 6 | 72 | — | 0 |  | 2025-05-06 |
 | 5 | [ACEHarness](https://gitcode.com/Cangjie-SIG/ACEHarness) | 236 | 71 | TSX | 8 | 重构你的Agent生产力 \| Your team of AI | 2026-09-01 |
-| 6 | [fountain](https://gitcode.com/Cangjie-TPC/fountain) | 845 | 62 | — | 0 | fountain是一个用于服务器应用开发的综合工具库。  - 零配置文件，运行期零反射函数调用  - 环境变量和命令行参数配置  - 约定优于配置  - 深刻利用仓颉语言特性... | 2026-11-13 |
+| 6 | [fountain](https://gitcode.com/Cangjie-TPC/fountain) | 849 | 62 | — | 0 | fountain是一个用于服务器应用开发的综合工具库。  - 零配置文件，运行期零反射函数调用  - 环境变量和命令行参数配置  - 约定优于配置  - 深刻利用仓颉语言特性... | 2026-11-13 |
 | 7 | [fountain](https://gitcode.com/Cangjie-SIG/fountain) | 358 | 60 | Cangjie | 0 | 一个用于服务器应用开发的综合工具库。 - 零配置文件 - 环境变量和命令行参数配置 - 约定优于配置 - 深刻利用仓颉语言特性 - 只需要开发动态链接库，fboot负责加载、... | 2026-07-26 |
-| 8 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 958 | 56 | Cangjie | 2 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-29 |
+| 8 | [redis-sdk](https://gitcode.com/Cangjie-TPC/redis-sdk) | 959 | 56 | Cangjie | 2 | 仓颉语言实现的Redis客户端SDK。接口设计兼容jedis接口语义，支持RESP2和RESP3协议，支持发布订阅模式，支持哨兵模式和集群模式。当前master分支适配仓颉1... | 2026-08-29 |
 | 9 | [syslog4cj](https://gitcode.com/Cangjie-TPC/syslog4cj) | 57 | 53 | Cangjie | 0 | Syslog4cj库参考Syslog4j设计的 Java 日志协议库，基于仓颉语言实现了Syslog协议客户端与服务端功能，支持 UDP/TCP 传输及 TLS 加密。 | 2026-06-06 |
 | 10 | [net4cj](https://gitcode.com/Cangjie-TPC/net4cj) | 59 | 50 | Cangjie | 0 | net4cj库参考Apache Commons Net，基于仓颉语言实现了许多基本Internet协议的客户端，提供基本的协议访问。支持的协议包括 Echo、Finger、F... | 2025-10-26 |
 <!-- AUTO: top-forks:END -->
@@ -132,7 +132,7 @@ Top 10 by forks.
 | 1 | [xml_stream](https://gitcode.com/Cangjie-TPC/xml_stream) | 877 | 0 | Cangjie | 8 | 提供 XML 操作相关的 StAX 风格接口，符合 XML 1.0 规范，支持命名空间。 | 2025-07-08 |
 | 2 | [cbor4cj](https://gitcode.com/Cangjie-TPC/cbor4cj) | 830 | 2 | Cangjie | 1 | 基于RFC 7049协议的简明二进制对象表示法(Cbor)的Cangjie语言实现 | 2026-10-13 |
 | 3 | [cangjieJSON](https://gitcode.com/Cangjie-TPC/cangjieJSON) | 825 | 21 | Cangjie | 2 | Cangjie json 序列化与反序列化库 | 2026-10-21 |
-| 4 | [csv4cj](https://gitcode.com/Cangjie-TPC/csv4cj) | 800 | 4 | Cangjie | 2 | 一个支持csv文件的读写、解析的库 | 2026-10-09 |
+| 4 | [csv4cj](https://gitcode.com/Cangjie-TPC/csv4cj) | 801 | 4 | Cangjie | 2 | 一个支持csv文件的读写、解析的库 | 2026-10-09 |
 | 5 | [jwt4cj](https://gitcode.com/Cangjie-TPC/jwt4cj) | 789 | 11 | Cangjie | 4 | 一个用于生成和验证JSON Web Token的库 | 2026-10-09 |
 
 ### 算法、科学计算与 AI
@@ -143,7 +143,7 @@ Top 10 by forks.
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | [xurls4cj](https://gitcode.com/Cangjie-SIG/xurls4cj) | 1164 | 0 | Cangjie | 0 | 从文本中提取 URL | 2026-03-28 |
 | 2 | [whatlang4cj](https://gitcode.com/Cangjie-SIG/whatlang4cj) | 1138 | 2 | Cangjie | 0 | 一个快捷高效的自然语言检测库 | 2026-03-28 |
-| 3 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 1111 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-09-10 |
+| 3 | [cjnum](https://gitcode.com/Cangjie-SIG/cjnum) | 1112 | 9 | Cangjie | 0 | 这是一个用于 Cangjie 语言的数值计算库，提供了广泛的数学、科学计算和数值分析功能。 | 2026-09-10 |
 | 4 | [stats4cj](https://gitcode.com/Cangjie-SIG/stats4cj) | 1108 | 1 | Cangjie | 0 | stats4cj是一个仓颉实现的数学统计库，包括总体/样本均值、总体/样本方差、分位数、统计分布等多种数理统计函数。 | 2026-04-25 |
 | 5 | [cj-money](https://gitcode.com/Cangjie-SIG/cj-money) | 1078 | 0 | Cangjie | 0 | 一个用于解决金融计算领域浮点数误差的库。 | 2025-07-19 |
 
@@ -157,7 +157,7 @@ Top 10 by forks.
 | 2 | [CJ-NVIM](https://gitcode.com/Cangjie-SIG/CJ-NVIM) | 1526 | 0 | Lua | 1 |  | 2025-08-25 |
 | 3 | [tree-sitter-cangjie](https://gitcode.com/Cangjie-SIG/tree-sitter-cangjie) | 1180 | 5 | C | 2 |  | 2026-07-30 |
 | 4 | [cj2sql](https://gitcode.com/Cangjie-SIG/cj2sql) | 895 | 3 | Cangjie | 0 | 将仓颉代码转换成 SQL | 2026-05-02 |
-| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 880 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-11-13 |
+| 5 | [intellij-cangjie](https://gitcode.com/Cangjie-SIG/intellij-cangjie) | 880 | 2 | Kotlin | 2 | Intellij Platform 仓颉语言插件 | 2026-11-14 |
 
 ### Web、网络与协议
 
@@ -168,7 +168,7 @@ Top 10 by forks.
 | 1 | [grpc-cj](https://gitcode.com/Cangjie-SIG/grpc-cj) | 1111 | 1 | Cangjie | 0 |  | 2025-08-13 |
 | 2 | [tea](https://gitcode.com/Cangjie-SIG/tea) | 1062 | 3 | Cangjie | 0 | 仓颉语言轻量级的、函数式的、高效的HTTP Web后端框架 | 2025-07-04 |
 | 3 | [cj_ftp](https://gitcode.com/Cangjie-SIG/cj_ftp) | 996 | 1 | Cangjie | 0 |  | 2025-05-29 |
-| 4 | [easyapi](https://gitcode.com/Cangjie-SIG/easyapi) | 990 | 1 | Cangjie | 1 | 轻量级Http服务框架 | 2025-07-14 |
+| 4 | [easyapi](https://gitcode.com/Cangjie-SIG/easyapi) | 991 | 1 | Cangjie | 1 | 轻量级Http服务框架 | 2025-07-14 |
 | 5 | [dapr-cangjie-sdk](https://gitcode.com/Cangjie-SIG/dapr-cangjie-sdk) | 970 | 0 | Cangjie | 0 | Dapr Cangjie SDK是Dapr SDK的仓颉实现，实现了一个支持使用 HTTP 协议访问 Dapr 边车的客户端。 | 2026-03-23 |
 
 ### 图像处理
@@ -180,8 +180,8 @@ Top 10 by forks.
 | 1 | [circle-image-view-cj](https://gitcode.com/Cangjie-TPC/circle-image-view-cj) | 885 | 3 | Cangjie | 0 | 自定义圆形imageview，主要实现圆形图片展示 | 2026-08-26 |
 | 2 | [gifdrawable4cj](https://gitcode.com/Cangjie-TPC/gifdrawable4cj) | 882 | 2 | Cangjie | 0 | 一个gif图像加载库 | 2026-10-22 |
 | 3 | [photoview4cj](https://gitcode.com/Cangjie-TPC/photoview4cj) | 854 | 2 | Cangjie | 0 | 一个图片缩放浏览组件库 | 2026-10-28 |
-| 4 | [rounded-image-view-cj](https://gitcode.com/Cangjie-TPC/rounded-image-view-cj) | 835 | 1 | Cangjie | 1 | 支持圆角（和椭圆或圆形）的快速 ImageView | 2026-11-09 |
-| 5 | [droplet-transformations](https://gitcode.com/Cangjie-TPC/droplet-transformations) | 823 | 1 | Cangjie | 0 | 图像转换库,提供了 高亮、滤镜、灰度、 虚幻、马赛克、漫画、像素、素描、漩涡、油画、暗边、模糊等图像转换能力 | 2026-10-19 |
+| 4 | [rounded-image-view-cj](https://gitcode.com/Cangjie-TPC/rounded-image-view-cj) | 836 | 1 | Cangjie | 1 | 支持圆角（和椭圆或圆形）的快速 ImageView | 2026-11-09 |
+| 5 | [droplet-transformations](https://gitcode.com/Cangjie-TPC/droplet-transformations) | 824 | 1 | Cangjie | 0 | 图像转换库,提供了 高亮、滤镜、灰度、 虚幻、马赛克、漫画、像素、素描、漩涡、油画、暗边、模糊等图像转换能力 | 2026-10-19 |
 
 ### UI、图形与多媒体
 
@@ -189,7 +189,7 @@ Top 10 by forks.
 
 | Ranking | Project Name | Stars | Forks | Language | Open Issues | Description | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1528 | 1 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
+| 1 | [minimp3-cj](https://gitcode.com/Cangjie-SIG/minimp3-cj) | 1529 | 1 | Cangjie | 0 | 一个完全由仓颉语言实现的高性能MP3解码器，参照著名的minimp3 C库重新实现。该项目提供了完整的MP3音频解码功能，支持将MP3文件转换为PCM音频数据。 并在其基础上... | 2025-12-29 |
 | 2 | [ratatui](https://gitcode.com/Cangjie-SIG/ratatui) | 1517 | 2 | Cangjie | 0 |  | 2026-01-09 |
 | 3 | [aad4cj](https://gitcode.com/Cangjie-SIG/aad4cj) | 1145 | 1 | Cangjie | 0 | aad4cj 是一个基于仓颉（Cangjie）语言实现的 AAC 音频码流解析与处理组件库。 | 2026-03-28 |
 | 4 | [image4cj](https://gitcode.com/Cangjie-SIG/image4cj) | 960 | 0 | Cangjie | 0 | 提供基础图片处理能力 | 2025-07-02 |
@@ -204,7 +204,7 @@ Top 10 by forks.
 | 1 | [cangjie_toml](https://gitcode.com/Cangjie-SIG/cangjie_toml) | 1054 | 1 | Cangjie | 0 | Cangjie TOML 是一个符合仓颉语言标准库 serialization.serialization 包风格的 TOML 文件解析库，支持 toml 文件到 DataM... | 2025-09-03 |
 | 2 | [simplekv](https://gitcode.com/Cangjie-SIG/simplekv) | 1038 | 1 | Cangjie | 0 | simplekv是一个用Cangjie语言实现的高效、简洁的键值存储库，支持快速的数据查找、插入、删除，并具备排序数据获取、范围扫描、并发安全等高级功能，适用于需要高性能数据... | 2026-03-27 |
 | 3 | [alipay_sdk_cj](https://gitcode.com/Cangjie-SIG/alipay_sdk_cj) | 952 | 0 | Cangjie | 0 | AliPay Sdk for 仓颉 支付宝接口后端sdk，方便cangjie开发者快速接入支付宝的支付接口（目前只支持最广泛使用的商户直接接入模式，只支持最安全的RSA2，公... | 2025-07-02 |
-| 4 | [sql_builder](https://gitcode.com/Cangjie-SIG/sql_builder) | 946 | 6 | Cangjie | 3 | sql_builder 库是一个使用仓颉语言数据库ORM组件 | 2026-06-23 |
+| 4 | [sql_builder](https://gitcode.com/Cangjie-SIG/sql_builder) | 947 | 6 | Cangjie | 3 | sql_builder 库是一个使用仓颉语言数据库ORM组件 | 2026-06-23 |
 | 5 | [mustache-cj](https://gitcode.com/Cangjie-SIG/mustache-cj) | 945 | 0 | Cangjie | 0 | 基于仓颉实现的mustache模板引擎 | 2026-11-10 |
 <!-- AUTO: by-category:END -->
 
