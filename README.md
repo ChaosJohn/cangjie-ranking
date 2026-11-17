@@ -5,7 +5,7 @@
 *A curated ranking of Cangjie ecosystem projects on GitCode — auto-refreshed daily/weekly via GitHub Actions.*
 
 <!-- AUTO: snapshot:START -->
-*Last Automatic Update Time: 2026-11-16* · 数据快照 **322** 项（322 curated + 0 新发现）
+*Last Automatic Update Time: 2026-11-17* · 数据快照 **322** 项（322 curated + 0 新发现）
 <!-- AUTO: snapshot:END -->
 
 🌐 在线访问：<https://rank.cangjie-lang.cc/>
